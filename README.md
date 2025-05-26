@@ -13,3 +13,15 @@ Interact with Copilot using your favorite editor, we use [VS Code][vscode], to c
 There is a wealth of information available for using GitHub Copilot effectively. This official [Tips and Tricks guide](https://code.visualstudio.com/docs/copilot/copilot-tips-and-tricks) from VS Code provides an excellent summary of Copilot best practices.
 
 [vscode]: https://code.visualstudio.com/ "Visual Studio Code"
+
+## Prompts
+
+Here are some prompts to get your project started. Place Copilot in **Agent** mode and give these a try.
+
+### Node Version Manager
+
+Update your project with a Node Version Manager control file.
+
+```
+add a node version manager control file to the project using the latest release of node 20
+```
