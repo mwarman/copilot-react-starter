@@ -83,3 +83,11 @@ Sometimes Copilot makes changes to `package.json` and does not run `npm install`
 ```
 Let's reinstall npm dependencies since package.json was updated.
 ```
+
+#### Pin dependencies
+
+Even though there is a rule that all dependency versions should be "pinned", Copilot installs `^` and `~` relative versions.
+
+```
+Let's update package.json to pin the dependency versions.
+```
