@@ -34,6 +34,8 @@ Create a new Vite React TypeScript application. Arguably, this could also be com
 #fetch https://vite.dev/guide/ Follow these instructions exactly to use Vite to create a new React TypeScript application in the base directory of this project.
 ```
 
+> **NOTE:** This will install React v19 dependencies. Some of the libraries in the technology stack (see the Copilot instructions) do not yet officially support React 19. You may choose to proceed with React 19 or install some of the other dependencies using the `--force` parameter.
+
 ### Use path aliases
 
 Update the TypeScript configuration to use path aliases.
