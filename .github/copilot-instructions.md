@@ -122,6 +122,7 @@ Follow these rules to ensure consistency and maintainability across the codebase
 - Use **functional components** and **React hooks** (`useState`, `useEffect`, etc.).
 - Use `React.memo` or `useMemo` only when you measure performance issues.
 - React components should only export a single component.
+- React components should only use default exports.
 
 Example of a React component:
 
