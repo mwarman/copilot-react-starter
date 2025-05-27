@@ -1,14 +1,8 @@
-Instructions
+# React Application with Vite
 
-- After cloning this repository, update the Copilot instructions in this file to match your project.
-- Add the application name.
-- Add a brief description of the application.
-- Review the remainder of the instructions and update them as needed to match your project.
-- Finally, remove this "Instructions" section.
+A modern React application built with Vite for optimal performance and developer experience. This project follows best practices for readability and maintainability, minimizing abstraction and complexity.
 
-# Application Name
-
-Replace this sentence with a brief description of your application. This guide outlines **best practices** for building a React application using Vite. The goal is **readability and maintainability**, minimizing abstraction and complexity.
+## Role
 
 ## Role
 
