@@ -1,29 +1,22 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import App from "./App";
 
+// Mock the Router component
+vi.mock("./common/components/Router/Router", () => ({
+  default: () => <div data-testid="mock-router">Router Component</div>,
+}));
+
 describe("App", () => {
-  it("renders the Vite and React logos", () => {
+  it("renders the Router component", () => {
     // Arrange
     render(<App />);
 
     // Act
-    const viteLogo = screen.getByAltText(/vite logo/i);
-    const reactLogo = screen.getByAltText(/react logo/i);
+    const router = screen.getByTestId("mock-router");
 
     // Assert
-    expect(viteLogo).toBeInTheDocument();
-    expect(reactLogo).toBeInTheDocument();
-  });
-
-  it("renders count button with initial value of 0", () => {
-    // Arrange
-    render(<App />);
-
-    // Act
-    const buttonElement = screen.getByRole("button", { name: /count is 0/i });
-
-    // Assert
-    expect(buttonElement).toBeInTheDocument();
+    expect(router).toBeInTheDocument();
+    expect(router).toHaveTextContent("Router Component");
   });
 });
