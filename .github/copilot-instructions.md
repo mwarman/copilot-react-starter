@@ -99,6 +99,7 @@ Follow these rules to ensure consistency and maintainability across the codebase
 - Use **GitHub Actions** for CI/CD.
 - Always use the Node version specified in `.nvmrc` for consistency across environments.
 - Pin all dependency versions in `package.json` to avoid breaking changes.
+- Install dependencies using `npm install` when `package.json` is updated.
 - Use inline comments to explain complex logic.
 - Use **absolute imports** for better readability and maintainability.
 - Use **relative imports** for local files within the same folder.
