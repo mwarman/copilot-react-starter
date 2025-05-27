@@ -31,5 +31,5 @@ add a node version manager control file to the project using the latest release 
 Create a new Vite React TypeScript application. Arguably, this could also be completed by issuing a Vite CLI command, but Copilot modifies the generated template source code to your standards following the details in the instructions file much as you would after creating a new React app.
 
 ```
-#fetch https://vite.dev/guide/ Follow these instructions exactly to use Vite to create a new React TypeScript application in the base directory of this project. The application should be named "React Starter Kit".
+#fetch https://vite.dev/guide/ Follow these instructions exactly to use Vite to create a new React TypeScript application in the base directory of this project.
 ```
