@@ -58,6 +58,22 @@ Add Vitest and React Testing Library for unit tests.
 Install and configure Vitest with React Testing Library. Include support for `jest-dom` assertions. Include support for code coverage with v8. Be sure to include the default code coverage exclusions from Vitest.
 ```
 
+### Install Tailwind CSS
+
+Add Tailwind CSS to the project and update existing components to use Tailwind classes. Note that depending upon the model training date, the AI agent may try to install Tailwind the _"old"_ way. Tell the agent to follow the current installation documentation _"exactly"_.
+
+```
+Install Tailwind CSS with these instructions #fetch https://tailwindcss.com/docs/installation/using-vite  Follow these instructions exactly.
+```
+
+### Initialize shadcn/ui (Manual)
+
+Initialize `shadcn/ui` in the project so that Copilot can more easily add shadcn components later.
+
+```
+npx shadcn@latest init
+```
+
 ### General prompts
 
 #### Update dependencies
