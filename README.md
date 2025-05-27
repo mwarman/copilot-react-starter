@@ -42,6 +42,14 @@ With the generated React app in place, ask Copilot to rename the application.
 Update the project to be named "React Starter Kit".
 ```
 
+### Add Vitest for unit tests
+
+Add Vitest and React Testing Library for unit tests.
+
+```
+Install and configure Vitest with React Testing Library. Include support for `jest-dom` assertions. Include support for code coverage with v8. Be sure to include the default code coverage exclusions from Vitest.
+```
+
 ### General prompts
 
 #### Update dependencies
