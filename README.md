@@ -33,3 +33,21 @@ Create a new Vite React TypeScript application. Arguably, this could also be com
 ```
 #fetch https://vite.dev/guide/ Follow these instructions exactly to use Vite to create a new React TypeScript application in the base directory of this project.
 ```
+
+### Rename the application
+
+With the generated React app in place, ask Copilot to rename the application.
+
+```
+Update the project to be named "React Starter Kit".
+```
+
+### General prompts
+
+#### Update dependencies
+
+Sometimes Copilot makes changes to `package.json` and does not run `npm install`.
+
+```
+Let's reinstall npm dependencies since package.json was updated.
+```
