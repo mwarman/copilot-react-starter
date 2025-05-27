@@ -34,6 +34,14 @@ Create a new Vite React TypeScript application. Arguably, this could also be com
 #fetch https://vite.dev/guide/ Follow these instructions exactly to use Vite to create a new React TypeScript application in the base directory of this project.
 ```
 
+### Use path aliases
+
+Update the TypeScript configuration to use path aliases.
+
+```
+Update the TypeScript and Vite configurations to use a path alias `@` for the `/src` directory.
+```
+
 ### Rename the application
 
 With the generated React app in place, ask Copilot to rename the application.
