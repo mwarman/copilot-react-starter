@@ -7,6 +7,11 @@ vi.mock("../Header/Header", () => ({
   default: () => <div data-testid="mock-header">Header Component</div>,
 }));
 
+// Mock the Footer component
+vi.mock("../Footer/Footer", () => ({
+  default: () => <div data-testid="mock-footer">Footer Component</div>,
+}));
+
 describe("Layout", () => {
   it("renders the header", () => {
     // Arrange
@@ -21,6 +26,21 @@ describe("Layout", () => {
 
     // Assert
     expect(header).toBeInTheDocument();
+  });
+
+  it("renders the footer", () => {
+    // Arrange
+    render(
+      <Layout>
+        <div>Content</div>
+      </Layout>
+    );
+
+    // Act
+    const footer = screen.getByTestId("mock-footer");
+
+    // Assert
+    expect(footer).toBeInTheDocument();
   });
 
   it("renders the children content", () => {
