@@ -1,11 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
+import { BrowserRouter } from "react-router-dom";
 import Home from "./Home";
+
+// Wrap the component with BrowserRouter for Link components
+const renderWithRouter = (ui: React.ReactElement) => {
+  return render(ui, { wrapper: BrowserRouter });
+};
 
 describe("Home", () => {
   it("renders with the correct test ID", () => {
     // Arrange
-    render(<Home />);
+    renderWithRouter(<Home />);
 
     // Act
     const homeElement = screen.getByTestId("home-page");
@@ -16,7 +22,7 @@ describe("Home", () => {
 
   it("renders the welcome heading", () => {
     // Arrange
-    render(<Home />);
+    renderWithRouter(<Home />);
 
     // Act - none needed for this test
 
@@ -26,7 +32,7 @@ describe("Home", () => {
 
   it("renders all three sections", () => {
     // Arrange
-    render(<Home />);
+    renderWithRouter(<Home />);
 
     // Act - none needed for this test
 
@@ -38,7 +44,7 @@ describe("Home", () => {
 
   it("displays text in a larger font size", () => {
     // Arrange
-    render(<Home />);
+    renderWithRouter(<Home />);
 
     // Act
     const paragraphs = screen.getAllByText(/./i, { selector: "p" });
@@ -53,12 +59,25 @@ describe("Home", () => {
   it("accepts a custom testId", () => {
     // Arrange
     const customTestId = "custom-home-page";
-    render(<Home testId={customTestId} />);
+    renderWithRouter(<Home testId={customTestId} />);
 
     // Act
     const homeElement = screen.getByTestId(customTestId);
 
     // Assert
     expect(homeElement).toBeInTheDocument();
+  });
+
+  it("renders a link to the documentation", () => {
+    // Arrange
+    renderWithRouter(<Home />);
+
+    // Act
+    const documentationLink = screen.getByTestId("documentation-link");
+
+    // Assert
+    expect(documentationLink).toBeInTheDocument();
+    expect(documentationLink).toHaveAttribute("href", "/documentation");
+    expect(documentationLink).toHaveTextContent("View Documentation");
   });
 });

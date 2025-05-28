@@ -5,6 +5,8 @@ import Layout from "../Layout/Layout";
 
 // Lazy load page components for code splitting
 const Home = lazy(() => import("../../../pages/Home/Home"));
+const Documentation = lazy(() => import("../../../pages/Documentation/Documentation"));
+const Introduction = lazy(() => import("../../../pages/Documentation/Introduction/Introduction"));
 
 /**
  * Define the application routes.
@@ -23,6 +25,16 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "documentation",
+        element: <Documentation />,
+        children: [
+          {
+            path: "introduction",
+            element: <Introduction />,
+          },
+        ],
       },
     ],
   },
