@@ -2,31 +2,33 @@
 
 A serverless, progressive, responsive starter front end component with React at the core of the technology stack. Uses GitHub Copilot as an AI coding assistant.
 
-## Getting Started
+## Getting started
 
 Begin by reviewing and updating the [Copilot Instructions](.github/copilot-instructions.md) to suit the needs and preferences for your React project.
 
 Interact with Copilot using your favorite editor, we use [VS Code][vscode], to create your application.
 
-## Tips and Tricks
+## Additional reading
 
-There is a wealth of information available for using GitHub Copilot effectively. This official [Tips and Tricks guide](https://code.visualstudio.com/docs/copilot/copilot-tips-and-tricks) from VS Code provides an excellent summary of Copilot best practices.
+The [official guide for GitHub Copilot in VS Code][vscode-copilot-docs] provides a lot of information and is very useful for those who are just starting to use Copilot in VS Code.
 
-[vscode]: https://code.visualstudio.com/ "Visual Studio Code"
+The VS Code YouTube channel has a playlist with many interesting videos and tutorials for [GitHub Copilot in VS Code](https://youtube.com/playlist?list=PLj6YeMhvp2S7rQaCLRrMnzRdkNdKnMVwg&si=KIRHyFKYyMcUssQ3).
+
+This official [tips and tricks guide](https://code.visualstudio.com/docs/copilot/copilot-tips-and-tricks) from VS Code provides an excellent summary of Copilot best practices.
 
 ## Prompts
 
 Here are some prompts to get your project started. Place Copilot in **Agent** mode and give these a try.
 
-### Node Version Manager
+### Use node version manager
 
 Update your project with a Node Version Manager control file.
 
 ```
-add a node version manager control file to the project using the latest release of node 20
+Add a node version manager control file to the project using the latest release of node 20
 ```
 
-### Create Vite React application
+### Create the React application
 
 Create a new Vite React TypeScript application. Arguably, this could also be completed by issuing a Vite CLI command, but Copilot modifies the generated template source code to your standards following the details in the instructions file much as you would after creating a new React app.
 
@@ -86,6 +88,12 @@ Sometimes Copilot makes changes to `package.json` and does not run `npm install`
 Let's reinstall npm dependencies since package.json was updated.
 ```
 
+OR
+
+```
+Let's make sure the package lock file is up to date.
+```
+
 #### Pin dependencies
 
 Even though there is a rule that all dependency versions should be "pinned", Copilot installs `^` and `~` relative versions.
@@ -93,3 +101,6 @@ Even though there is a rule that all dependency versions should be "pinned", Cop
 ```
 Let's update package.json to pin the dependency versions.
 ```
+
+[vscode]: https://code.visualstudio.com/ "Visual Studio Code"
+[vscode-copilot-docs]: https://code.visualstudio.com/docs/copilot/overview "GitHub Copilot in VS Code"
