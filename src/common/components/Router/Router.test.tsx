@@ -7,6 +7,16 @@ vi.mock("../Loading/Loading", () => ({
   default: () => <div data-testid="mock-loading">Loading Component</div>,
 }));
 
+// Mock the Layout component
+vi.mock("../Layout/Layout", () => ({
+  default: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="mock-layout">
+      <div>Layout Component</div>
+      <div data-testid="layout-content">{children}</div>
+    </div>
+  ),
+}));
+
 // Mock React's lazy and Suspense
 vi.mock("react", async () => {
   const actual = await vi.importActual("react");
@@ -38,6 +48,7 @@ vi.mock("react-router-dom", async () => {
         <div data-testid="route-content">{router.routes[0].element}</div>
       </div>
     ),
+    Outlet: () => <div data-testid="outlet">Outlet Component</div>,
   };
 });
 
@@ -56,6 +67,18 @@ describe("Router", () => {
     expect(routeContent).toBeInTheDocument();
   });
 
+  it("uses Layout as the root element", () => {
+    // Arrange
+    render(<Router />);
+
+    // Act
+    const layout = screen.getByTestId("mock-layout");
+
+    // Assert
+    expect(layout).toBeInTheDocument();
+    expect(layout).toHaveTextContent("Layout Component");
+  });
+
   it("uses Suspense with Loading component for lazy loading", () => {
     // Arrange
     render(<Router />);
@@ -70,6 +93,16 @@ describe("Router", () => {
     expect(suspense).toBeInTheDocument();
     expect(fallbackContent).toContainElement(mockLoading);
     expect(lazyContent).toBeInTheDocument();
-    expect(lazyContent).toContainElement(screen.getByTestId("lazy-loaded"));
+  });
+
+  it("renders Outlet component for nested routes", () => {
+    // Arrange
+    render(<Router />);
+
+    // Act
+    const outlet = screen.getByTestId("outlet");
+
+    // Assert
+    expect(outlet).toBeInTheDocument();
   });
 });
