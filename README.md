@@ -6,7 +6,7 @@ A serverless, progressive, responsive starter front end component with React at 
 
 Begin by reviewing and updating the [Copilot Instructions](.github/copilot-instructions.md) to suit the needs and preferences for your React project.
 
-Interact with Copilot using your favorite editor, we use [VS Code][vscode], to create your application.
+Interact with Copilot using your favorite editor to create your application. We strongly recommend [VS Code][vscode].
 
 ## Additional reading
 
@@ -18,7 +18,7 @@ This official [tips and tricks guide](https://code.visualstudio.com/docs/copilot
 
 ## Project Structure
 
-The project structure follows the best practicies for a Copilot assistance. This project is ready to begin iterative development with a Copilot AI agent.
+The project structure follows the best practicies for Copilot assistance. This project is ready to begin iterative development with a Copilot AI agent.
 
 Note that the React application does not exist, not yet anyway. This base project structure is primed for building a React application from the very beginning using Copilot agent mode.
 
@@ -38,7 +38,7 @@ README.md                                  # This document
 
 ### Building the foundation
 
-Here are some prompts to get your project started. Place Copilot in **Agent** mode and give these a try.
+Here are some prompts to start your React application. Place Copilot in **Agent** mode and give these a try. It is a good idea to commit the changes after each step is complete and you are satisfied with the outcome. This allows you to roll back changes for a single step, modify the prompt, and retry if necessary without losing any changes from a prior step.
 
 #### Use node version manager
 
@@ -79,7 +79,7 @@ Update the project to be named "React Starter Kit".
 Add Vitest and React Testing Library for unit tests.
 
 ```
-Install and configure Vitest with React Testing Library. Include support for `jest-dom` assertions. Include support for code coverage with v8. Be sure to include the default code coverage exclusions from Vitest.
+Install and configure Vitest with React Testing Library. Include support for `jest-dom` assertions. Include support for code coverage with v8. Configure the default code coverage exclusions from Vitest.
 ```
 
 #### Install Tailwind CSS
@@ -92,7 +92,7 @@ Install Tailwind CSS with these instructions #fetch https://tailwindcss.com/docs
 
 #### Initialize shadcn/ui (Manual)
 
-Initialize `shadcn/ui` in the project so that Copilot can more easily add shadcn components later.
+Initialize [`shadcn/ui`](https://ui.shadcn.com/docs/installation/vite) in the project so that Copilot can more easily add shadcn components later. From the base project directory run the following command:
 
 ```
 npx shadcn@latest init
@@ -109,7 +109,7 @@ You may ask Copilot to build a story or multiple related stories, i.e. a feature
 To ask Copilot to implement a story, follow these steps:
 
 1. Close all editors.
-2. I recommend committing any uncommitted work so that you are able to roll back Copilot's changes if necessary.
+2. Commit any uncommitted work so that you are able to roll back Copilot's changes if necessary.
 3. Open Copilot and switch to _Agent_ mode.
 4. Find the markdown file containing the story you wish to implement and drag that file into the Copilot chat.
 5. Ask Copilot to implement the story with a prompt like: `Update the application with the requirements described in this document.`
