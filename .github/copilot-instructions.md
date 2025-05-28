@@ -101,6 +101,7 @@ Follow these rules to ensure consistency and maintainability across the codebase
 - Pin all dependency versions in `package.json` to avoid breaking changes.
 - Install dependencies using `npm install` when `package.json` is updated.
 - Use inline comments to explain complex logic.
+- Do not use `index.ts` files for re-exports; instead, use explicit imports in each file.
 - Use **absolute imports** for better readability and maintainability.
 - Use **relative imports** for local files within the same folder.
 - Use **PascalCase** for component and page names.
@@ -129,6 +130,7 @@ Follow these rules to ensure consistency and maintainability across the codebase
 - Use **functional components** and **React hooks** (`useState`, `useEffect`, etc.).
 - Use `React.memo` or `useMemo` only when you measure performance issues.
 - React components should only export a single component.
+- React components should only use default exports.
 
 Example of a React component:
 
