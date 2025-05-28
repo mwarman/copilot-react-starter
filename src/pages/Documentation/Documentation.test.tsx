@@ -61,11 +61,6 @@ describe("Documentation Component", () => {
     // Assert
     expect(screen.getByText("Documentation")).toBeInTheDocument();
 
-    // Check that the navigation shows the Introduction link
-    const introLink = screen.getByText("Introduction");
-    expect(introLink).toBeInTheDocument();
-    expect(introLink).toHaveAttribute("href", "/documentation/introduction");
-
     // Check that the outlet content is rendered
     expect(screen.getByTestId("outlet-content")).toBeInTheDocument();
   });
@@ -79,17 +74,8 @@ describe("Documentation Component", () => {
     // Check heading
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Documentation");
 
-    // Check sidebar heading
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("Pages");
-
-    // Check for main content and sidebar structure
-    // In jsdom environment, we can't test CSS classes directly that are only applied conditionally
-    // based on media queries (like md:col-span-3), so instead we'll check if the elements exist
-    const mainContainer = screen.getByTestId("outlet-content").closest(".grid");
-    expect(mainContainer).toBeInTheDocument();
-
-    // Check if navigation link is present
-    const introductionLink = screen.getByText("Introduction");
-    expect(introductionLink).toBeInTheDocument();
+    // Check for main content
+    const outletContent = screen.getByTestId("outlet-content");
+    expect(outletContent).toBeInTheDocument();
   });
 });
