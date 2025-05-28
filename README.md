@@ -18,7 +18,7 @@ This official [tips and tricks guide](https://code.visualstudio.com/docs/copilot
 
 ## Project Structure
 
-The project structure follows the best practicies for Copilot assistance. This project is ready to begin iterative development with a Copilot AI agent.
+The project structure follows the best practices for Copilot assistance. This project is ready to begin iterative development with a Copilot AI agent.
 
 Note that the React application does not exist, not yet anyway. This base project structure is primed for building a React application from the very beginning using Copilot agent mode.
 
