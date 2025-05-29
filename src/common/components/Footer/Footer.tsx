@@ -8,7 +8,7 @@ const Footer = (): JSX.Element => {
     <footer className="py-6 bg-slate-100 dark:bg-slate-800 transition-colors">
       <div className="container mx-auto flex items-center justify-center">
         <div className="text-sm text-slate-600 dark:text-slate-400">
-          © {currentYear} <span className="ml-1">IlearnBYdoing</span>
+          © {currentYear} <span className="ml-1">learnBYdoing</span>
         </div>
       </div>
     </footer>

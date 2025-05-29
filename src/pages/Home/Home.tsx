@@ -1,5 +1,4 @@
 import type { PropsWithChildren } from "react";
-import { Link } from "react-router-dom";
 
 /**
  * Properties for the `Home` React component.
@@ -66,15 +65,6 @@ const Home = ({ testId = "home-page" }: HomeProps = {}): JSX.Element => {
           Check out the documentation for more details on how to extend and customize the application for your specific
           needs.
         </p>
-        <div className="mt-6 text-center">
-          <Link
-            to="/documentation"
-            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 transition-colors"
-            data-testid="documentation-link"
-          >
-            View Documentation
-          </Link>
-        </div>
       </section>
     </div>
   );
