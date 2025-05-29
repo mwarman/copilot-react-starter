@@ -1,73 +1,44 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { BrowserRouter } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
 import Header from "./Header";
 
 // Mock the ThemeToggle component
 vi.mock("../ThemeToggle/ThemeToggle", () => ({
-  ThemeToggle: () => <button data-testid="mock-theme-toggle">Theme Toggle</button>,
+  ThemeToggle: () => <div data-testid="theme-toggle">Theme Toggle</div>,
 }));
 
-// Wrap the component with BrowserRouter for Link components
-const renderWithRouter = (ui: React.ReactElement) => {
-  return render(ui, { wrapper: BrowserRouter });
-};
-
 describe("Header", () => {
-  const toggleSidebar = vi.fn();
+  const renderHeader = () => {
+    return render(
+      <BrowserRouter>
+        <Header />
+      </BrowserRouter>
+    );
+  };
 
-  beforeEach(() => {
-    // Clear any theme-related classes before each test
-    document.documentElement.classList.remove("dark");
-    // Reset the mock function before each test
-    toggleSidebar.mockReset();
-  });
-
-  it("renders the application name", () => {
-    // Arrange
-    renderWithRouter(<Header toggleSidebar={toggleSidebar} />);
-
-    // Act
-    const appName = screen.getByText("React Starter Kit");
-
-    // Assert
-    expect(appName).toBeInTheDocument();
-  });
-
-  it("renders the theme toggle button", () => {
-    // Arrange
-    renderWithRouter(<Header toggleSidebar={toggleSidebar} />);
-
-    // Act
-    const themeToggle = screen.getByTestId("mock-theme-toggle");
-
-    // Assert
-    expect(themeToggle).toBeInTheDocument();
+  it("renders the app name", () => {
+    renderHeader();
+    expect(screen.getByText("React Starter Kit")).toBeInTheDocument();
   });
 
   it("renders the documentation link", () => {
-    // Arrange
-    renderWithRouter(<Header toggleSidebar={toggleSidebar} />);
-
-    // Act
+    renderHeader();
     const documentationLink = screen.getByTestId("header-documentation-link");
-
-    // Assert
     expect(documentationLink).toBeInTheDocument();
     expect(documentationLink).toHaveAttribute("href", "/documentation");
     expect(documentationLink).toHaveTextContent("Documentation");
   });
 
-  it("calls toggleSidebar when sidebar toggle button is clicked", async () => {
-    // Arrange
-    const user = userEvent.setup();
-    renderWithRouter(<Header toggleSidebar={toggleSidebar} />);
+  it("renders the theme toggle component", () => {
+    renderHeader();
+    expect(screen.getByTestId("theme-toggle")).toBeInTheDocument();
+  });
 
-    // Act
-    await user.click(screen.getByTestId("sidebar-toggle"));
-
-    // Assert
-    expect(toggleSidebar).toHaveBeenCalledTimes(1);
+  it("has the correct styling classes", () => {
+    renderHeader();
+    const headerElement = screen.getByRole("banner");
+    expect(headerElement).toHaveClass("bg-slate-900");
+    expect(headerElement).toHaveClass("shadow-md");
   });
 });
