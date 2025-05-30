@@ -10,7 +10,7 @@ const Header = (): JSX.Element => {
   const { open } = useSidebar();
 
   return (
-    <header className="bg-slate-900 dark:bg-slate-800 text-white py-4 px-6 shadow-md">
+    <header className="bg-slate-900 dark:bg-slate-800 text-slate-100 py-4 px-6 shadow-md transition-colors">
       <div className="container mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-6">
           <SidebarTrigger className="hover:bg-slate-600/50 dark:hover:bg-slate-700/50 size-9 hover:text-white" />

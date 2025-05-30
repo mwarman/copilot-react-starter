@@ -3,26 +3,26 @@
  */
 const TableOfContents = (): JSX.Element => {
   return (
-    <div className="bg-white dark:bg-slate-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+    <div className="bg-card p-4 rounded-lg border border-border">
       <h3 className="text-lg font-semibold mb-3">Table of Contents</h3>
       <ul className="space-y-2 text-sm">
         <li>
-          <a href="#about-application" className="text-blue-600 dark:text-blue-400 hover:underline">
+          <a href="#about-application" className="text-primary hover:underline">
             About this application
           </a>
         </li>
         <li>
-          <a href="#starter-kit" className="text-blue-600 dark:text-blue-400 hover:underline">
+          <a href="#starter-kit" className="text-primary hover:underline">
             What is a starter kit
           </a>
         </li>
         <li>
-          <a href="#copilot-vscode" className="text-blue-600 dark:text-blue-400 hover:underline">
+          <a href="#copilot-vscode" className="text-primary hover:underline">
             About using Copilot with VS Code
           </a>
         </li>
         <li>
-          <a href="#react-copilot" className="text-blue-600 dark:text-blue-400 hover:underline">
+          <a href="#react-copilot" className="text-primary hover:underline">
             About creating a React application with Copilot
           </a>
         </li>
