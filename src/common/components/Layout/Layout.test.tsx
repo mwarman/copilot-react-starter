@@ -1,6 +1,20 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import Layout from "./Layout";
+
+// Mock matchMedia
+beforeEach(() => {
+  window.matchMedia = vi.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(), // Deprecated
+    removeListener: vi.fn(), // Deprecated
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  }));
+});
 
 // Mock the Header component
 vi.mock("../Header/Header", () => ({
@@ -12,8 +26,25 @@ vi.mock("../Footer/Footer", () => ({
   default: () => <div data-testid="mock-footer">Footer Component</div>,
 }));
 
+// Mock the SidebarNavigation component
+vi.mock("../SidebarNavigation/SidebarNavigation", () => ({
+  default: () => <div data-testid="mock-sidebar-navigation">SidebarNavigation Component</div>,
+}));
+
+// Mock the SidebarProvider component
+vi.mock("../Sidebar/Sidebar", () => ({
+  SidebarProvider: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="mock-sidebar-provider">{children}</div>
+  ),
+}));
+
+// Mock the css utility
+vi.mock("@/common/utils/css", () => ({
+  cn: (...inputs: unknown[]): string => inputs.join(" "),
+}));
+
 describe("Layout", () => {
-  it("renders the header", () => {
+  it("renders the header component", () => {
     // Arrange
     render(
       <Layout>
@@ -28,7 +59,7 @@ describe("Layout", () => {
     expect(header).toBeInTheDocument();
   });
 
-  it("renders the footer", () => {
+  it("renders the footer component", () => {
     // Arrange
     render(
       <Layout>
@@ -41,6 +72,36 @@ describe("Layout", () => {
 
     // Assert
     expect(footer).toBeInTheDocument();
+  });
+
+  it("renders the sidebar navigation component", () => {
+    // Arrange
+    render(
+      <Layout>
+        <div>Content</div>
+      </Layout>
+    );
+
+    // Act
+    const sidebarNavigation = screen.getByTestId("mock-sidebar-navigation");
+
+    // Assert
+    expect(sidebarNavigation).toBeInTheDocument();
+  });
+
+  it("renders the sidebar provider component", () => {
+    // Arrange
+    render(
+      <Layout>
+        <div>Content</div>
+      </Layout>
+    );
+
+    // Act
+    const sidebarProvider = screen.getByTestId("mock-sidebar-provider");
+
+    // Assert
+    expect(sidebarProvider).toBeInTheDocument();
   });
 
   it("renders the children content", () => {
