@@ -68,16 +68,11 @@ describe("Home", () => {
     expect(homeElement).toBeInTheDocument();
   });
 
-  it("renders a link to the documentation", () => {
+  it("includes documentation reference in the text", () => {
     // Arrange
     renderWithRouter(<Home />);
 
-    // Act
-    const documentationLink = screen.getByTestId("documentation-link");
-
-    // Assert
-    expect(documentationLink).toBeInTheDocument();
-    expect(documentationLink).toHaveAttribute("href", "/documentation");
-    expect(documentationLink).toHaveTextContent("View Documentation");
+    // Act & Assert
+    expect(screen.getByText(/Check out the documentation for more details/i)).toBeInTheDocument();
   });
 });

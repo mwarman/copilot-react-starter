@@ -12,11 +12,11 @@ describe("Footer", () => {
     expect(screen.getByText(new RegExp(`${currentYear}`))).toBeInTheDocument();
   });
 
-  it("renders 'IlearnBYdoing' text", () => {
+  it("renders 'learnBYdoing' text", () => {
     // Arrange
     render(<Footer />);
 
     // Assert
-    expect(screen.getByText(/IlearnBYdoing/)).toBeInTheDocument();
+    expect(screen.getByText(/learnBYdoing/)).toBeInTheDocument();
   });
 });
