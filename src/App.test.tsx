@@ -4,6 +4,14 @@ import userEvent from '@testing-library/user-event';
 import App from './App';
 
 describe('App component', () => {
+  it('renders the header', () => {
+    // Arrange
+    render(<App />);
+
+    // Assert
+    expect(screen.getByRole('heading', { name: /task hero/i })).toBeInTheDocument();
+  });
+
   it('renders headline', () => {
     // Arrange
     render(<App />);
