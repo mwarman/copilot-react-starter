@@ -77,7 +77,7 @@ The installation will generate several configuration files:
 
 - **tsconfig.json**: TypeScript configuration
 - **vite.config.ts**: Vite build tool configuration
-- **.eslintrc.cjs**: ESLint configuration for code quality
+- **.eslint.config.js**: ESLint configuration for code quality
 - **package.json**: Project dependencies and scripts
 
 ## Next Steps
