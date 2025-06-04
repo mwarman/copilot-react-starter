@@ -1,12 +1,19 @@
 # React Starter Kit with GitHub Copilot
 
-A serverless, progressive, responsive starter front end component with React at the core of the technology stack. Uses GitHub Copilot as an AI coding assistant.
+A starter kit for creating a React user interface component with GitHub Copilot for AI assisted pair programming.
 
 ## Getting started
 
-Begin by reviewing and updating the [Copilot Instructions](.github/copilot-instructions.md) to suit the needs and preferences for your React project.
+Begin by reviewing and updating the [Copilot Instructions](.github/copilot-instructions.md) to suit the needs and preferences for your project.
 
-Interact with Copilot using your favorite editor to create your application. We strongly recommend [VS Code][vscode].
+Interact with Copilot using your favorite editor to create your application. We strongly recommend [VS Code][vscode] with the following extensions:
+
+- GitHub Copilot
+- GitHub Copilot Chat
+- Prettier - Code formatter
+- ESLint
+- Vitest
+- indent-rainbow
 
 ## Additional reading
 
@@ -16,157 +23,85 @@ The VS Code YouTube channel has a playlist with many interesting videos and tuto
 
 This official [tips and tricks guide](https://code.visualstudio.com/docs/copilot/copilot-tips-and-tricks) from VS Code provides an excellent summary of Copilot best practices.
 
-## Project Structure
+## Project structure
 
 The project structure follows the best practices for Copilot assistance. This project is ready to begin iterative development with a Copilot AI agent.
 
-Note that the React application does not exist, not yet anyway. This base project structure is primed for building a React application from the very beginning using Copilot agent mode.
+Note that the application component does not exist, not yet anyway. This base project structure is primed for building an application component from the very beginning using Copilot agent mode with you in the driver's seat.
 
 ```
-.github/                                   # GitHub configuration
-  copilot-instructions.md                  # Copilot instructions for the project
-  prompts/                                 # Helpful Copilot prompts
-docs/                                      # Project documentation
-  api/                                     # API documentation to assist Copilot
-  requirements/                            # Features and stories to assist Copilot
-.editorconfig                              # Editor configuration for consistent formatting
-.nvmrc                                     # Node version manager configuration
-README.md                                  # This document
+/.github
+  copilot-instructions.md   # Copilot instructions
+
+/docs
+  /requirements
+    01-create-task.md       # Requirements specification
+
+.editorconfig               # Editor configuration
+.prettierrc                 # Prettier configuration
+.gitignore                  # Git ignore
+LICENSE                     # Software license
+README.md                   # This document
 ```
 
-## Prompts
+## How to use
 
-### Building the foundation
+### Update the instructions
 
-Here are some prompts to start your React application. Place Copilot in **Agent** mode and give these a try. It is a good idea to commit the changes after each step is complete and you are satisfied with the outcome. This allows you to roll back changes for a single step, modify the prompt, and retry if necessary without losing any changes from a prior step.
+Add a section to the [Copilot Instructions](./.github/copilot-instructions.md) document immediately following the **Role** section. Provide an overview of the project like this:
 
-#### Use node version manager
+```md
+---
 
-Update your project with a Node Version Manager control file.
+## Project Overview
 
-```
-Add a node version manager control file to the project using the latest release of node 20
-```
+- **Component:** Task UI (task-ui)
+- **Description:** This component provides a user interface for managing tasks, including creating, retrieving, updating, and deleting tasks. It uses React for the frontend, with state management handled by React Query and form validation managed by React Hook Form and Zod. The project follows best practices for TypeScript development, Vite for build tooling, and unit testing with Vitest.
 
-#### Create the React application
-
-Create a new Vite React TypeScript application. Arguably, this could also be completed by issuing a Vite CLI command, but Copilot modifies the generated template source code to your standards following the details in the instructions file much as you would after creating a new React app.
-
-```
-#fetch https://vite.dev/guide/ Follow these instructions exactly to use Vite to create a new React TypeScript application in the base directory of this project.
+---
 ```
 
-> **NOTE:** This will install React v19 dependencies. Some of the libraries in the technology stack (see the Copilot instructions) do not yet officially support React 19. You may choose to proceed with React 19 or install some of the other dependencies using the `--force` parameter.
+Want to learn more about Copilot instructions files? Read more in the [official guide...](https://code.visualstudio.com/docs/copilot/copilot-tips-and-tricks#_personalize-copilot-with-instructions-files)
 
-#### Use path aliases
+### Work with the Copilot agent
 
-Update the TypeScript configuration to use path aliases.
+Begin working with Copilot to create the application. Copilot works best when it has a rich context to use as reference material when updating the project. When you first begin, there is no source code for Copilot to reference. Working with Copilot to implement the first story may seem tedious for this reason. However, I find it best to let Copilot implement the first story to the best of the agent's ability. Then, review all of the generated source members. Make changes to the source to match your coding preference. Don't like to use `class`? Change it. Prefer `default` exports? Use those.
 
-```
-Update the TypeScript and Vite configurations to use a path alias `@` for the `/src` directory.
-```
+When you implement the second and subsequent stories, Copilot will use the existing code as a reference and pattern the code that the agent creates to match.
 
-#### Rename the application
+#### Requirements
 
-With the generated React app in place, ask Copilot to rename the application.
+The requirements are located in the [`docs/requirements`](docs/requirements/) directory. The contents of each file describe a small yet complete and testable unit of work.
 
-```
-Update the project to be named "React Starter Kit".
-```
+#### Ask Copilot
 
-#### Add Vitest for unit tests
-
-Add Vitest and React Testing Library for unit tests.
+Open Copilot chat in VS Code and place it into **Ask** mode if it is not already. Drag the [01-create-app.md](docs/requirements/01-create-app.md) requirements specification into the Copilot chat. Any files you explicitly drag onto the Copilot chat will be included in the context of the current session. Enter the following prompt:
 
 ```
-Install and configure Vitest with React Testing Library. Include support for `jest-dom` assertions. Include support for code coverage with v8. Configure the default code coverage exclusions from Vitest.
+let's update the project with the requirements in this document.
 ```
 
-#### Install Tailwind CSS
-
-Add Tailwind CSS to the project and update existing components to use Tailwind classes. Note that depending upon the model training date, the AI agent may try to install Tailwind the _"old"_ way. Tell the agent to follow the current installation documentation _"exactly"_.
+or you can use the `#file` command to explicitly reference the requirements like this:
 
 ```
-Install Tailwind CSS with these instructions #fetch https://tailwindcss.com/docs/installation/using-vite  Follow these instructions exactly.
+let's update the project with the requirements in #file:01-create-app.md
 ```
 
-#### Initialize shadcn/ui (Manual)
+Since Copilot is in **Ask** mode, it will not make any changes to the project. Instead it will tell you what the agent _would_ do if it were in **Agent** mode. Ask mode allows you to ask Copilot questions or, in this instance, allows you to get a preview of a more complex set of changes.
 
-Initialize [`shadcn/ui`](https://ui.shadcn.com/docs/installation/vite) in the project so that Copilot can more easily add shadcn components later. From the base project directory run the following command:
+If you do not like the approach that Copilot proposes, update the requirements specification to be more specific. Remember that Copilot will improve as the code base grows.
 
-```
-npx shadcn@latest init
-```
+#### Agent mode
 
-### Adding features
+Change Copilot from **Ask** to **Agent** mode. In **Agent** mode, Copilot is free to make changes to your project. Don't worry though, you may pause or cancel the Copilot session at any time. Any changes made by Copilot are not fully applied until you choose to **Keep** them, or you may revert the project by choosing to **Undo** the changes.
 
-You may ask Copilot to build a story or multiple related stories, i.e. a feature, or even all of the features in an application. When learning to use Copilot, it is best to begin small, with a story. By starting with a story, you may watch Copilot make a relatively small number of changes and additions to the code base. If and when Copilot implements something in an unexpected way, you can update the way that the requirements are written so that Copilot better understands what the agent should do.
+When you are ready, submit the prompt in **Agent** mode and the Copilot agent will update the VS Code project with the changes.
 
-**NOTE:** While it is not necessary to do so, I find that Copilot works best when I have built the foundation of the project first and _then_ I ask Copilot to begin implementing stories. Sometimes there are specific instructions for adding and configuring libraries to a project and those instructions may have changed since the AI model training date.
+#### One story at a time
 
-#### Implement a story
+Copilot often works best when asked to implement small units of work. For that reason, work on 1 story at a time. When Copilot has finished, you play the role of the code reviewer (you are the expert after all). Review and update the code as needed (or ask Copilot to make a change). Run the unit tests. Run the linter. Run the app and test the changes. Finally, create a PR and commit the work.
 
-To ask Copilot to implement a story, follow these steps:
+Then, move to the next story and repeat.
 
-1. Close all editors.
-2. Commit any uncommitted work so that you are able to roll back Copilot's changes if necessary.
-3. Open Copilot and switch to _Agent_ mode.
-4. Find the markdown file containing the story you wish to implement and drag that file into the Copilot chat.
-5. Ask Copilot to implement the story with a prompt like: `Update the application with the requirements described in this document.`
-6. Copilot will use the requirements document and the information in your `copilot-instructions.md` file to make changes to the application. The more detailed and specific the requirements are, the better the outcome will be.
-7. Depending upon the complexity of the requirements, you may need to work with Copilot to refine the initial implementation.
-
-```
-Update the application with the requirements described in this document.
-```
-
-#### Follow best practices
-
-When implementing requirements, sometimes Copilot does not follow all of the rules specified in the `copilot-instructions.md` document. You can ask the agent to review the changed files to ensure they match the project standards.
-
-```
-Review the changed files to ensure that they match the project standards.
-```
-
-OR
-
-```
-Review the changed files to ensure that they follow the project best practices.
-```
-
-#### Moving a component
-
-Sometimes Copilot creates a source member in a location which does not match the project structure specified in the `copilot-instructions.md` document. You may ask the agent to move that component to the desired location. Copilot will move that component and related files, such as tests. The agent will ensure that all references are updated and ensure that both the app and the unit tests are functioning after the files are moved.
-
-```
-Move the `button` component from `src/components/ui` to `src/common/components`. Match the project structure and naming conventions.
-```
-
-### General prompts
-
-The following sections describe general use projects that may be useful throughout various stages of development.
-
-#### Update dependencies
-
-Sometimes Copilot makes changes to `package.json` and does not run `npm install`.
-
-```
-Let's reinstall npm dependencies since package.json was updated.
-```
-
-OR
-
-```
-Let's make sure the package lock file is up to date.
-```
-
-#### Pin dependencies
-
-Even though there is a rule that all dependency versions should be "pinned", Copilot installs `^` and `~` relative versions.
-
-```
-Let's update package.json to pin the dependency versions.
-```
-
-[vscode]: https://code.visualstudio.com/ "Visual Studio Code"
-[vscode-copilot-docs]: https://code.visualstudio.com/docs/copilot/overview "GitHub Copilot in VS Code"
+[vscode]: https://code.visualstudio.com/ 'Visual Studio Code'
+[vscode-copilot-docs]: https://code.visualstudio.com/docs/copilot/overview 'GitHub Copilot in VS Code'
