@@ -1,0 +1,21 @@
+# logs
+logs
+*.log
+npm-debug.log*
+
+# coverage directory used by tools like istanbul
+coverage
+
+# dependency directories
+node_modules
+
+# dotenv environment variable files
+.env*
+
+# build output
+build
+dist
+
+# AWS CDK
+cdk.output
+.cdk.staging
