@@ -1,7 +1,16 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
+
+// Mock the ThemeProvider to avoid matchMedia issues in tests
+vi.mock('./common/providers/ThemeProvider', () => ({
+  ThemeProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  useTheme: () => ({
+    theme: 'light',
+    setTheme: vi.fn(),
+  }),
+}));
 
 describe('App component', () => {
   it('renders the header', () => {

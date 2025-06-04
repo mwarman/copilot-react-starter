@@ -1,54 +1,26 @@
-# React + TypeScript + Vite
+# Task Hero
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React SPA front end application component for managing tasks like a hero.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 18** with TypeScript
+- **Vite** for fast development and build tooling
+- **Tailwind CSS** for utility-first styling
+- **shadcn/ui** for high-quality UI components
+- **Dark Mode** support with system preference detection
+- **Vitest** for unit testing
+- **ESLint** for code quality
 
-## Expanding the ESLint configuration
+## Dark Mode
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The application includes a dark mode feature that allows users to:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- Toggle between light and dark themes
+- Automatically detect system preferences
+- Persist theme preferences in localStorage
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+The dark mode implementation is based on Tailwind CSS and uses the following components:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- `ThemeProvider` - Manages theme state and preferences
+- `ThemeToggle` - UI component for switching themes
