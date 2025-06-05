@@ -2,6 +2,7 @@ import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import { Header } from './common/components/Header/Header';
+import { Footer } from './common/components/Footer/Footer';
 import { ThemeProvider } from './common/providers/ThemeProvider';
 
 /**
@@ -48,6 +49,7 @@ export const App = () => {
             <p className="text-muted-foreground">Click on the Vite and React logos to learn more</p>
           </div>
         </main>
+        <Footer />
       </div>
     </ThemeProvider>
   );

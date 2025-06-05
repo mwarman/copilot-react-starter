@@ -12,6 +12,11 @@ vi.mock('./common/providers/ThemeProvider', () => ({
   }),
 }));
 
+// Mock the Footer component
+vi.mock('./common/components/Footer/Footer', () => ({
+  Footer: () => <footer data-testid="footer">© 2025 learnBYdoing</footer>,
+}));
+
 describe('App component', () => {
   it('renders the header', () => {
     // Arrange
@@ -19,6 +24,14 @@ describe('App component', () => {
 
     // Assert
     expect(screen.getByRole('heading', { name: /task hero/i })).toBeInTheDocument();
+  });
+
+  it('renders the footer', () => {
+    // Arrange
+    render(<App />);
+
+    // Assert
+    expect(screen.getByTestId('footer')).toBeInTheDocument();
   });
 
   it('renders headline', () => {
