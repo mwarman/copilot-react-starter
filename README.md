@@ -17,7 +17,7 @@ Interact with Copilot using your favorite editor to create your application. We 
 
 ## Additional reading
 
-The [official guide for GitHub Copilot in VS Code][vscode-copilot-docs] provides a lot of information and is very useful for those who are just starting to use Copilot in VS Code.
+The [official guide for GitHub Copilot in VS Code][vscode-copilot-docs] provides a lot of information and is very useful for those who are just starting to use Copilot in VS Code. In this guide you can find information about all things Copilot in VS Code from initial setup to information about the available [language models](https://code.visualstudio.com/docs/copilot/language-models).
 
 The VS Code YouTube channel has a playlist with many interesting videos and tutorials for [GitHub Copilot in VS Code](https://youtube.com/playlist?list=PLj6YeMhvp2S7rQaCLRrMnzRdkNdKnMVwg&si=KIRHyFKYyMcUssQ3).
 
@@ -69,9 +69,23 @@ Begin working with Copilot to create the application. Copilot works best when it
 
 When you implement the second and subsequent stories, Copilot will use the existing code as a reference and pattern the code that the agent creates to match.
 
+> **NOTE:** The "Claude Sonnet 3.7" model has been used to develop this project. Language models evolve quickly and new versions published frequently. Review the official documentation and select the [language model that is most appropriate for your application or task](https://docs.github.com/en/copilot/using-github-copilot/ai-models/choosing-the-right-ai-model-for-your-task).
+
 #### Requirements
 
 The requirements are located in the [`docs/requirements`](docs/requirements/) directory. The contents of each file describe a small yet complete and testable unit of work.
+
+> **NOTE:** The requirements documents were created using Copilot. After creating a logical sequence for story implementation, create a new, empty requirements document in `docs/requirements`, e.g. `09-task-list.md`. Press `Ctrl+I` (or `Cmd+I`) to open the Copilot prompt. Write a prompt for Copilot to draft a requirements document. For example:
+
+```
+begin drafting a requirements document to implement a Dark Mode theme in the application. reference the approach used in this document #fetch https://ui.shadcn.com/docs/dark-mode/vite. the implementation should follow the project guidelines and best practices.
+
+OR
+
+begin drafting a requirements document to implement a page which lists all tasks fetched from the `/tasks` API endoint. the implementation should follow project guidelines and best practices.
+```
+
+Copilot will write a draft of the requirements document directly into the file. When complete, you may choose to **keep** the changes or **close** to discard them. As with any Copilot generated material, review the generated content and refine it to suit your needs.
 
 #### Ask Copilot
 
