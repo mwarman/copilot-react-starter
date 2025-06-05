@@ -45,6 +45,7 @@ The infrastructure should be implemented in TypeScript using AWS CDK with the fo
 - Use environment variables for configurable values
 - Follow AWS best practices for security
 - Implement with cost-optimization in mind
+- Follow the project guidelines and best practices
 
 ## Example CDK Stack Structure
 
