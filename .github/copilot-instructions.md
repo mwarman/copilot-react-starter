@@ -118,15 +118,15 @@ package.json                # Project dependencies and scripts
 ### File: `MyComponent.tsx`
 
 ```tsx
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Input } from "@/common/components/ui/input";
-import { Button } from "@/common/components/ui/button";
-import { Label } from "@/common/components/ui/label";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Input } from '@/common/components/ui/input';
+import { Button } from '@/common/components/ui/button';
+import { Label } from '@/common/components/ui/label';
 
 const myComponentSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters long"),
+  name: z.string().min(2, 'Name must be at least 2 characters long'),
 });
 
 type FormData = z.infer<typeof myComponentSchema>;
@@ -148,7 +148,7 @@ export const MyComponent = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="p-4 space-y-4">
       <div className="space-y-2">
         <Label htmlFor="name">Name</Label>
-        <Input id="name" {...register("name")} placeholder="Enter your name" />
+        <Input id="name" {...register('name')} placeholder="Enter your name" />
         {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
       </div>
 
@@ -165,16 +165,16 @@ export const MyComponent = () => {
 ### File: `useGetTask.ts`
 
 ```ts
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
 export const api = axios.create({
-  baseURL: "https://api.example.com",
+  baseURL: 'https://api.example.com',
 });
 
 export function useTask(id: string) {
   return useQuery({
-    queryKey: ["tasks", id],
+    queryKey: ['tasks', id],
     queryFn: async () => {
       const { data } = await api.get(`/tasks/${id}`);
       return data;
@@ -203,23 +203,23 @@ export function useTask(id: string) {
 ### File: `MyComponent.test.tsx`
 
 ```tsx
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
-import { MyComponent } from "./MyComponent";
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { MyComponent } from './MyComponent';
 
-describe("MyComponent", () => {
-  it("renders input field and button", async () => {
+describe('MyComponent', () => {
+  it('renders input field and button', async () => {
     // Arrange
     const user = userEvent.setup();
     const screen = render(<MyComponent />);
 
     // Act
-    const button = screen.getByRole("button", { name: /submit/i });
+    const button = screen.getByRole('button', { name: /submit/i });
     user.click(button);
 
     // Assert
-    expect(screen.getByPlaceholderText("Enter your name")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Enter your name')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
   });
 });
 ```
@@ -257,37 +257,37 @@ After installing shadcn/ui:
 
 ```ts
 // S3 bucket for the application
-const bucket = new s3.Bucket(this, "CloudFrontSpaBucket", {
+const bucket = new s3.Bucket(this, 'CloudFrontSpaBucket', {
   removalPolicy: cdk.RemovalPolicy.DESTROY,
   autoDeleteObjects: true,
 });
 
 // S3 bucket deployment
-const deployment = new s3_deployment.BucketDeployment(this, "CloudFrontSpaDeployment", {
-  sources: [s3_deployment.Source.asset("../dist")],
+const deployment = new s3_deployment.BucketDeployment(this, 'CloudFrontSpaDeployment', {
+  sources: [s3_deployment.Source.asset('../dist')],
   destinationBucket: bucket,
 });
 
 // CloudFront distribution
-const distribution = new cloudfront.Distribution(this, "CloudFrontSpaDistribution", {
+const distribution = new cloudfront.Distribution(this, 'CloudFrontSpaDistribution', {
   certificate: certificate,
-  comment: "CDK Playground CloudFront SPA",
+  comment: 'CDK Playground CloudFront SPA',
   defaultBehavior: {
     origin: cloudfront_origins.S3BucketOrigin.withOriginAccessControl(bucket),
     viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
   },
-  defaultRootObject: "index.html",
-  domainNames: ["cdk-playground.dev.leanstacks.net"],
+  defaultRootObject: 'index.html',
+  domainNames: ['cdk-playground.dev.leanstacks.net'],
   errorResponses: [
     {
       httpStatus: 403,
-      responsePagePath: "/index.html",
+      responsePagePath: '/index.html',
       ttl: cdk.Duration.seconds(0),
       responseHttpStatus: 200,
     },
     {
       httpStatus: 404,
-      responsePagePath: "/index.html",
+      responsePagePath: '/index.html',
       ttl: cdk.Duration.seconds(0),
       responseHttpStatus: 200,
     },
