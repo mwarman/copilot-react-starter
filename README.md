@@ -17,7 +17,7 @@ Interact with Copilot using your favorite editor to create your application. We 
 
 ## Additional reading
 
-The [official guide for GitHub Copilot in VS Code][vscode-copilot-docs] provides a lot of information and is very useful for those who are just starting to use Copilot in VS Code.
+The [official guide for GitHub Copilot in VS Code][vscode-copilot-docs] provides a lot of information and is very useful for those who are just starting to use Copilot in VS Code. In this guide you can find information about all things Copilot in VS Code from initial setup to information about the available [language models](https://code.visualstudio.com/docs/copilot/language-models).
 
 The VS Code YouTube channel has a playlist with many interesting videos and tutorials for [GitHub Copilot in VS Code](https://youtube.com/playlist?list=PLj6YeMhvp2S7rQaCLRrMnzRdkNdKnMVwg&si=KIRHyFKYyMcUssQ3).
 
@@ -68,6 +68,8 @@ Want to learn more about Copilot instructions files? Read more in the [official 
 Begin working with Copilot to create the application. Copilot works best when it has a rich context to use as reference material when updating the project. When you first begin, there is no source code for Copilot to reference. Working with Copilot to implement the first story may seem tedious for this reason. However, I find it best to let Copilot implement the first story to the best of the agent's ability. Then, review all of the generated source members. Make changes to the source to match your coding preference. Don't like to use `class`? Change it. Prefer `default` exports? Use those.
 
 When you implement the second and subsequent stories, Copilot will use the existing code as a reference and pattern the code that the agent creates to match.
+
+> **NOTE:** The "Claude Sonnet 3.7" model has been used to develop this project. Language models evolve quickly and new versions published frequently. Review the official documentation and select the [language model that is most appropriate for your application or task](https://docs.github.com/en/copilot/using-github-copilot/ai-models/choosing-the-right-ai-model-for-your-task).
 
 #### Requirements
 
