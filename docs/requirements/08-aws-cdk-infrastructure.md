@@ -45,18 +45,23 @@ The infrastructure should be implemented in TypeScript using AWS CDK with the fo
 - Use environment variables for configurable values
 - Follow AWS best practices for security
 - Implement with cost-optimization in mind
+- Infrastructure TypeScript configuration created in `tsconfig.cdk.json` in root project directory and referenced in `tsconfig.json`
+- Dependencies and scripts added to main project `package.json`
+- Do not initialize the CDK. Assume that CDK initialization and bootstrapping has already occurred
 - Follow the project guidelines and best practices
 
 ## Example CDK Stack Structure
 
 ```
-/infrastructure
+infrastructure
   /stacks
     frontend-stack.ts         # Stack for S3 + CloudFront
   app.ts                      # CDK app entry point
 
-cdk.json                      # CDK configuration
-package.json                  # Dependencies
+tsconfig.cdk.json             # TypeScript configuration for AWS CDK infrastructure
+tsconfig.json                 # Main project TypeScript configuration
+cdk.json                      # AWS CDK configuration
+package.json                  # Dependencies and scripts in main package.json
 ```
 
 ## Deployment Instructions
