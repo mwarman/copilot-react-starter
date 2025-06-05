@@ -98,17 +98,19 @@ src
 
 /infrastructure
   /stacks
-    frontend-stack.ts       # AWS CDK stack for frontend resources
-  app.ts                    # AWS CDK app entry point
+    frontend-stack.ts             # AWS CDK stack for frontend resources
+  app.ts                          # AWS CDK app entry point
+  cdk.json                        # AWS CDK configuration
+  tsconfig.json                   # TypeScript configuration for AWS CDK
+  package.json                    # Dependencies and scripts for AWS CDK infrastructure
 
-cdk.json                    # AWS CDK configuration
-tsconfig.json               # Main project TypeScript config
-vite.config.ts              # Vite config
-eslint.config.js            # ESLint config
-components.json             # shadcn/ui components config
-.nvmrc                      # npm config for package management
-package.json                # Project dependencies and scripts
-.env                        # Environment variables
+tsconfig.json                     # Main project TypeScript config
+vite.config.ts                    # Vite config
+eslint.config.js                  # ESLint config
+components.json                   # shadcn/ui components config
+.nvmrc                            # npm config for package management
+package.json                      # Project dependencies and scripts
+.env                              # Environment variables
 ```
 
 ---
