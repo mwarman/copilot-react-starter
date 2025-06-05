@@ -16,3 +16,11 @@ Install and configure **Tailwind CSS** into the Vite React TypeScript project fo
 ### Resources
 
 - [Tailwind official installation instructions](https://tailwindcss.com/docs/installation/using-vite). Follow these instructions exactly.
+
+---
+
+Note to the engineer, you will need to have Copilot fetch the official instructions using `#fetch`. An example prompt is:
+
+```
+let's implement the requirements in #file:03-install-tailwind.md in the project. you must exactly follow the instructions in #fetch https://tailwindcss.com/docs/installation/using-vite to install Tailwind for Vite.
+```
