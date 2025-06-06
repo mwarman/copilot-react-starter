@@ -12,7 +12,9 @@
     "test": "vitest --run",
     "test:watch": "vitest --watch",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "deploy": "npm run build && cd infrastructure && npm install && npm run deploy",
+    "cdk": "cd infrastructure && npm run cdk"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",

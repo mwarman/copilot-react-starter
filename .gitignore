@@ -23,3 +23,8 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# CDK directories and files
+cdk.out
+infrastructure/**/*.js
+infrastructure/**/*.d.ts
