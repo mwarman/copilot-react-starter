@@ -199,7 +199,7 @@ export function useTask(id: string) {
   - **Arrange:** Set up the test environment and inputs.
   - **Act:** Call the function being tested.
   - **Assert:** Verify the output and side effects.
-- Use **msw** to mock API calls in tests.
+- Use **Mock Service Worker (msw)** to mock API calls in unit tests.
 - Prefer unit tests over integration tests in this repo.
 
 ### File: `MyComponent.test.tsx`
