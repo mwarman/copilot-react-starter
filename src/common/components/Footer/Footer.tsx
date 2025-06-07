@@ -8,8 +8,8 @@ export const Footer = (): JSX.Element => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full py-4 px-6 bg-background border-t">
-      <div className="container mx-auto flex justify-center items-center">
+    <footer className="w-full h-16 bg-background border-t">
+      <div className="container h-full px-4 mx-auto flex justify-center items-center">
         <p className="text-sm text-muted-foreground">© {currentYear} learnBYdoing</p>
       </div>
     </footer>
