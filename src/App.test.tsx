@@ -1,7 +1,22 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import App from './App';
+
+// Mock React Query
+vi.mock('@tanstack/react-query', () => ({
+  QueryClient: vi.fn().mockImplementation(() => ({})),
+  QueryClientProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}));
+
+// Mock React Query Devtools
+vi.mock('@tanstack/react-query-devtools', () => ({
+  ReactQueryDevtools: () => null,
+}));
+
+// Mock the Router component
+vi.mock('./common/components/Router/Router', () => ({
+  Router: () => <div data-testid="router">Router Component</div>,
+}));
 
 // Mock the ThemeProvider to avoid matchMedia issues in tests
 vi.mock('./common/providers/ThemeProvider', () => ({
@@ -10,6 +25,11 @@ vi.mock('./common/providers/ThemeProvider', () => ({
     theme: 'light',
     setTheme: vi.fn(),
   }),
+}));
+
+// Mock the Header component
+vi.mock('./common/components/Header/Header', () => ({
+  Header: () => <header data-testid="header">Task Hero</header>,
 }));
 
 // Mock the Footer component
@@ -23,7 +43,15 @@ describe('App component', () => {
     render(<App />);
 
     // Assert
-    expect(screen.getByRole('heading', { name: /task hero/i })).toBeInTheDocument();
+    expect(screen.getByTestId('header')).toBeInTheDocument();
+  });
+
+  it('renders the router', () => {
+    // Arrange
+    render(<App />);
+
+    // Assert
+    expect(screen.getByTestId('router')).toBeInTheDocument();
   });
 
   it('renders the footer', () => {
@@ -32,26 +60,5 @@ describe('App component', () => {
 
     // Assert
     expect(screen.getByTestId('footer')).toBeInTheDocument();
-  });
-
-  it('renders headline', () => {
-    // Arrange
-    render(<App />);
-
-    // Assert
-    expect(screen.getByRole('heading', { name: /vite \+ react/i })).toBeInTheDocument();
-  });
-
-  it('increments count when button is clicked', async () => {
-    // Arrange
-    const user = userEvent.setup();
-    render(<App />);
-
-    // Act
-    const button = screen.getByRole('button', { name: /count is 0/i });
-    await user.click(button);
-
-    // Assert
-    expect(screen.getByRole('button', { name: /count is 1/i })).toBeInTheDocument();
   });
 });

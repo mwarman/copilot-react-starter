@@ -1,5 +1,15 @@
 import '@testing-library/jest-dom/vitest';
-import { vi } from 'vitest';
+import { vi, beforeAll, afterEach, afterAll } from 'vitest';
+import { server } from './mockServer';
+
+// Start the mock server before all tests
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+
+// Reset handlers after each test
+afterEach(() => server.resetHandlers());
+
+// Close the server after all tests are done
+afterAll(() => server.close());
 
 // Mock matchMedia for theme detection in tests
 Object.defineProperty(window, 'matchMedia', {

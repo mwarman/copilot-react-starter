@@ -24,7 +24,7 @@ export default defineConfig({
         branches: 80,
         statements: 80,
       },
-      exclude: ['./src/main.tsx', ...coverageConfigDefaults.exclude],
+      exclude: ['infrastructure/**', 'src/test/**', 'cdk.out/**', 'src/main.tsx', ...coverageConfigDefaults.exclude],
     },
     exclude: [...configDefaults.exclude, 'e2e/*'],
   },

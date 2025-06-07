@@ -8,10 +8,21 @@ A React SPA front end application component for managing tasks like a hero.
 - **Vite** for fast development and build tooling
 - **Tailwind CSS** for utility-first styling
 - **shadcn/ui** for high-quality UI components
+- **React Query** for data fetching and state management
 - **Dark Mode** support with system preference detection
 - **Vitest** for unit testing
 - **ESLint** for code quality
 - **AWS CDK** for infrastructure as code deployment
+
+## Task List Page
+
+The application includes a Task List page that allows users to:
+
+- View all tasks in a list format sorted by due date
+- See which tasks are completed and which are overdue
+- Easily identify tasks without due dates
+- View a loading state while tasks are being fetched
+- See appropriate messages for empty states and errors
 
 ## Dark Mode
 
