@@ -45,16 +45,16 @@ export const TaskItem = ({ task }: TaskItemProps) => {
             <CircleIcon className="h-5 w-5 text-muted-foreground" />
           )}
         </div>
-        <div className="flex-grow">
+        <div className="flex-grow min-w-0">
           <h3 className={cn('text-md font-medium', task.isComplete && 'line-through text-muted-foreground')}>
             {task.title}
           </h3>
-          {task.detail && <p className="text-sm text-muted-foreground mt-1 max-w-sm truncate">{task.detail}</p>}
+          {task.detail && <div className="text-sm text-muted-foreground mt-1 truncate">{task.detail}</div>}
         </div>
         {formattedDueDate && (
           <div
             className={cn(
-              'text-xs px-2 py-1 rounded-full',
+              'text-xs px-2 py-1 rounded-full min-w-24 text-center',
               isOverdue ? 'bg-destructive/10 text-destructive' : 'bg-muted text-muted-foreground',
             )}
           >
