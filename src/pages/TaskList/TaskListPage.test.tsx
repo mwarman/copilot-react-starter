@@ -5,13 +5,18 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TaskListPage } from './TaskListPage';
 import { type Task } from '@/common/models/Task';
 
-// Mock the hook
+// Mock the hooks
 vi.mock('./hooks/useGetTasks', () => ({
   useGetTasks: vi.fn(),
 }));
 
-// Import the hook after mocking
+vi.mock('./hooks/useFilterTasks', () => ({
+  useFilterTasks: vi.fn(),
+}));
+
+// Import the hooks after mocking
 import { useGetTasks } from './hooks/useGetTasks';
+import { useFilterTasks } from './hooks/useFilterTasks';
 
 // Mock components
 vi.mock('./components/TaskList', () => ({
@@ -22,6 +27,27 @@ vi.mock('./components/TaskList', () => ({
           {task.title}
         </div>
       ))}
+    </div>
+  ),
+}));
+
+vi.mock('./components/TaskFilterBar', () => ({
+  TaskFilterBar: ({
+    filterText,
+    onFilterChange,
+    filteredCount,
+    totalCount,
+  }: {
+    filterText: string;
+    onFilterChange: (value: string) => void;
+    filteredCount: number;
+    totalCount: number;
+  }) => (
+    <div data-testid="task-filter-bar">
+      <input data-testid="filter-input" value={filterText} onChange={(e) => onFilterChange(e.target.value)} />
+      <div data-testid="filter-count">
+        {filteredCount} of {totalCount} items
+      </div>
     </div>
   ),
 }));
@@ -78,6 +104,15 @@ describe('TaskListPage', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
+    vi.mocked(useFilterTasks).mockReturnValue({
+      filteredTasks: [],
+      filterText: '',
+      setFilterText: vi.fn(),
+      filteredCount: 0,
+      totalCount: 0,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
     // Act
     render(
       <QueryClientProvider client={createQueryClient()}>
@@ -104,6 +139,15 @@ describe('TaskListPage', () => {
       data: undefined,
       error: mockError,
       refetch: mockRefetch,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
+    vi.mocked(useFilterTasks).mockReturnValue({
+      filteredTasks: [],
+      filterText: '',
+      setFilterText: vi.fn(),
+      filteredCount: 0,
+      totalCount: 0,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
@@ -142,6 +186,15 @@ describe('TaskListPage', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
+    vi.mocked(useFilterTasks).mockReturnValue({
+      filteredTasks: [],
+      filterText: '',
+      setFilterText: vi.fn(),
+      filteredCount: 0,
+      totalCount: 0,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
     // Act
     render(
       <QueryClientProvider client={createQueryClient()}>
@@ -161,6 +214,15 @@ describe('TaskListPage', () => {
       data: [],
       error: null,
       refetch: vi.fn(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
+    vi.mocked(useFilterTasks).mockReturnValue({
+      filteredTasks: [],
+      filterText: '',
+      setFilterText: vi.fn(),
+      filteredCount: 0,
+      totalCount: 0,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
@@ -194,6 +256,15 @@ describe('TaskListPage', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
 
+    vi.mocked(useFilterTasks).mockReturnValue({
+      filteredTasks: mockTasks,
+      filterText: '',
+      setFilterText: vi.fn(),
+      filteredCount: 2,
+      totalCount: 2,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
     // Act
     render(
       <QueryClientProvider client={createQueryClient()}>
@@ -207,5 +278,56 @@ describe('TaskListPage', () => {
     expect(screen.getAllByTestId('task-item')).toHaveLength(2);
     expect(screen.getByText('Task 1')).toBeInTheDocument();
     expect(screen.getByText('Task 2')).toBeInTheDocument();
+    expect(screen.getByTestId('task-filter-bar')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-count')).toHaveTextContent('2 of 2 items');
+  });
+
+  it('renders filtered tasks', () => {
+    // Arrange
+    const mockTasks: Task[] = [
+      { id: '1', title: 'Task 1', isComplete: false, detail: 'Description 1', dueAt: '2023-01-01' },
+      { id: '2', title: 'Task 2', isComplete: true, detail: 'Description 2', dueAt: '2023-01-02' },
+      { id: '3', title: 'Task 3', isComplete: false, detail: 'Another task', dueAt: '2023-01-03' },
+    ];
+
+    vi.mocked(useGetTasks).mockReturnValue({
+      isLoading: false,
+      isError: false,
+      data: mockTasks,
+      error: null,
+      refetch: vi.fn(),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
+    // Simulate filtered tasks (only Task 1)
+    const filteredTasks = [mockTasks[0]];
+    const mockSetFilterText = vi.fn();
+
+    vi.mocked(useFilterTasks).mockReturnValue({
+      filteredTasks: filteredTasks,
+      filterText: 'Task 1', // Filter term
+      setFilterText: mockSetFilterText,
+      filteredCount: 1,
+      totalCount: 3,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+
+    // Act
+    render(
+      <QueryClientProvider client={createQueryClient()}>
+        <TaskListPage />
+      </QueryClientProvider>,
+    );
+
+    // Assert
+    expect(screen.getByTestId('task-list')).toBeInTheDocument();
+    expect(screen.getAllByTestId('task-item')).toHaveLength(1);
+    expect(screen.getByText('Task 1')).toBeInTheDocument();
+    expect(screen.queryByText('Task 2')).not.toBeInTheDocument();
+    expect(screen.queryByText('Task 3')).not.toBeInTheDocument();
+    expect(screen.getByTestId('filter-count')).toHaveTextContent('1 of 3 items');
+
+    // Verify filter input has the correct value
+    expect(screen.getByTestId('filter-input')).toHaveValue('Task 1');
   });
 });

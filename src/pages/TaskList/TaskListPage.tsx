@@ -1,5 +1,7 @@
 import { useGetTasks } from './hooks/useGetTasks';
+import { useFilterTasks } from './hooks/useFilterTasks';
 import { TaskList } from './components/TaskList';
+import { TaskFilterBar } from './components/TaskFilterBar';
 import { Alert, AlertDescription, AlertTitle } from '@/common/components/ui/alert';
 import { Skeleton } from '@/common/components/ui/skeleton';
 import { AlertCircle, Info } from 'lucide-react';
@@ -7,9 +9,13 @@ import { AlertCircle, Info } from 'lucide-react';
 /**
  * Main page component for displaying the list of tasks.
  * Handles loading, empty, and error states.
+ * Supports filtering tasks by title and detail.
  */
 export const TaskListPage = () => {
   const { data: tasks, isLoading, isError, error, refetch } = useGetTasks();
+
+  // Initialize filtering with empty array if tasks aren't loaded yet
+  const { filteredTasks, filterText, setFilterText, filteredCount, totalCount } = useFilterTasks(tasks || []);
 
   // Loading state
   if (isLoading) {
@@ -63,7 +69,13 @@ export const TaskListPage = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-6">My Tasks</h1>
-      <TaskList tasks={tasks} />
+      <TaskFilterBar
+        filterText={filterText}
+        onFilterChange={setFilterText}
+        filteredCount={filteredCount}
+        totalCount={totalCount}
+      />
+      <TaskList tasks={filteredTasks} />
     </div>
   );
 };
