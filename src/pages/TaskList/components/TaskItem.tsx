@@ -1,6 +1,7 @@
 import { type Task } from '@/common/models/Task';
 import { format, isPast, isValid } from 'date-fns';
 import { CheckCircle2, AlertCircle, CircleIcon } from 'lucide-react';
+import { cn } from '@/common/utils/css';
 
 interface TaskItemProps {
   task: Task;
@@ -25,13 +26,14 @@ export const TaskItem = ({ task }: TaskItemProps) => {
 
   return (
     <div
-      className={`p-4 border rounded-md mb-2 transition-colors ${
+      className={cn(
+        'p-4 border rounded-md mb-2 transition-colors',
         task.isComplete
           ? 'bg-muted/50 border-muted'
           : isOverdue
           ? 'border-destructive/30 bg-destructive/5'
-          : 'border-border bg-background'
-      }`}
+          : 'border-border bg-background',
+      )}
     >
       <div className="flex items-center gap-3">
         <div className="flex-shrink-0">
@@ -44,16 +46,17 @@ export const TaskItem = ({ task }: TaskItemProps) => {
           )}
         </div>
         <div className="flex-grow">
-          <h3 className={`text-md font-medium ${task.isComplete ? 'line-through text-muted-foreground' : ''}`}>
+          <h3 className={cn('text-md font-medium', task.isComplete && 'line-through text-muted-foreground')}>
             {task.title}
           </h3>
           {task.detail && <p className="text-sm text-muted-foreground mt-1 max-w-sm truncate">{task.detail}</p>}
         </div>
         {formattedDueDate && (
           <div
-            className={`text-xs px-2 py-1 rounded-full ${
-              isOverdue ? 'bg-destructive/10 text-destructive' : 'bg-muted text-muted-foreground'
-            }`}
+            className={cn(
+              'text-xs px-2 py-1 rounded-full',
+              isOverdue ? 'bg-destructive/10 text-destructive' : 'bg-muted text-muted-foreground',
+            )}
           >
             {formattedDueDate}
           </div>
