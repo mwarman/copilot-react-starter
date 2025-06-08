@@ -15,7 +15,9 @@ export const TaskListPage = () => {
   const { data: tasks, isLoading, isError, error, refetch } = useGetTasks();
 
   // Initialize filtering with empty array if tasks aren't loaded yet
-  const { filteredTasks, filterText, setFilterText, filteredCount, totalCount } = useFilterTasks(tasks || []);
+  const { filteredTasks, filterText, setFilterText, filters, toggleFilter, filteredCount, totalCount } = useFilterTasks(
+    tasks || [],
+  );
 
   // Loading state
   if (isLoading) {
@@ -74,6 +76,8 @@ export const TaskListPage = () => {
         onFilterChange={setFilterText}
         filteredCount={filteredCount}
         totalCount={totalCount}
+        filters={filters}
+        onFilterToggle={toggleFilter}
       />
       <TaskList tasks={filteredTasks} />
     </div>

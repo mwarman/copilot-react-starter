@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import { TaskFilterBar } from './TaskFilterBar';
+import { type TaskFilters } from '../hooks/useFilterTasks';
 
 describe('TaskFilterBar', () => {
   const defaultProps = {
@@ -9,6 +10,12 @@ describe('TaskFilterBar', () => {
     onFilterChange: vi.fn(),
     filteredCount: 10,
     totalCount: 20,
+    filters: {
+      showComplete: false,
+      showIncomplete: false,
+      showOverdue: false,
+    } as TaskFilters,
+    onFilterToggle: vi.fn(),
   };
 
   beforeEach(() => {
@@ -70,5 +77,74 @@ describe('TaskFilterBar', () => {
 
     // Assert
     expect(defaultProps.onFilterChange).toHaveBeenCalledWith('');
+  });
+
+  it('should render all three filter buttons', () => {
+    // Arrange & Act
+    render(<TaskFilterBar {...defaultProps} />);
+
+    // Assert
+    expect(screen.getByTestId('filter-complete-button')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-incomplete-button')).toBeInTheDocument();
+    expect(screen.getByTestId('filter-overdue-button')).toBeInTheDocument();
+  });
+
+  it('should call onFilterToggle with correct filter name when Complete button is clicked', () => {
+    // Arrange
+    render(<TaskFilterBar {...defaultProps} />);
+    const completeButton = screen.getByTestId('filter-complete-button');
+
+    // Act
+    fireEvent.click(completeButton);
+
+    // Assert
+    expect(defaultProps.onFilterToggle).toHaveBeenCalledWith('showComplete');
+  });
+
+  it('should call onFilterToggle with correct filter name when Incomplete button is clicked', () => {
+    // Arrange
+    render(<TaskFilterBar {...defaultProps} />);
+    const incompleteButton = screen.getByTestId('filter-incomplete-button');
+
+    // Act
+    fireEvent.click(incompleteButton);
+
+    // Assert
+    expect(defaultProps.onFilterToggle).toHaveBeenCalledWith('showIncomplete');
+  });
+
+  it('should call onFilterToggle with correct filter name when Overdue button is clicked', () => {
+    // Arrange
+    render(<TaskFilterBar {...defaultProps} />);
+    const overdueButton = screen.getByTestId('filter-overdue-button');
+
+    // Act
+    fireEvent.click(overdueButton);
+
+    // Assert
+    expect(defaultProps.onFilterToggle).toHaveBeenCalledWith('showOverdue');
+  });
+
+  it('should display active state for filter buttons when corresponding filter is active', () => {
+    // Arrange & Act
+    render(
+      <TaskFilterBar
+        {...defaultProps}
+        filters={{
+          showComplete: true,
+          showIncomplete: false,
+          showOverdue: false,
+        }}
+      />,
+    );
+
+    // Assert
+    const completeButton = screen.getByTestId('filter-complete-button');
+    expect(completeButton).toHaveClass('bg-primary');
+    expect(completeButton).toHaveAttribute('aria-pressed', 'true');
+
+    const incompleteButton = screen.getByTestId('filter-incomplete-button');
+    expect(incompleteButton).not.toHaveClass('bg-primary');
+    expect(incompleteButton).toHaveAttribute('aria-pressed', 'false');
   });
 });

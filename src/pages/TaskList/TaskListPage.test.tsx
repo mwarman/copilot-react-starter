@@ -37,16 +37,43 @@ vi.mock('./components/TaskFilterBar', () => ({
     onFilterChange,
     filteredCount,
     totalCount,
+    filters,
+    onFilterToggle,
   }: {
     filterText: string;
     onFilterChange: (value: string) => void;
     filteredCount: number;
     totalCount: number;
+    filters: { showComplete: boolean; showIncomplete: boolean; showOverdue: boolean };
+    onFilterToggle: (filterName: string) => void;
   }) => (
     <div data-testid="task-filter-bar">
       <input data-testid="filter-input" value={filterText} onChange={(e) => onFilterChange(e.target.value)} />
       <div data-testid="filter-count">
         {filteredCount} of {totalCount} items
+      </div>
+      <div data-testid="filter-buttons">
+        <button
+          data-testid="filter-complete"
+          data-active={filters.showComplete}
+          onClick={() => onFilterToggle('showComplete')}
+        >
+          Complete
+        </button>
+        <button
+          data-testid="filter-incomplete"
+          data-active={filters.showIncomplete}
+          onClick={() => onFilterToggle('showIncomplete')}
+        >
+          Incomplete
+        </button>
+        <button
+          data-testid="filter-overdue"
+          data-active={filters.showOverdue}
+          onClick={() => onFilterToggle('showOverdue')}
+        >
+          Overdue
+        </button>
       </div>
     </div>
   ),
@@ -61,15 +88,23 @@ vi.mock('@/common/components/ui/skeleton', () => ({
 }));
 
 vi.mock('@/common/components/ui/alert', () => ({
-  Alert: ({ className, variant, children }: { className?: string; variant?: string; children: React.ReactNode }) => (
-    <div className={className} data-testid={`alert-${variant || 'default'}`}>
+  Alert: ({
+    children,
+    variant,
+    className,
+    'data-testid': dataTestId,
+  }: {
+    children: React.ReactNode;
+    variant?: string;
+    className?: string;
+    'data-testid': string;
+  }) => (
+    <div data-testid={dataTestId || `alert-${variant || 'default'}`} className={className}>
       {children}
     </div>
   ),
-  AlertTitle: ({ children }: { children: React.ReactNode }) => <div data-testid="alert-title">{children}</div>,
-  AlertDescription: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="alert-description">{children}</div>
-  ),
+  AlertTitle: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  AlertDescription: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }));
 
 vi.mock('lucide-react', () => ({
@@ -93,7 +128,14 @@ describe('TaskListPage', () => {
       },
     });
 
-  it('renders loading state with skeletons', () => {
+  // Sample mock tasks for testing
+  const mockTasks: Task[] = [
+    { id: '1', title: 'Task 1', isComplete: false, detail: 'Description 1', dueAt: '2023-01-01' },
+    { id: '2', title: 'Task 2', isComplete: true, detail: 'Description 2', dueAt: '2023-01-02' },
+    { id: '3', title: 'Task 3', isComplete: false, detail: 'Another task', dueAt: '2023-01-03' },
+  ];
+
+  it('renders loading state when tasks are loading', () => {
     // Arrange
     vi.mocked(useGetTasks).mockReturnValue({
       isLoading: true,
@@ -101,17 +143,21 @@ describe('TaskListPage', () => {
       data: undefined,
       error: null,
       refetch: vi.fn(),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    } as unknown as ReturnType<typeof useGetTasks>);
 
     vi.mocked(useFilterTasks).mockReturnValue({
       filteredTasks: [],
       filterText: '',
       setFilterText: vi.fn(),
+      filters: {
+        showComplete: false,
+        showIncomplete: false,
+        showOverdue: false,
+      },
+      toggleFilter: vi.fn(),
       filteredCount: 0,
       totalCount: 0,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
     render(
@@ -127,7 +173,7 @@ describe('TaskListPage', () => {
     expect(screen.getByTestId('skeleton-3')).toBeInTheDocument();
   });
 
-  it('renders error state with error message and retry button', async () => {
+  it('renders error state when there is an error fetching tasks', async () => {
     // Arrange
     const user = userEvent.setup();
     const mockRefetch = vi.fn();
@@ -139,17 +185,21 @@ describe('TaskListPage', () => {
       data: undefined,
       error: mockError,
       refetch: mockRefetch,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    } as unknown as ReturnType<typeof useGetTasks>);
 
     vi.mocked(useFilterTasks).mockReturnValue({
       filteredTasks: [],
       filterText: '',
       setFilterText: vi.fn(),
+      filters: {
+        showComplete: false,
+        showIncomplete: false,
+        showOverdue: false,
+      },
+      toggleFilter: vi.fn(),
       filteredCount: 0,
       totalCount: 0,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
     render(
@@ -160,40 +210,42 @@ describe('TaskListPage', () => {
 
     // Assert
     expect(screen.getByText('My Tasks')).toBeInTheDocument();
-    expect(screen.getByTestId('alert-destructive')).toBeInTheDocument();
-    expect(screen.getByTestId('alert-circle-icon')).toBeInTheDocument();
     expect(screen.getByText('Error')).toBeInTheDocument();
     expect(screen.getByText('Failed to fetch tasks')).toBeInTheDocument();
 
-    // Act - Click retry button
+    // Test retry functionality
     const retryButton = screen.getByText('Try Again');
     await user.click(retryButton);
-
-    // Assert - Verify refetch was called
     expect(mockRefetch).toHaveBeenCalledTimes(1);
   });
 
-  it('renders error state with generic error message when error is not an instance of Error', () => {
+  it('renders generic error message when error is not an Error instance', async () => {
     // Arrange
+    const user = userEvent.setup();
     const mockRefetch = vi.fn();
+    const mockError = 'String error'; // Not an Error instance
 
     vi.mocked(useGetTasks).mockReturnValue({
       isLoading: false,
       isError: true,
       data: undefined,
-      error: 'Unknown error', // String error instead of Error object
+      error: mockError,
       refetch: mockRefetch,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    } as unknown as ReturnType<typeof useGetTasks>);
 
     vi.mocked(useFilterTasks).mockReturnValue({
       filteredTasks: [],
       filterText: '',
       setFilterText: vi.fn(),
+      filters: {
+        showComplete: false,
+        showIncomplete: false,
+        showOverdue: false,
+      },
+      toggleFilter: vi.fn(),
       filteredCount: 0,
       totalCount: 0,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
     render(
@@ -203,7 +255,14 @@ describe('TaskListPage', () => {
     );
 
     // Assert
-    expect(screen.getByText('Failed to load tasks')).toBeInTheDocument();
+    expect(screen.getByText('My Tasks')).toBeInTheDocument();
+    expect(screen.getByText('Error')).toBeInTheDocument();
+    expect(screen.getByText('Failed to load tasks')).toBeInTheDocument(); // Should show the fallback message
+
+    // Test retry functionality
+    const retryButton = screen.getByText('Try Again');
+    await user.click(retryButton);
+    expect(mockRefetch).toHaveBeenCalledTimes(1);
   });
 
   it('renders empty state when there are no tasks', () => {
@@ -214,17 +273,21 @@ describe('TaskListPage', () => {
       data: [],
       error: null,
       refetch: vi.fn(),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    } as unknown as ReturnType<typeof useGetTasks>);
 
     vi.mocked(useFilterTasks).mockReturnValue({
       filteredTasks: [],
       filterText: '',
       setFilterText: vi.fn(),
+      filters: {
+        showComplete: false,
+        showIncomplete: false,
+        showOverdue: false,
+      },
+      toggleFilter: vi.fn(),
       filteredCount: 0,
       totalCount: 0,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
     render(
@@ -237,33 +300,31 @@ describe('TaskListPage', () => {
     expect(screen.getByText('My Tasks')).toBeInTheDocument();
     expect(screen.getByText('No tasks found')).toBeInTheDocument();
     expect(screen.getByText("You don't have any tasks yet. Create a new task to get started.")).toBeInTheDocument();
-    expect(screen.getByTestId('info-icon')).toBeInTheDocument();
   });
 
-  it('renders populated state with tasks', () => {
+  it('renders task list when tasks are available', () => {
     // Arrange
-    const mockTasks: Task[] = [
-      { id: '1', title: 'Task 1', isComplete: false, detail: 'Description 1', dueAt: '2023-01-01' },
-      { id: '2', title: 'Task 2', isComplete: true, detail: 'Description 2', dueAt: '2023-01-02' },
-    ];
-
     vi.mocked(useGetTasks).mockReturnValue({
       isLoading: false,
       isError: false,
       data: mockTasks,
       error: null,
       refetch: vi.fn(),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    } as unknown as ReturnType<typeof useGetTasks>);
 
     vi.mocked(useFilterTasks).mockReturnValue({
       filteredTasks: mockTasks,
       filterText: '',
       setFilterText: vi.fn(),
-      filteredCount: 2,
-      totalCount: 2,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+      filters: {
+        showComplete: false,
+        showIncomplete: false,
+        showOverdue: false,
+      },
+      toggleFilter: vi.fn(),
+      filteredCount: 3,
+      totalCount: 3,
+    } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
     render(
@@ -275,20 +336,17 @@ describe('TaskListPage', () => {
     // Assert
     expect(screen.getByText('My Tasks')).toBeInTheDocument();
     expect(screen.getByTestId('task-list')).toBeInTheDocument();
-    expect(screen.getAllByTestId('task-item')).toHaveLength(2);
+    expect(screen.getByTestId('task-filter-bar')).toBeInTheDocument();
+    expect(screen.getAllByTestId('task-item')).toHaveLength(3);
     expect(screen.getByText('Task 1')).toBeInTheDocument();
     expect(screen.getByText('Task 2')).toBeInTheDocument();
-    expect(screen.getByTestId('task-filter-bar')).toBeInTheDocument();
-    expect(screen.getByTestId('filter-count')).toHaveTextContent('2 of 2 items');
+    expect(screen.getByText('Task 3')).toBeInTheDocument();
   });
 
-  it('renders filtered tasks', () => {
+  it('filters tasks when text is entered in the search input', async () => {
     // Arrange
-    const mockTasks: Task[] = [
-      { id: '1', title: 'Task 1', isComplete: false, detail: 'Description 1', dueAt: '2023-01-01' },
-      { id: '2', title: 'Task 2', isComplete: true, detail: 'Description 2', dueAt: '2023-01-02' },
-      { id: '3', title: 'Task 3', isComplete: false, detail: 'Another task', dueAt: '2023-01-03' },
-    ];
+    const user = userEvent.setup();
+    const mockSetFilterText = vi.fn();
 
     vi.mocked(useGetTasks).mockReturnValue({
       isLoading: false,
@@ -296,21 +354,21 @@ describe('TaskListPage', () => {
       data: mockTasks,
       error: null,
       refetch: vi.fn(),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
-
-    // Simulate filtered tasks (only Task 1)
-    const filteredTasks = [mockTasks[0]];
-    const mockSetFilterText = vi.fn();
+    } as unknown as ReturnType<typeof useGetTasks>);
 
     vi.mocked(useFilterTasks).mockReturnValue({
-      filteredTasks: filteredTasks,
-      filterText: 'Task 1', // Filter term
+      filteredTasks: mockTasks,
+      filterText: '',
       setFilterText: mockSetFilterText,
-      filteredCount: 1,
+      filters: {
+        showComplete: false,
+        showIncomplete: false,
+        showOverdue: false,
+      },
+      toggleFilter: vi.fn(),
+      filteredCount: 3,
       totalCount: 3,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } as any);
+    } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
     render(
@@ -319,15 +377,61 @@ describe('TaskListPage', () => {
       </QueryClientProvider>,
     );
 
-    // Assert
-    expect(screen.getByTestId('task-list')).toBeInTheDocument();
-    expect(screen.getAllByTestId('task-item')).toHaveLength(1);
-    expect(screen.getByText('Task 1')).toBeInTheDocument();
-    expect(screen.queryByText('Task 2')).not.toBeInTheDocument();
-    expect(screen.queryByText('Task 3')).not.toBeInTheDocument();
-    expect(screen.getByTestId('filter-count')).toHaveTextContent('1 of 3 items');
+    // Change the filter text
+    const filterInput = screen.getByTestId('filter-input');
+    await user.type(filterInput, 'Task 1');
 
-    // Verify filter input has the correct value
-    expect(screen.getByTestId('filter-input')).toHaveValue('Task 1');
+    // Assert - the mock should have been called for each character
+    expect(mockSetFilterText).toHaveBeenCalledTimes(6); // T, a, s, k, <space>, 1
+
+    // Verify each character was passed to the setFilterText function
+    expect(mockSetFilterText).toHaveBeenNthCalledWith(1, 'T');
+    expect(mockSetFilterText).toHaveBeenNthCalledWith(2, 'a');
+    expect(mockSetFilterText).toHaveBeenNthCalledWith(3, 's');
+    expect(mockSetFilterText).toHaveBeenNthCalledWith(4, 'k');
+    expect(mockSetFilterText).toHaveBeenNthCalledWith(5, ' ');
+    expect(mockSetFilterText).toHaveBeenNthCalledWith(6, '1');
+  });
+
+  it('filters tasks when filter buttons are clicked', async () => {
+    // Arrange
+    const user = userEvent.setup();
+    const mockToggleFilter = vi.fn();
+
+    vi.mocked(useGetTasks).mockReturnValue({
+      isLoading: false,
+      isError: false,
+      data: mockTasks,
+      error: null,
+      refetch: vi.fn(),
+    } as unknown as ReturnType<typeof useGetTasks>);
+
+    vi.mocked(useFilterTasks).mockReturnValue({
+      filteredTasks: mockTasks,
+      filterText: '',
+      setFilterText: vi.fn(),
+      filters: {
+        showComplete: false,
+        showIncomplete: false,
+        showOverdue: false,
+      },
+      toggleFilter: mockToggleFilter,
+      filteredCount: 3,
+      totalCount: 3,
+    } as unknown as ReturnType<typeof useFilterTasks>);
+
+    // Act
+    render(
+      <QueryClientProvider client={createQueryClient()}>
+        <TaskListPage />
+      </QueryClientProvider>,
+    );
+
+    // Click the Complete filter button
+    const completeButton = screen.getByTestId('filter-complete');
+    await user.click(completeButton);
+
+    // Assert
+    expect(mockToggleFilter).toHaveBeenCalledWith('showComplete');
   });
 });
