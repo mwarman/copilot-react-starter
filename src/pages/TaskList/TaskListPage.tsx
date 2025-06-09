@@ -4,7 +4,9 @@ import { TaskList } from './components/TaskList';
 import { TaskFilterBar } from './components/TaskFilterBar';
 import { Alert, AlertDescription, AlertTitle } from '@/common/components/ui/alert';
 import { Skeleton } from '@/common/components/ui/skeleton';
-import { AlertCircle, Info } from 'lucide-react';
+import { AlertCircle, Info, Plus } from 'lucide-react';
+import { Button } from '@/common/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Main page component for displaying the list of tasks.
@@ -12,6 +14,7 @@ import { AlertCircle, Info } from 'lucide-react';
  * Supports filtering tasks by title and detail.
  */
 export const TaskListPage = () => {
+  const navigate = useNavigate();
   const { data: tasks, isLoading, isError, error, refetch } = useGetTasks();
 
   // Initialize filtering with empty array if tasks aren't loaded yet
@@ -57,7 +60,13 @@ export const TaskListPage = () => {
   if (!tasks || tasks.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-6">My Tasks</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">My Tasks</h1>
+          <Button onClick={() => navigate('/tasks/create')} className="flex items-center gap-1">
+            <Plus className="h-4 w-4" />
+            Create Task
+          </Button>
+        </div>
         <Alert className="mb-6">
           <Info className="h-4 w-4" />
           <AlertTitle>No tasks found</AlertTitle>
@@ -70,7 +79,13 @@ export const TaskListPage = () => {
   // Populated state
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">My Tasks</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">My Tasks</h1>
+        <Button onClick={() => navigate('/tasks/create')} className="flex items-center gap-1">
+          <Plus className="h-4 w-4" />
+          Create Task
+        </Button>
+      </div>
       <TaskFilterBar
         filterText={filterText}
         onFilterChange={setFilterText}

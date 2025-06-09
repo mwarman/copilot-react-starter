@@ -4,6 +4,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TaskListPage } from './TaskListPage';
 import { type Task } from '@/common/models/Task';
+import { MemoryRouter } from 'react-router-dom';
 
 // Mock the hooks
 vi.mock('./hooks/useGetTasks', () => ({
@@ -110,6 +111,7 @@ vi.mock('@/common/components/ui/alert', () => ({
 vi.mock('lucide-react', () => ({
   AlertCircle: () => <div data-testid="alert-circle-icon">Alert Icon</div>,
   Info: () => <div data-testid="info-icon">Info Icon</div>,
+  Plus: () => <div data-testid="plus-icon">Plus Icon</div>,
 }));
 
 describe('TaskListPage', () => {
@@ -127,6 +129,15 @@ describe('TaskListPage', () => {
         },
       },
     });
+
+  // Helper function to render with providers
+  const renderWithProviders = (ui: React.ReactElement) => {
+    return render(
+      <MemoryRouter>
+        <QueryClientProvider client={createQueryClient()}>{ui}</QueryClientProvider>
+      </MemoryRouter>,
+    );
+  };
 
   // Sample mock tasks for testing
   const mockTasks: Task[] = [
@@ -160,11 +171,7 @@ describe('TaskListPage', () => {
     } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
-    render(
-      <QueryClientProvider client={createQueryClient()}>
-        <TaskListPage />
-      </QueryClientProvider>,
-    );
+    renderWithProviders(<TaskListPage />);
 
     // Assert
     expect(screen.getByText('My Tasks')).toBeInTheDocument();
@@ -202,11 +209,7 @@ describe('TaskListPage', () => {
     } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
-    render(
-      <QueryClientProvider client={createQueryClient()}>
-        <TaskListPage />
-      </QueryClientProvider>,
-    );
+    renderWithProviders(<TaskListPage />);
 
     // Assert
     expect(screen.getByText('My Tasks')).toBeInTheDocument();
@@ -248,11 +251,7 @@ describe('TaskListPage', () => {
     } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
-    render(
-      <QueryClientProvider client={createQueryClient()}>
-        <TaskListPage />
-      </QueryClientProvider>,
-    );
+    renderWithProviders(<TaskListPage />);
 
     // Assert
     expect(screen.getByText('My Tasks')).toBeInTheDocument();
@@ -290,11 +289,7 @@ describe('TaskListPage', () => {
     } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
-    render(
-      <QueryClientProvider client={createQueryClient()}>
-        <TaskListPage />
-      </QueryClientProvider>,
-    );
+    renderWithProviders(<TaskListPage />);
 
     // Assert
     expect(screen.getByText('My Tasks')).toBeInTheDocument();
@@ -327,11 +322,7 @@ describe('TaskListPage', () => {
     } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
-    render(
-      <QueryClientProvider client={createQueryClient()}>
-        <TaskListPage />
-      </QueryClientProvider>,
-    );
+    renderWithProviders(<TaskListPage />);
 
     // Assert
     expect(screen.getByText('My Tasks')).toBeInTheDocument();
@@ -371,11 +362,7 @@ describe('TaskListPage', () => {
     } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
-    render(
-      <QueryClientProvider client={createQueryClient()}>
-        <TaskListPage />
-      </QueryClientProvider>,
-    );
+    renderWithProviders(<TaskListPage />);
 
     // Change the filter text
     const filterInput = screen.getByTestId('filter-input');
@@ -421,11 +408,7 @@ describe('TaskListPage', () => {
     } as unknown as ReturnType<typeof useFilterTasks>);
 
     // Act
-    render(
-      <QueryClientProvider client={createQueryClient()}>
-        <TaskListPage />
-      </QueryClientProvider>,
-    );
+    renderWithProviders(<TaskListPage />);
 
     // Click the Complete filter button
     const completeButton = screen.getByTestId('filter-complete');
