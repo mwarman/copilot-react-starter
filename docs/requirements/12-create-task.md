@@ -34,6 +34,9 @@ As a user, I want to create a new task with a title, optional details, and optio
 - Due Date: Optional, valid date format YYYY-MM-DD
 
 4. Submit the form data to the API endpoint `/tasks` (POST)
+
+- Use React Query to optimistically update the cached list of tasks
+
 5. Handle API responses:
 
 - On success (201): Navigate to the task list page
@@ -44,7 +47,7 @@ As a user, I want to create a new task with a title, optional details, and optio
 
 ### Technical Requirements
 
-1. Create form using React Hook Form with Zod validation
+1. Create form using React Hook Form with Zod validation following this [guide](https://ui.shadcn.com/docs/components/form)
 2. Use shadcn/ui components for the form elements
 3. Implement the form with TypeScript, ensuring type safety
 4. Create a custom hook for task creation API call using Axios and React Query
@@ -97,3 +100,7 @@ interface ErrorResponse {
 - [ ] API errors are displayed to the user
 - [ ] On successful task creation, user is redirected to the task list
 - [ ] User can cancel task creation and return to the task list
+
+## References
+
+- [shadcn React Hook Form guide](https://ui.shadcn.com/docs/components/form)
