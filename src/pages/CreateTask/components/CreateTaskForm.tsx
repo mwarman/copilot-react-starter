@@ -119,7 +119,7 @@ export const CreateTaskForm = () => {
                       mode="single"
                       selected={field.value ? new Date(field.value) : undefined}
                       onSelect={(date) => {
-                        field.onChange(date ? date.toISOString().split('T')[0] : '');
+                        field.onChange(date ? date.toISOString() : '');
                         setCalendarOpen(false);
                       }}
                       disabled={isPending}
