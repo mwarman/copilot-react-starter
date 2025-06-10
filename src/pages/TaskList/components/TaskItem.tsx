@@ -2,6 +2,7 @@ import { type Task } from '@/common/models/Task';
 import { format, isPast, isValid } from 'date-fns';
 import { CheckCircle2, AlertCircle, CircleIcon } from 'lucide-react';
 import { cn } from '@/common/utils/css';
+import { useNavigate } from 'react-router-dom';
 
 interface TaskItemProps {
   task: Task;
@@ -10,8 +11,11 @@ interface TaskItemProps {
 /**
  * Component to display an individual task item.
  * Shows task title, completion status, and due date.
+ * Navigates to task detail page when clicked.
  */
 export const TaskItem = ({ task }: TaskItemProps) => {
+  const navigate = useNavigate();
+
   // Format the due date if it exists
   const formattedDueDate = task.dueAt
     ? isValid(new Date(task.dueAt))
@@ -27,13 +31,15 @@ export const TaskItem = ({ task }: TaskItemProps) => {
   return (
     <div
       className={cn(
-        'p-4 border rounded-md mb-2 transition-colors',
+        'p-4 border rounded-md mb-2 transition-colors cursor-pointer hover:border-primary/50',
         task.isComplete
           ? 'bg-muted/50 border-muted'
           : isOverdue
           ? 'border-destructive/30 bg-destructive/5'
           : 'border-border bg-background',
       )}
+      onClick={() => navigate(`/tasks/${task.id}`)}
+      data-testid="task-item"
     >
       <div className="flex items-center gap-3">
         <div className="flex-shrink-0">

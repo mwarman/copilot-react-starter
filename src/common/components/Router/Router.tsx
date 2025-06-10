@@ -5,6 +5,7 @@ import { Skeleton } from '@/common/components/ui/skeleton';
 // Lazy load pages for code splitting
 const TaskListPage = lazy(() => import('@/pages/TaskList/TaskListPage'));
 const CreateTaskPage = lazy(() => import('@/pages/CreateTask/CreateTaskPage'));
+const TaskDetailPage = lazy(() => import('@/pages/TaskDetail/TaskDetailPage'));
 
 /**
  * Loading fallback component shown while lazy-loaded routes are being loaded
@@ -32,6 +33,9 @@ export const Router = () => {
 
           {/* Create task route */}
           <Route path="/tasks/create" element={<CreateTaskPage />} />
+
+          {/* Task detail route */}
+          <Route path="/tasks/:taskId" element={<TaskDetailPage />} />
 
           {/* Fallback for unknown routes */}
           <Route path="*" element={<Navigate to="/tasks" replace />} />

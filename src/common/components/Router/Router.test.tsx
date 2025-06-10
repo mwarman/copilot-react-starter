@@ -26,6 +26,7 @@ describe('Router', () => {
     render(<Router />);
 
     // Assert
-    expect(screen.getAllByText('Route').length).toBeGreaterThan(0);
+    // We expect 5 routes: redirect from root, tasks list, create task, task detail, and fallback
+    expect(screen.getAllByText('Route').length).toBe(5);
   });
 });

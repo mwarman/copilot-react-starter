@@ -1,11 +1,17 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { TaskItem } from './TaskItem';
 import { type Task } from '@/common/models/Task';
 import { format, addDays, subDays } from 'date-fns';
+import userEvent from '@testing-library/user-event';
+
+// Mock react-router-dom
+const mockNavigate = vi.fn();
+vi.mock('react-router-dom', () => ({
+  useNavigate: () => mockNavigate,
+}));
 
 // Mock the Lucide React icons
-import { vi } from 'vitest';
 vi.mock('lucide-react', () => ({
   CheckCircle2: () => <div data-testid="check-circle-icon">CheckCircle2</div>,
   AlertCircle: () => <div data-testid="alert-circle-icon">AlertCircle</div>,
@@ -101,5 +107,18 @@ describe('TaskItem', () => {
     expect(screen.getByText('Task Without Due Date')).toBeInTheDocument();
     expect(screen.getByTestId('circle-icon')).toBeInTheDocument();
     expect(screen.queryByText(/\w+ \d+, \d{4}/)).not.toBeInTheDocument(); // No date should be shown
+  });
+
+  it('navigates to task detail page when clicked', async () => {
+    // Arrange
+    const user = userEvent.setup();
+
+    // Act
+    render(<TaskItem task={upcomingTask} />);
+    const taskItem = screen.getByTestId('task-item');
+    await user.click(taskItem);
+
+    // Assert
+    expect(mockNavigate).toHaveBeenCalledWith(`/tasks/${upcomingTask.id}`);
   });
 });

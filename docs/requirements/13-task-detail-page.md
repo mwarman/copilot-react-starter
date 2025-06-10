@@ -22,7 +22,7 @@ The Task Detail Page will display comprehensive information about a single task,
 
 ### Data Fetching
 
-- Fetch task data from the API endpoint: `GET /task/{taskId}`
+- Fetch task data from the API endpoint: `GET /tasks/{taskId}`
 - Implement React Query to manage the API request state and data caching
 - Display appropriate loading state while the data is being fetched
 - Handle and display error states if the API request fails
