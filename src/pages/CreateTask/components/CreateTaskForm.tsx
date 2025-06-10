@@ -39,7 +39,6 @@ export const CreateTaskForm = () => {
   });
 
   const onSubmit = (data: CreateTaskFormData) => {
-    console.log('Form submitted with data:', data);
     mutate(data, {
       onSuccess: () => {
         navigate('/tasks');
