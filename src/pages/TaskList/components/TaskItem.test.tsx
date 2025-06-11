@@ -11,11 +11,14 @@ vi.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }));
 
-// Mock the Lucide React icons
-vi.mock('lucide-react', () => ({
-  CheckCircle2: () => <div data-testid="check-circle-icon">CheckCircle2</div>,
-  AlertCircle: () => <div data-testid="alert-circle-icon">AlertCircle</div>,
-  CircleIcon: () => <div data-testid="circle-icon">CircleIcon</div>,
+// Mock the toggle task complete hook
+const mockMutate = vi.fn();
+vi.mock('@/common/hooks/useToggleTaskComplete', () => ({
+  useToggleTaskComplete: () => ({
+    mutate: mockMutate,
+    isLoading: false,
+    isError: false,
+  }),
 }));
 
 describe('TaskItem', () => {
@@ -61,7 +64,11 @@ describe('TaskItem', () => {
     // Assert
     expect(screen.getByText('Completed Task')).toBeInTheDocument();
     expect(screen.getByText('This is a completed task')).toBeInTheDocument();
-    expect(screen.getByTestId('check-circle-icon')).toBeInTheDocument();
+
+    // Check for checkbox being checked
+    const checkbox = screen.getByTestId('task-checkbox');
+    expect(checkbox).toHaveAttribute('aria-checked', 'true');
+
     expect(screen.getByText(format(baseDate, 'MMM d, yyyy'))).toBeInTheDocument();
 
     // Check for line-through style on completed task
@@ -75,7 +82,11 @@ describe('TaskItem', () => {
 
     // Assert
     expect(screen.getByText('Overdue Task')).toBeInTheDocument();
-    expect(screen.getByTestId('alert-circle-icon')).toBeInTheDocument();
+
+    // Check that checkbox is not checked for overdue task
+    const checkbox = screen.getByTestId('task-checkbox');
+    expect(checkbox).toHaveAttribute('aria-checked', 'false');
+
     expect(screen.getByText(format(yesterday, 'MMM d, yyyy'))).toBeInTheDocument();
 
     // Check for overdue styling
@@ -94,8 +105,11 @@ describe('TaskItem', () => {
     // Assert
     expect(screen.getByText('Upcoming Task')).toBeInTheDocument();
     expect(screen.getByText('This is an upcoming task')).toBeInTheDocument();
-    // Check for the alert circle icon because the date is in the past relative to the current date
-    expect(screen.getByTestId('alert-circle-icon')).toBeInTheDocument();
+
+    // Check that checkbox is not checked for upcoming task
+    const checkbox = screen.getByTestId('task-checkbox');
+    expect(checkbox).toHaveAttribute('aria-checked', 'false');
+
     expect(screen.getByText(format(tomorrow, 'MMM d, yyyy'))).toBeInTheDocument();
   });
 
@@ -105,7 +119,11 @@ describe('TaskItem', () => {
 
     // Assert
     expect(screen.getByText('Task Without Due Date')).toBeInTheDocument();
-    expect(screen.getByTestId('circle-icon')).toBeInTheDocument();
+
+    // Check that checkbox is not checked for task without due date
+    const checkbox = screen.getByTestId('task-checkbox');
+    expect(checkbox).toHaveAttribute('aria-checked', 'false');
+
     expect(screen.queryByText(/\w+ \d+, \d{4}/)).not.toBeInTheDocument(); // No date should be shown
   });
 
@@ -120,5 +138,36 @@ describe('TaskItem', () => {
 
     // Assert
     expect(mockNavigate).toHaveBeenCalledWith(`/tasks/${upcomingTask.id}`);
+  });
+
+  it('toggles task completion when the checkbox is clicked', async () => {
+    // Arrange
+    const user = userEvent.setup();
+    mockMutate.mockClear();
+
+    // Act
+    render(<TaskItem task={upcomingTask} />);
+    const checkbox = screen.getByTestId('task-checkbox');
+    await user.click(checkbox);
+
+    // Assert
+    expect(mockMutate).toHaveBeenCalledWith({
+      taskId: upcomingTask.id,
+      isComplete: true, // Should toggle from false to true
+    });
+  });
+
+  it('prevents navigation when clicking the checkbox', async () => {
+    // Arrange
+    const user = userEvent.setup();
+    mockNavigate.mockClear();
+
+    // Act
+    render(<TaskItem task={upcomingTask} />);
+    const checkbox = screen.getByTestId('task-checkbox');
+    await user.click(checkbox);
+
+    // Assert
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });

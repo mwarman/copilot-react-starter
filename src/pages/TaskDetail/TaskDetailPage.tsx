@@ -3,9 +3,11 @@ import { useGetTask } from './hooks/useGetTask';
 import { Button } from '@/common/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/common/components/ui/alert';
 import { Skeleton } from '@/common/components/ui/skeleton';
+import { Checkbox } from '@/common/components/ui/checkbox';
 import { AlertCircle, ArrowLeft, CheckCircle, Info } from 'lucide-react';
 import { formatDistanceToNow, format, isPast, isValid } from 'date-fns';
 import { cn } from '@/common/utils/css';
+import { useToggleTaskComplete } from '@/common/hooks/useToggleTaskComplete';
 
 /**
  * Task Detail Page component.
@@ -16,10 +18,21 @@ export const TaskDetailPage = () => {
   const { taskId } = useParams<{ taskId: string }>();
   const navigate = useNavigate();
   const { data: task, isLoading, isError, error } = useGetTask(taskId || '');
+  const toggleComplete = useToggleTaskComplete();
 
   // Helper function to navigate back to task list
   const goBackToList = () => {
     navigate('/tasks');
+  };
+
+  // Handle task completion toggle
+  const handleToggleComplete = () => {
+    if (task) {
+      toggleComplete.mutate({
+        taskId: task.id,
+        isComplete: !task.isComplete,
+      });
+    }
   };
 
   // Loading state
@@ -156,6 +169,24 @@ export const TaskDetailPage = () => {
 
         {/* Task ID for reference */}
         <div className="mt-6 text-xs text-muted-foreground">Task ID: {task.id}</div>
+
+        {/* Toggle Completion */}
+        <div className="mt-6 flex items-center space-x-2">
+          <Checkbox
+            id="task-complete"
+            checked={task.isComplete}
+            onCheckedChange={handleToggleComplete}
+            disabled={toggleComplete.isPending}
+            className="h-5 w-5"
+            data-testid="task-complete-checkbox"
+          />
+          <label
+            htmlFor="task-complete"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            {task.isComplete ? 'Mark as incomplete' : 'Mark as complete'}
+          </label>
+        </div>
       </div>
     </div>
   );

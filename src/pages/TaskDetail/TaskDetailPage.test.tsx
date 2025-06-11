@@ -10,6 +10,16 @@ vi.mock('./hooks/useGetTask', () => ({
   useGetTask: vi.fn(),
 }));
 
+// Mock the useToggleTaskComplete hook
+const mockToggleMutate = vi.fn();
+vi.mock('@/common/hooks/useToggleTaskComplete', () => ({
+  useToggleTaskComplete: () => ({
+    mutate: mockToggleMutate,
+    isPending: false,
+    isError: false,
+  }),
+}));
+
 // Mock the router hooks
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', () => ({
@@ -174,6 +184,45 @@ describe('TaskDetailPage', () => {
     expect(screen.getByText('Completed')).toBeInTheDocument();
     const statusBadge = screen.getByText('Completed').closest('div');
     expect(statusBadge).toHaveClass('bg-green-100');
+
+    // Check that the checkbox is checked
+    const checkbox = screen.getByTestId('task-complete-checkbox');
+    expect(checkbox).toHaveAttribute('aria-checked', 'true');
+
+    // Check the checkbox label
+    expect(screen.getByText('Mark as incomplete')).toBeInTheDocument();
+  });
+
+  it('should toggle task status from complete to incomplete', async () => {
+    // Arrange
+    const mockCompletedTask = {
+      id: '123',
+      title: 'Completed Task',
+      detail: 'This task has been completed',
+      isComplete: true,
+      dueAt: '2030-12-31T23:59:59Z',
+    };
+
+    vi.mocked(useGetTask).mockReturnValue({
+      data: mockCompletedTask,
+      isLoading: false,
+      isError: false,
+      error: null,
+    } as ReturnType<typeof useGetTask>);
+
+    const user = userEvent.setup();
+    mockToggleMutate.mockClear();
+
+    // Act
+    renderWithProviders();
+    const checkbox = screen.getByTestId('task-complete-checkbox');
+    await user.click(checkbox);
+
+    // Assert
+    expect(mockToggleMutate).toHaveBeenCalledWith({
+      taskId: '123',
+      isComplete: false,
+    });
   });
 
   it('should display formatted due date correctly', () => {
@@ -225,6 +274,38 @@ describe('TaskDetailPage', () => {
     expect(screen.getByText(/In Progress/i)).toBeInTheDocument();
     expect(screen.getByText(/Task ID: 123/i)).toBeInTheDocument();
     expect(screen.getByText('No details provided')).toBeInTheDocument();
+  });
+
+  it('should toggle task completion status when checkbox is clicked', async () => {
+    // Arrange
+    const mockTask = {
+      id: '123',
+      title: 'Test Task',
+      detail: 'This is a test task description',
+      isComplete: false,
+      dueAt: '2030-12-31T23:59:59Z',
+    };
+
+    vi.mocked(useGetTask).mockReturnValue({
+      data: mockTask,
+      isLoading: false,
+      isError: false,
+      error: null,
+    } as ReturnType<typeof useGetTask>);
+
+    const user = userEvent.setup();
+    mockToggleMutate.mockClear();
+
+    // Act
+    renderWithProviders();
+    const checkbox = screen.getByTestId('task-complete-checkbox');
+    await user.click(checkbox);
+
+    // Assert
+    expect(mockToggleMutate).toHaveBeenCalledWith({
+      taskId: '123',
+      isComplete: true,
+    });
   });
 
   it('should handle a scenario with null task data gracefully', () => {

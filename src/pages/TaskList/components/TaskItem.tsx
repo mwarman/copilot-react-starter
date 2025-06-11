@@ -1,8 +1,9 @@
 import { type Task } from '@/common/models/Task';
 import { format, isPast, isValid } from 'date-fns';
-import { CheckCircle2, AlertCircle, CircleIcon } from 'lucide-react';
 import { cn } from '@/common/utils/css';
 import { useNavigate } from 'react-router-dom';
+import { useToggleTaskComplete } from '@/common/hooks/useToggleTaskComplete';
+import { Checkbox } from '@/common/components/ui/checkbox';
 
 interface TaskItemProps {
   task: Task;
@@ -28,6 +29,17 @@ export const TaskItem = ({ task }: TaskItemProps) => {
     ? !task.isComplete && isPast(new Date(task.dueAt)) && isValid(new Date(task.dueAt))
     : false;
 
+  const toggleComplete = useToggleTaskComplete();
+
+  // Handle checkbox click
+  const handleToggleComplete = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent navigation when clicking the checkbox
+    toggleComplete.mutate({
+      taskId: task.id,
+      isComplete: !task.isComplete,
+    });
+  };
+
   return (
     <div
       className={cn(
@@ -42,14 +54,13 @@ export const TaskItem = ({ task }: TaskItemProps) => {
       data-testid="task-item"
     >
       <div className="flex items-center gap-3">
-        <div className="flex-shrink-0">
-          {task.isComplete ? (
-            <CheckCircle2 className="h-5 w-5 text-primary" />
-          ) : isOverdue ? (
-            <AlertCircle className="h-5 w-5 text-destructive" />
-          ) : (
-            <CircleIcon className="h-5 w-5 text-muted-foreground" />
-          )}
+        <div className="flex-shrink-0" onClick={handleToggleComplete}>
+          <Checkbox
+            checked={task.isComplete}
+            className="h-5 w-5"
+            data-testid="task-checkbox"
+            aria-label={`Mark "${task.title}" as ${task.isComplete ? 'incomplete' : 'complete'}`}
+          />
         </div>
         <div className="flex-grow min-w-0">
           <h3 className={cn('text-md font-medium', task.isComplete && 'line-through text-muted-foreground')}>
