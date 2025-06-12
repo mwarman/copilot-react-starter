@@ -28,7 +28,7 @@ Install and configure **shadcn/ui** into the Vite React TypeScript project. The 
   "aliases": {
     "components": "@/common/components",
     "utils": "@/common/utils/css",
-    "ui": "@/common/ui",
+    "ui": "@/common/components/ui",
     "lib": "@/common/utils",
     "hooks": "@/common/hooks"
   },
