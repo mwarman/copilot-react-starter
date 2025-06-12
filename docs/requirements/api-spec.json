@@ -1,0 +1,953 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Copilot",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "{{baseUrl}}"
+    }
+  ],
+  "paths": {
+    "/tasks": {
+      "parameters": [],
+      "post": {
+        "summary": "/tasks",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "application/json"
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "85"
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "keep-alive"
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Sun, 01 Jun 2025 12:06:12 GMT"
+              },
+              "X-Amzn-Trace-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Root=1-683c4234-73d03eee17dd3c6d4baae032;Parent=670cfa89868b4990;Sampled=0;Lineage=1:90d8b10a:0"
+              },
+              "x-amzn-RequestId": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "9dad5502-9036-43c3-871b-a2fbf7d64bbe"
+              },
+              "x-amz-apigw-id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Le9IQGV0oAMEYlw="
+              },
+              "X-Cache": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Miss from cloudfront"
+              },
+              "Via": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "1.1 02b566b2fb37bbb2009a0a8acd8f37a4.cloudfront.net (CloudFront)"
+              },
+              "X-Amz-Cf-Pop": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "MIA3-P5"
+              },
+              "X-Amz-Cf-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "P585AGr9Nqd-Xw8iSPBvzxRNXeUQYtbj8kRDouUq-_MhSD5sP7bS3A=="
+              }
+            },
+            "description": "200 required request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "isComplete": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "application/json"
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "50"
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "keep-alive"
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Sun, 01 Jun 2025 12:10:11 GMT"
+              },
+              "X-Amzn-Trace-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Root=1-683c4323-43b1aec2065b4e604fdbb5d9;Parent=13c7562b7cccb3e2;Sampled=0;Lineage=1:90d8b10a:0"
+              },
+              "x-amzn-RequestId": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "c616217a-f3c9-4c15-8297-470ecb68cc40"
+              },
+              "x-amz-apigw-id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Le9tqGS-oAMEsyA="
+              },
+              "X-Cache": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Error from cloudfront"
+              },
+              "Via": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "1.1 a782b2219163c48526f5b10315d332fa.cloudfront.net (CloudFront)"
+              },
+              "X-Amz-Cf-Pop": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "MIA3-P5"
+              },
+              "X-Amz-Cf-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "_iOy7UC5D9jF4L9UfUHtCznOiTEgE2GKMXuPKJyIGS9XLmb2gb-SwQ=="
+              }
+            },
+            "description": "400 validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "style"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "detail": {
+                    "type": "string"
+                  },
+                  "dueAt": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "/tasks",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "application/json"
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "806"
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "keep-alive"
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Mon, 02 Jun 2025 19:52:19 GMT"
+              },
+              "X-Amzn-Trace-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Root=1-683e00f3-4830a3227507dc58641951eb;Parent=7c4bced645b39000;Sampled=0;Lineage=1:7318204e:0"
+              },
+              "x-amzn-RequestId": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "aa1d2d59-d80e-49ff-ba02-7d51f955cbb9"
+              },
+              "x-amz-apigw-id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "LjUWJG7ZIAMEHjg="
+              },
+              "X-Cache": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Miss from cloudfront"
+              },
+              "Via": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "1.1 a6d85ea59bcdf706b41bccb78ec2f8f2.cloudfront.net (CloudFront)"
+              },
+              "X-Amz-Cf-Pop": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "MIA3-P7"
+              },
+              "X-Amz-Cf-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "nr9yHADiLuTDV1uI_Gjcurl9AuQx_QsilagY1GEcxmKrJ9XXs4kC3A=="
+              }
+            },
+            "description": "200 success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "isComplete": {
+                        "type": "boolean"
+                      },
+                      "title": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tasks/{taskId}": {
+      "parameters": [
+        {
+          "name": "taskId",
+          "in": "path",
+          "required": true,
+          "description": "A task identifier.",
+          "example": "{{taskId}}",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "/tasks/:taskId",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "application/json"
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "149"
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "keep-alive"
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Tue, 03 Jun 2025 11:03:51 GMT"
+              },
+              "X-Amzn-Trace-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Root=1-683ed697-2a321064376577de32c0b204;Parent=04778df995246f91;Sampled=0;Lineage=1:1ed843c5:0"
+              },
+              "x-amzn-RequestId": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "112014cb-93be-44bb-9727-d369fdccf021"
+              },
+              "x-amz-apigw-id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "LlZ3sGCEIAMEscw="
+              },
+              "X-Cache": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Miss from cloudfront"
+              },
+              "Via": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "1.1 f50000a3304c60b500b512c9b33dfbf6.cloudfront.net (CloudFront)"
+              },
+              "X-Amz-Cf-Pop": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "MIA50-P3"
+              },
+              "X-Amz-Cf-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "_eJ7amrkdVQKxDNQZVWmV3pG00RQgJ49TEV7iD7MDTrVfiT0btj6NQ=="
+              }
+            },
+            "description": "200 success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "isComplete": {
+                      "type": "boolean"
+                    },
+                    "title": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "application/json"
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "72"
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "keep-alive"
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Tue, 03 Jun 2025 11:04:19 GMT"
+              },
+              "X-Amzn-Trace-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Root=1-683ed6b2-4c6c905a1f6a94b42128910f;Parent=0ea8dac77d42e1e3;Sampled=0;Lineage=1:1ed843c5:0"
+              },
+              "x-amzn-RequestId": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "0b28f0f5-92f3-4e5c-b43d-51c3300e79a2"
+              },
+              "x-amz-apigw-id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "LlZ8BHJZIAMEm2A="
+              },
+              "X-Cache": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Error from cloudfront"
+              },
+              "Via": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "1.1 f50000a3304c60b500b512c9b33dfbf6.cloudfront.net (CloudFront)"
+              },
+              "X-Amz-Cf-Pop": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "MIA50-P3"
+              },
+              "X-Amz-Cf-Id": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "4ZRN_wzXdHaaC-RAHgwNAnVK7eYAzQlRh8K6eWV4e1N8NpQoM2YvOw=="
+              }
+            },
+            "description": "404 not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "/tasks/:taskId",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "application/json"
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "307"
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "keep-alive"
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Tue, 03 Jun 2025 12:03:07 GMT"
+              },
+              "X-Amzn-Trace-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Root=1-683ee47b-430656be483c8c0e58b2be48;Parent=176ece02fc57180c;Sampled=0;Lineage=1:dc4c4450:0"
+              },
+              "x-amzn-RequestId": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "8af48b6a-8f67-4746-a1d5-0c0a38ce6350"
+              },
+              "x-amz-apigw-id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "LlijWFcWoAMEQaQ="
+              },
+              "X-Cache": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Miss from cloudfront"
+              },
+              "Via": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "1.1 fe0954a32773e551e518a3fa7b498388.cloudfront.net (CloudFront)"
+              },
+              "X-Amz-Cf-Pop": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "MIA50-P3"
+              },
+              "X-Amz-Cf-Id": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "9s6F_EFiX9ae5-wTOsirXVFk-_urhdHdvlQeRUq_UIKE9ZC5iVi3Xw=="
+              }
+            },
+            "description": "200 success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    },
+                    "dueAt": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "isComplete": {
+                      "type": "boolean"
+                    },
+                    "title": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "application/json"
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "73"
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "keep-alive"
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Tue, 03 Jun 2025 11:59:36 GMT"
+              },
+              "X-Amzn-Trace-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Root=1-683ee3a7-1693326c33be085d2a2f6185;Parent=3cff239171fb8eb7;Sampled=0;Lineage=1:dc4c4450:0"
+              },
+              "x-amzn-RequestId": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "4b5f676f-261d-4030-a9cf-7d9240c55d5a"
+              },
+              "x-amz-apigw-id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "LliCQG7koAMEIJQ="
+              },
+              "X-Cache": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Error from cloudfront"
+              },
+              "Via": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "1.1 1d0391bbfdc11bd51d0e04191d028e40.cloudfront.net (CloudFront)"
+              },
+              "X-Amz-Cf-Pop": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "MIA50-P3"
+              },
+              "X-Amz-Cf-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "zweVju7gR-m1Icpo04ynkL1K03PzVcfQXzbmVwhWkb5jSjER3uq0Og=="
+              }
+            },
+            "description": "400 validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "format": "style"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "application/json"
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "72"
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "keep-alive"
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Tue, 03 Jun 2025 12:24:30 GMT"
+              },
+              "X-Amzn-Trace-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Root=1-683ee97d-492981cf2d501bad34531ccd;Parent=153214ef8947147e;Sampled=0;Lineage=1:dc4c4450:0"
+              },
+              "x-amzn-RequestId": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "7b24653f-40c2-42f9-8850-1c6b00c35018"
+              },
+              "x-amz-apigw-id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "LllrsEVOoAMEjlA="
+              },
+              "X-Cache": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Error from cloudfront"
+              },
+              "Via": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "1.1 440457517fbe72e94f5d21f6aeaeb88c.cloudfront.net (CloudFront)"
+              },
+              "X-Amz-Cf-Pop": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "MIA50-P3"
+              },
+              "X-Amz-Cf-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "PeNwccstqAzAauaaH6MINA_NevYOpp-U7nUq4OHky6JBMuZLpoI2NQ=="
+              }
+            },
+            "description": "404 not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "/tasks/:taskId",
+        "parameters": [],
+        "responses": {
+          "204": {
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "application/json"
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "0"
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "keep-alive"
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Tue, 03 Jun 2025 12:57:41 GMT"
+              },
+              "X-Amzn-Trace-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Root=1-683ef145-47028070559357e264ff02c9;Parent=535f1dafac34cbe3;Sampled=0;Lineage=1:d4524f35:0"
+              },
+              "x-amzn-RequestId": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "18de441a-2ff7-4346-bab2-ffea56b61c03"
+              },
+              "x-amz-apigw-id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Llqi5GIMoAMEkwg="
+              },
+              "X-Cache": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Miss from cloudfront"
+              },
+              "Via": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "1.1 1b18517cf1d6db052e5c43a787c0c5a8.cloudfront.net (CloudFront)"
+              },
+              "X-Amz-Cf-Pop": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "MIA50-P3"
+              },
+              "X-Amz-Cf-Id": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "6ULbIEWDo8ocsH4zhxEp1ISk9LaZFOlCBAtmU3ZcBOQeyyO-dKoXtA=="
+              }
+            },
+            "description": "204 success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "headers": {
+              "Content-Type": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "application/json"
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "73"
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "keep-alive"
+              },
+              "Date": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Tue, 03 Jun 2025 12:57:23 GMT"
+              },
+              "X-Amzn-Trace-Id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Root=1-683ef133-14be07fc235c114a5a1cd780;Parent=6b5b9d0d2cd5ee24;Sampled=0;Lineage=1:d4524f35:0"
+              },
+              "x-amzn-RequestId": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "1d194e5f-9541-4851-9b32-b437d3685162"
+              },
+              "x-amz-apigw-id": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "LlqgCEkroAMEtnA="
+              },
+              "X-Cache": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "Error from cloudfront"
+              },
+              "Via": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "1.1 1b18517cf1d6db052e5c43a787c0c5a8.cloudfront.net (CloudFront)"
+              },
+              "X-Amz-Cf-Pop": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "MIA50-P3"
+              },
+              "X-Amz-Cf-Id": {
+                "schema": {
+                  "type": "integer"
+                },
+                "example": "9h4SNtrwANisGaYeePcArmxVPVhYRTLGz27fqQycKbvpIJaQXGVpNQ=="
+              }
+            },
+            "description": "404 not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
