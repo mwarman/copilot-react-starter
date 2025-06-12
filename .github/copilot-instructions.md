@@ -98,17 +98,19 @@ src
 
 /infrastructure
   /stacks
-    ApiStack.ts             # CDK stack for REST API + Lambdas
-  app.ts                    # CDK app entry point
+    frontend-stack.ts             # AWS CDK stack for frontend resources
+  app.ts                          # AWS CDK app entry point
+  cdk.json                        # AWS CDK configuration
+  tsconfig.json                   # TypeScript configuration for AWS CDK
+  package.json                    # Dependencies and scripts for AWS CDK infrastructure
 
-cdk.json                    # CDK config
-tsconfig.json               # TypeScript config
-vite.config.ts              # Vite config
-eslint.config.js            # ESLint config
-components.json             # shadcn/ui components config
-.nvmrc                      # npm config for package management
-package.json                # Project dependencies and scripts
-.env                        # Environment variables
+tsconfig.json                     # Main project TypeScript config
+vite.config.ts                    # Vite config
+eslint.config.js                  # ESLint config
+components.json                   # shadcn/ui components config
+.nvmrc                            # npm config for package management
+package.json                      # Project dependencies and scripts
+.env                              # Environment variables
 ```
 
 ---
@@ -197,7 +199,6 @@ export function useTask(id: string) {
   - **Arrange:** Set up the test environment and inputs.
   - **Act:** Call the function being tested.
   - **Assert:** Verify the output and side effects.
-- Use **msw** to mock API calls in tests.
 - Prefer unit tests over integration tests in this repo.
 
 ### File: `MyComponent.test.tsx`
