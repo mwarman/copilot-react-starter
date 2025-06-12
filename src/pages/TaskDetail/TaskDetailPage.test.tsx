@@ -20,6 +20,15 @@ vi.mock('@/common/hooks/useToggleTaskComplete', () => ({
   }),
 }));
 
+// Mock the DeleteTaskDialog component
+vi.mock('@/common/components/DeleteTaskDialog', () => ({
+  DeleteTaskDialog: ({ taskId, taskTitle }: { taskId: string; taskTitle: string }) => (
+    <button data-testid="mock-delete-button" data-task-id={taskId} data-task-title={taskTitle}>
+      Delete Task
+    </button>
+  ),
+}));
+
 // Mock the router hooks
 const mockNavigate = vi.fn();
 vi.mock('react-router-dom', () => ({
@@ -448,5 +457,57 @@ describe('TaskDetailPage', () => {
       useParams: () => ({ taskId: '123' }),
       useNavigate: () => mockNavigate,
     }));
+  });
+
+  it('should display task completion status', () => {
+    // Arrange
+    const mockCompletedTask = {
+      id: '123',
+      title: 'Completed Task',
+      detail: 'This task has been completed',
+      isComplete: true,
+      dueAt: '2030-12-31T23:59:59Z',
+    };
+
+    vi.mocked(useGetTask).mockReturnValue({
+      data: mockCompletedTask,
+      isLoading: false,
+      isError: false,
+      error: null,
+    } as ReturnType<typeof useGetTask>);
+
+    // Act
+    renderWithProviders();
+
+    // Assert
+    expect(screen.getByText(/Mark as incomplete/)).toBeInTheDocument();
+    expect(screen.getAllByText(/Completed/i)[0]).toBeInTheDocument();
+  });
+
+  it('should render delete button in task detail page', () => {
+    // Arrange
+    const mockTask = {
+      id: '123',
+      title: 'Test Task',
+      detail: 'This is a test task description',
+      isComplete: false,
+      dueAt: '2030-12-31T23:59:59Z',
+    };
+
+    vi.mocked(useGetTask).mockReturnValue({
+      data: mockTask,
+      isLoading: false,
+      isError: false,
+      error: null,
+    } as ReturnType<typeof useGetTask>);
+
+    // Act
+    renderWithProviders();
+
+    // Assert
+    const deleteButton = screen.getByTestId('mock-delete-button');
+    expect(deleteButton).toBeInTheDocument();
+    expect(deleteButton).toHaveAttribute('data-task-id', '123');
+    expect(deleteButton).toHaveAttribute('data-task-title', 'Test Task');
   });
 });

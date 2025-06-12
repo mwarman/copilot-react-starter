@@ -21,6 +21,20 @@ vi.mock('@/common/hooks/useToggleTaskComplete', () => ({
   }),
 }));
 
+// Mock the DeleteTaskDialog component
+vi.mock('@/common/components/DeleteTaskDialog', () => ({
+  DeleteTaskDialog: ({ taskId, taskTitle }: { taskId: string; taskTitle: string }) => (
+    <button
+      data-testid="mock-delete-button"
+      data-task-id={taskId}
+      data-task-title={taskTitle}
+      onClick={(e) => e.stopPropagation()}
+    >
+      Delete
+    </button>
+  ),
+}));
+
 describe('TaskItem', () => {
   // Fixed date for testing
   const baseDate = new Date(2025, 5, 1); // June 1, 2025
@@ -166,6 +180,31 @@ describe('TaskItem', () => {
     render(<TaskItem task={upcomingTask} />);
     const checkbox = screen.getByTestId('task-checkbox');
     await user.click(checkbox);
+
+    // Assert
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  it('renders a delete button for each task', () => {
+    // Arrange & Act
+    render(<TaskItem task={upcomingTask} />);
+
+    // Assert
+    const deleteButton = screen.getByTestId('mock-delete-button');
+    expect(deleteButton).toBeInTheDocument();
+    expect(deleteButton).toHaveAttribute('data-task-id', upcomingTask.id);
+    expect(deleteButton).toHaveAttribute('data-task-title', upcomingTask.title);
+  });
+
+  it('prevents navigation when clicking the delete button', async () => {
+    // Arrange
+    const user = userEvent.setup();
+    mockNavigate.mockClear();
+
+    // Act
+    render(<TaskItem task={upcomingTask} />);
+    const deleteButton = screen.getByTestId('mock-delete-button');
+    await user.click(deleteButton);
 
     // Assert
     expect(mockNavigate).not.toHaveBeenCalled();

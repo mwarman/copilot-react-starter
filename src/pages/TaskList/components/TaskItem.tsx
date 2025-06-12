@@ -4,6 +4,7 @@ import { cn } from '@/common/utils/css';
 import { useNavigate } from 'react-router-dom';
 import { useToggleTaskComplete } from '@/common/hooks/useToggleTaskComplete';
 import { Checkbox } from '@/common/components/ui/checkbox';
+import { DeleteTaskDialog } from '@/common/components/DeleteTaskDialog';
 
 interface TaskItemProps {
   task: Task;
@@ -68,16 +69,19 @@ export const TaskItem = ({ task }: TaskItemProps) => {
           </h3>
           {task.detail && <div className="text-sm text-muted-foreground mt-1 truncate">{task.detail}</div>}
         </div>
-        {formattedDueDate && (
-          <div
-            className={cn(
-              'text-xs px-2 py-1 rounded-full min-w-24 text-center',
-              isOverdue ? 'bg-destructive/10 text-destructive' : 'bg-muted text-muted-foreground',
-            )}
-          >
-            {formattedDueDate}
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {formattedDueDate && (
+            <div
+              className={cn(
+                'text-xs px-2 py-1 rounded-full min-w-24 text-center',
+                isOverdue ? 'bg-destructive/10 text-destructive' : 'bg-muted text-muted-foreground',
+              )}
+            >
+              {formattedDueDate}
+            </div>
+          )}
+          <DeleteTaskDialog taskId={task.id} taskTitle={task.title} />
+        </div>
       </div>
     </div>
   );

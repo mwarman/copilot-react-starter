@@ -8,6 +8,7 @@ import { AlertCircle, ArrowLeft, CheckCircle, Info } from 'lucide-react';
 import { formatDistanceToNow, format, isPast, isValid } from 'date-fns';
 import { cn } from '@/common/utils/css';
 import { useToggleTaskComplete } from '@/common/hooks/useToggleTaskComplete';
+import { DeleteTaskDialog } from '@/common/components/DeleteTaskDialog';
 
 /**
  * Task Detail Page component.
@@ -170,22 +171,33 @@ export const TaskDetailPage = () => {
         {/* Task ID for reference */}
         <div className="mt-6 text-xs text-muted-foreground">Task ID: {task.id}</div>
 
-        {/* Toggle Completion */}
-        <div className="mt-6 flex items-center space-x-2">
-          <Checkbox
-            id="task-complete"
-            checked={task.isComplete}
-            onCheckedChange={handleToggleComplete}
-            disabled={toggleComplete.isPending}
-            className="h-5 w-5"
-            data-testid="task-complete-checkbox"
-          />
-          <label
-            htmlFor="task-complete"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-          >
-            {task.isComplete ? 'Mark as incomplete' : 'Mark as complete'}
-          </label>
+        {/* Task Actions */}
+        <div className="mt-6">
+          {/* Action Buttons Container - flex with wrap and space between */}
+          <div className="flex flex-wrap items-center gap-4 justify-between">
+            {/* Toggle Completion */}
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="task-complete"
+                checked={task.isComplete}
+                onCheckedChange={handleToggleComplete}
+                disabled={toggleComplete.isPending}
+                className="h-5 w-5"
+                data-testid="task-complete-checkbox"
+              />
+              <label
+                htmlFor="task-complete"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {task.isComplete ? 'Mark as incomplete' : 'Mark as complete'}
+              </label>
+            </div>
+
+            {/* Delete Task Button */}
+            <div className="flex items-center">
+              <DeleteTaskDialog taskId={task.id} taskTitle={task.title} variant="button" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
