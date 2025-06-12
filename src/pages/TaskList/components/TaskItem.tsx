@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useToggleTaskComplete } from '@/common/hooks/useToggleTaskComplete';
 import { Checkbox } from '@/common/components/ui/checkbox';
 import { DeleteTaskDialog } from '@/common/components/DeleteTaskDialog';
+import { Button } from '@/common/components/ui/button';
+import { Pencil } from 'lucide-react';
 
 interface TaskItemProps {
   task: Task;
@@ -80,6 +82,19 @@ export const TaskItem = ({ task }: TaskItemProps) => {
               {formattedDueDate}
             </div>
           )}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent navigation to detail page
+              navigate(`/tasks/${task.id}/edit`, { state: { from: '/tasks' } });
+            }}
+            data-testid="edit-task-button"
+            aria-label={`Edit "${task.title}"`}
+          >
+            <Pencil className="h-4 w-4" />
+          </Button>
           <DeleteTaskDialog taskId={task.id} taskTitle={task.title} />
         </div>
       </div>

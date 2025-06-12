@@ -1,10 +1,10 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useGetTask } from './hooks/useGetTask';
 import { Button } from '@/common/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/common/components/ui/alert';
 import { Skeleton } from '@/common/components/ui/skeleton';
 import { Checkbox } from '@/common/components/ui/checkbox';
-import { AlertCircle, ArrowLeft, CheckCircle, Info } from 'lucide-react';
+import { AlertCircle, ArrowLeft, CheckCircle, Info, Pencil as PencilIcon } from 'lucide-react';
 import { formatDistanceToNow, format, isPast, isValid } from 'date-fns';
 import { cn } from '@/common/utils/css';
 import { useToggleTaskComplete } from '@/common/hooks/useToggleTaskComplete';
@@ -18,6 +18,7 @@ import { DeleteTaskDialog } from '@/common/components/DeleteTaskDialog';
 export const TaskDetailPage = () => {
   const { taskId } = useParams<{ taskId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const { data: task, isLoading, isError, error } = useGetTask(taskId || '');
   const toggleComplete = useToggleTaskComplete();
 
@@ -194,7 +195,16 @@ export const TaskDetailPage = () => {
             </div>
 
             {/* Delete Task Button */}
-            <div className="flex items-center">
+            <div className="flex items-center space-x-2">
+              <Button
+                onClick={() => navigate(`/tasks/${task.id}/edit`, { state: { from: location.pathname } })}
+                variant="outline"
+                className="flex items-center"
+                data-testid="edit-task-button"
+              >
+                <PencilIcon className="h-4 w-4 mr-2" />
+                Edit
+              </Button>
               <DeleteTaskDialog taskId={task.id} taskTitle={task.title} variant="button" />
             </div>
           </div>

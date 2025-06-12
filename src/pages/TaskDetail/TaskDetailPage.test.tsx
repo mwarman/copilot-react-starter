@@ -34,6 +34,7 @@ const mockNavigate = vi.fn();
 vi.mock('react-router-dom', () => ({
   useParams: () => ({ taskId: '123' }),
   useNavigate: () => mockNavigate,
+  useLocation: () => ({ pathname: '/tasks/123' }),
 }));
 
 describe('TaskDetailPage', () => {
@@ -437,6 +438,7 @@ describe('TaskDetailPage', () => {
     vi.mock('react-router-dom', () => ({
       useParams: () => ({ taskId: undefined }),
       useNavigate: () => mockNavigate,
+      useLocation: () => ({ pathname: '/tasks/undefined' }),
     }));
 
     vi.mocked(useGetTask).mockReturnValue({
@@ -456,6 +458,7 @@ describe('TaskDetailPage', () => {
     vi.mock('react-router-dom', () => ({
       useParams: () => ({ taskId: '123' }),
       useNavigate: () => mockNavigate,
+      useLocation: () => ({ pathname: '/tasks/123' }),
     }));
   });
 
@@ -509,5 +512,58 @@ describe('TaskDetailPage', () => {
     expect(deleteButton).toBeInTheDocument();
     expect(deleteButton).toHaveAttribute('data-task-id', '123');
     expect(deleteButton).toHaveAttribute('data-task-title', 'Test Task');
+  });
+
+  it('should render edit button in task detail page', () => {
+    // Arrange
+    const mockTask = {
+      id: '123',
+      title: 'Test Task',
+      detail: 'This is a test task description',
+      isComplete: false,
+      dueAt: '2030-12-31T23:59:59Z',
+    };
+
+    vi.mocked(useGetTask).mockReturnValue({
+      data: mockTask,
+      isLoading: false,
+      isError: false,
+      error: null,
+    } as ReturnType<typeof useGetTask>);
+
+    // Act
+    renderWithProviders();
+
+    // Assert
+    const editButton = screen.getByTestId('edit-task-button');
+    expect(editButton).toBeInTheDocument();
+  });
+
+  it('should navigate to edit page when edit button is clicked', async () => {
+    // Arrange
+    const mockTask = {
+      id: '123',
+      title: 'Test Task',
+      detail: 'This is a test task description',
+      isComplete: false,
+      dueAt: '2030-12-31T23:59:59Z',
+    };
+
+    vi.mocked(useGetTask).mockReturnValue({
+      data: mockTask,
+      isLoading: false,
+      isError: false,
+      error: null,
+    } as ReturnType<typeof useGetTask>);
+
+    renderWithProviders();
+    const user = userEvent.setup();
+    mockNavigate.mockClear();
+
+    // Act
+    await user.click(screen.getByTestId('edit-task-button'));
+
+    // Assert
+    expect(mockNavigate).toHaveBeenCalledWith('/tasks/123/edit', { state: { from: '/tasks/123' } });
   });
 });

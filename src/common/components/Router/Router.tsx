@@ -6,6 +6,7 @@ import { Skeleton } from '@/common/components/ui/skeleton';
 const TaskListPage = lazy(() => import('@/pages/TaskList/TaskListPage'));
 const CreateTaskPage = lazy(() => import('@/pages/CreateTask/CreateTaskPage'));
 const TaskDetailPage = lazy(() => import('@/pages/TaskDetail/TaskDetailPage'));
+const UpdateTaskPage = lazy(() => import('@/pages/UpdateTask/UpdateTaskPage'));
 
 /**
  * Loading fallback component shown while lazy-loaded routes are being loaded
@@ -36,6 +37,9 @@ export const Router = () => {
 
           {/* Task detail route */}
           <Route path="/tasks/:taskId" element={<TaskDetailPage />} />
+
+          {/* Update task route */}
+          <Route path="/tasks/:taskId/edit" element={<UpdateTaskPage />} />
 
           {/* Fallback for unknown routes */}
           <Route path="*" element={<Navigate to="/tasks" replace />} />

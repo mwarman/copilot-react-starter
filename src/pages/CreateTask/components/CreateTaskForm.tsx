@@ -86,7 +86,7 @@ export const CreateTaskForm = () => {
               <FormControl>
                 <Textarea placeholder="Enter task details (optional)" rows={4} disabled={isPending} {...field} />
               </FormControl>
-              <FormDescription>Provide any additional information about the task.</FormDescription>
+              <FormDescription className="text-xs">Provide any additional information about the task.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -118,7 +118,14 @@ export const CreateTaskForm = () => {
                       mode="single"
                       selected={field.value ? new Date(field.value) : undefined}
                       onSelect={(date) => {
-                        field.onChange(date ? date.toISOString() : '');
+                        if (date) {
+                          // Set to end of day in local timezone
+                          const localDate = new Date(date);
+                          localDate.setHours(23, 59, 59, 999);
+                          field.onChange(localDate.toISOString());
+                        } else {
+                          field.onChange('');
+                        }
                         setCalendarOpen(false);
                       }}
                       disabled={isPending}
@@ -126,13 +133,13 @@ export const CreateTaskForm = () => {
                   </PopoverContent>
                 </Popover>
               </FormControl>
-              <FormDescription>Set a deadline for this task if needed.</FormDescription>
+              <FormDescription className="text-xs">Set a deadline for this task if needed.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <div className="flex gap-4 justify-end">
+        <div className="flex gap-4 justify-end border-t pt-6 mt-6">
           <Button type="button" variant="outline" onClick={handleCancel} disabled={isPending}>
             Cancel
           </Button>

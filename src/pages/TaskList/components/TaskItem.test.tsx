@@ -196,6 +196,43 @@ describe('TaskItem', () => {
     expect(deleteButton).toHaveAttribute('data-task-title', upcomingTask.title);
   });
 
+  it('renders an edit button for each task', () => {
+    // Arrange & Act
+    render(<TaskItem task={upcomingTask} />);
+
+    // Assert
+    const editButton = screen.getByTestId('edit-task-button');
+    expect(editButton).toBeInTheDocument();
+  });
+
+  it('navigates to edit page when edit button is clicked', async () => {
+    // Arrange
+    const user = userEvent.setup();
+    mockNavigate.mockClear();
+
+    // Act
+    render(<TaskItem task={upcomingTask} />);
+    const editButton = screen.getByTestId('edit-task-button');
+    await user.click(editButton);
+
+    // Assert
+    expect(mockNavigate).toHaveBeenCalledWith(`/tasks/${upcomingTask.id}/edit`, { state: { from: '/tasks' } });
+  });
+
+  it('prevents navigation to detail page when clicking the edit button', async () => {
+    // Arrange
+    const user = userEvent.setup();
+    mockNavigate.mockClear();
+
+    // Act
+    render(<TaskItem task={upcomingTask} />);
+    const editButton = screen.getByTestId('edit-task-button');
+    await user.click(editButton);
+
+    // Assert
+    expect(mockNavigate).not.toHaveBeenCalledWith(`/tasks/${upcomingTask.id}`);
+  });
+
   it('prevents navigation when clicking the delete button', async () => {
     // Arrange
     const user = userEvent.setup();
