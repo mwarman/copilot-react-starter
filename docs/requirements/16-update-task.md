@@ -2,87 +2,94 @@
 
 ## Overview
 
-This document outlines the requirements for the Task Update feature. Users will be able to edit existing tasks through a dedicated form page, modifying properties such as title, details, due date, and completion status.
+The Task Update feature allows users to modify existing tasks through a dedicated form page. Users can edit properties including title, details, due date, and completion status. This feature ensures users can keep their task information current and relevant.
 
-## User Interface
+## Requirements
 
-### Update Task Page
+1. Provide a form interface for editing task properties
+2. Pre-populate form with existing task data
+3. Validate user input before submission
+4. Submit changes to the backend API
+5. Handle success and error states appropriately
+6. Return user to their previous location after successful update
+7. Provide clear feedback during the update process
 
-- Create a dedicated page at route `/tasks/:taskId/edit`
-- Include a form with the following fields:
-  - Title (text input)
-  - Detail (text area)
-  - Due Date (date picker)
-  - Completion Status (checkbox)
-- Display current task values in form fields when the page loads
-- Include action buttons:
-  - Save/Update button (primary)
-  - Cancel button (returns to previous page)
-- Show loading state during form submission
-- Display validation errors inline with form fields
+## User Experience / Design
 
-## Functionality
+### Form Components
 
-### Navigation
+- **Title** - Text input field (required)
+- **Detail** - Text area for longer descriptions
+- **Due Date** - Date picker for selecting deadline
+- **Completion Status** - Checkbox to mark task as complete
 
-- Access the Update Task page from:
-  - Task List page (via edit button on each task)
-  - Task Detail page (via edit button)
-- After successful update, return user to the page they were previously on (Task List or Task Detail)
-- Track previous location to enable proper navigation after successful update
+### Interaction States
 
-### Data Flow
+- **Initial Load** - Form displays with current task values
+- **Validation** - Show inline errors for invalid inputs
+- **Loading** - Disable form controls during submission with visual indicator
+- **Success** - Display confirmation message before navigation
+- **Error** - Show appropriate error message with recovery options
 
-1. On page load, fetch current task data using the task ID from the URL (useGetTask)
-2. Populate form fields with current task data
-3. When form is submitted:
-   - Validate form input on client side
-   - Disable all form controls during submission
-   - Display loading indicator during API call
-   - Call the Update Task API endpoint (PUT `/tasks/:taskId`)
+## Navigation
 
-### API Integration
+- **Access Points**:
+  - Edit button on Task List page
+  - Edit button on Task Detail page in the actions bar area
+- **Route**: `/tasks/:taskId/edit`
+- **Post-Update Navigation**:
+  - Return to originating page (Task List or Task Detail)
+  - Track previous location to enable proper return navigation
 
-- Endpoint: `PUT /tasks/:taskId`
-- Request body format:
-  ```json
-  {
-    "title": "string",
-    "detail": "string",
-    "dueAt": "YYYY-MM-DDTHH:mm:ssZ",
-    "isComplete": boolean
-  }
-  ```
-- Handle response codes:
-  - 200: Success - navigate back to previous page
-  - 400: Validation Error - display error message to user
-  - 404: Not Found - display error message that task doesn't exist
-  - Other errors: Display generic error message
+## API Integration
 
-## User Experience
+- Handle optimistic updates for immediate UI feedback
 
-### Loading States
+### Endpoint
 
-- Disable all form controls during API calls
-- Display a loading spinner or message during submission
-- Return controls to enabled state after API response
+- **Method**: PUT
+- **URL**: `/tasks/:taskId`
 
-### Error Handling
+### Request Body
 
-- Display validation errors below respective form fields
-- Show an error alert at the top of the form for API errors
-- Include retry capability for network errors
+```json
+{
+  "title": "string",
+  "detail": "string",
+  "dueAt": "YYYY-MM-DDTHH:mm:ssZ",
+  "isComplete": boolean
+}
+```
 
-### Accessibility
+### Response Handling
 
-- Ensure form is fully keyboard navigable
-- Include proper ARIA attributes for screen readers
-- Maintain focus management during form submission and error states
+- **200 OK**: Successful update - navigate back to previous page
+- **400 Bad Request**: Validation error - display specific validation messages
+- **404 Not Found**: Task doesn't exist - show appropriate message
+- **Other errors**: Display generic error message with retry option
 
-## Dependencies
+## Acceptance Criteria
 
-- React Router for navigation
-- React Hook Form for form state management
-- Zod for validation
-- React Query for API integration
-- shadcn/ui components for UI elements
+1. **Data Loading**
+
+   - User can navigate to the Update Task page from Task List or Task Detail
+   - Form loads with fields pre-populated with current task data
+
+2. **Form Validation**
+
+   - Title field is required and validated
+   - Due date must be in valid format
+   - Form prevents submission with validation errors
+
+3. **Update Process**
+
+   - Form submission shows loading state
+   - All form controls are disabled during submission
+   - Successful updates return user to previous page
+   - Error states provide clear feedback with recovery options
+
+4. **Accessibility**
+   - Form is fully keyboard navigable
+   - ARIA attributes present for screen readers
+   - Focus management maintained during form submission
+   - Color contrast meets WCAG AA standards

@@ -2,21 +2,61 @@
 
 ## Overview
 
-This document outlines the requirements for implementing task deletion functionality in the Task UI application. Users should be able to delete tasks from both the task list and task detail views.
+This document outlines the requirements for implementing task deletion functionality in the Task UI application. Users should be able to delete existing tasks from both the task list and task detail views.
 
-## User Stories
+## Requirements
 
-### Delete from List View
+### Functional Requirements
 
-As a user, I want to delete a task directly from the task list view so that I can quickly remove completed or unwanted tasks without navigating to the detail page.
+- Users must be able to delete tasks from the task list view
+- Users must be able to delete tasks from the task detail view
+- A confirmation dialog must be shown before deletion occurs
+- After successful deletion from detail view, users should be redirected to the task list
 
-### Delete from Detail View
+### Technical Requirements
 
-As a user, I want to delete a task from the task detail view so that I can review task details before deciding to delete it. After successful deletion, I should be returned to the task list view.
+- Implement a `useDeleteTask` hook using React Query mutations
+- Use shadcn/ui components for consistent styling
+- Include loading states during deletion process
+- Handle and display error states appropriately
+- Write comprehensive unit tests for all components
+
+### Accessibility Requirements
+
+- All buttons must have appropriate aria labels
+- Confirmation dialog must be keyboard navigable
+- Error messages must be announced to screen readers
+
+## User Experience / Design
+
+### Delete Buttons
+
+- In list view: Include a delete icon button on each task item
+- In detail view: Add a delete button in the actions bar area
+- Use Lucide React for delete icons
+
+### States
+
+- **Loading**: Show a loading indicator while deletion is in progress
+- **Error**: Display an error alert if deletion fails with retry option
+- **Success**: Provide visual confirmation of successful deletion
+
+### Confirmation Dialog
+
+- Show a confirmation dialog before proceeding with deletion
+- Clearly communicate that deletion is permanent
+- Provide options to confirm or cancel the deletion
+
+## Navigation
+
+- After successful deletion from the detail view, redirect user to the task list view
+- No navigation change is needed when deleting from the list view
 
 ## API Integration
 
-The application will use the DELETE endpoint at `/tasks/{taskId}` as defined in the API specification:
+- Handle optimistic updates for immediate UI feedback
+
+### Endpoint
 
 ```
 DELETE /tasks/{taskId}
@@ -27,84 +67,37 @@ DELETE /tasks/{taskId}
 - 204: Success (No Content)
 - 404: Task not found
 
-## UI/UX Requirements
+## Acceptance Criteria
 
-### Delete Button
+1. **Delete from List View**
 
-- In list view: Add a delete icon button to each task item
-- In detail view: Add a delete button in the actions area
+   - User can delete a task directly from the task list
+   - Confirmation dialog appears before deletion
+   - List refreshes automatically after successful deletion
 
-### Loading States
+2. **Delete from Detail View**
 
-- Show a loading indicator while deletion is in progress
-- Disable the delete button during the deletion process
+   - User can delete a task from the task detail page
+   - Confirmation dialog appears before deletion
+   - User is redirected to the task list after successful deletion
 
-### Error Handling
+3. **Error Handling**
 
-- Display an error Alert if deletion fails
-- Include retry functionality when appropriate
+   - Appropriate error messages are displayed if deletion fails
+   - User has the option to retry failed deletions
 
-### Confirmation
+4. **Loading States**
 
-- Show a confirmation Dialog before deleting a task
-- Provide clear messaging about the permanent nature of deletion
+   - Loading indicators are shown during the deletion process
+   - Delete buttons are disabled during deletion
 
-## Technical Implementation
+5. **Accessibility**
 
-### React Query Mutation
+   - All interactive elements are keyboard accessible
+   - Screen readers announce state changes and error messages
+   - Focus management follows accessibility best practices
 
-Implement a `useDeleteTask` hook using React Query's mutation functionality:
-
-```typescript
-const useDeleteTask = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (taskId: string) => {
-      await api.delete(`/tasks/${taskId}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-    },
-  });
-};
-```
-
-### Component Implementation
-
-Both list and detail views should implement:
-
-- Delete confirmation dialog using shadcn/ui components
-- Loading states for deletion in progress
-- Error handling with appropriate user feedback
-- Navigation back to list view after successful deletion from detail view
-
-### Unit Tests
-
-Comprehensive tests should include:
-
-- Testing the `useDeleteTask` hook
-- Testing delete functionality in both list and detail components
-- Testing loading and error states
-- Testing navigation after successful deletion
-
-## Accessibility Requirements
-
-- All buttons must have appropriate aria labels
-- Confirmation dialog must be keyboard navigable
-- Error messages must be announced to screen readers
-
-## Implementation Checklist
-
-1. Create `useDeleteTask` hook with React Query
-2. Implement confirmation dialog component
-3. Add delete functionality to task list items
-4. Add delete functionality to task detail view
-5. Implement loading states and error handling
-6. Add navigation from detail to list after deletion
-7. Write unit tests for all components and hooks
-8. Verify accessibility compliance
-
-## Design Notes
-
-Use Lucide React for delete icons and shadcn/ui components for consistent styling across the application.
+6. **Unit Tests**
+   - Delete functionality is tested in both list and detail components
+   - Loading and error states are tested
+   - Navigation after deletion is tested
