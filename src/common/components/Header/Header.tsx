@@ -8,7 +8,7 @@ import { BadgeCheck } from 'lucide-react';
  */
 export const Header = (): JSX.Element => {
   return (
-    <header className="w-full h-16 bg-background border-b">
+    <header className="w-full h-16 bg-secondary border-b">
       <div className="container h-full px-4 mx-auto flex justify-between items-center">
         <div className="flex items-center gap-4">
           <BadgeCheck className="w-6 h-6 text-primary" />

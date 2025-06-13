@@ -30,7 +30,7 @@ describe('Footer', () => {
     // Assert
     const footerElement = container.querySelector('footer');
     expect(footerElement).toHaveClass('w-full');
-    expect(footerElement).toHaveClass('bg-background');
+    expect(footerElement).toHaveClass('bg-secondary');
     expect(footerElement).toHaveClass('border-t');
   });
 

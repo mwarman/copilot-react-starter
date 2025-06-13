@@ -47,7 +47,7 @@ describe('Header', () => {
 
     // Assert
     expect(header).toHaveClass('w-full');
-    expect(header).toHaveClass('bg-background');
+    expect(header).toHaveClass('bg-secondary');
     expect(header).toHaveClass('border-b');
   });
 });
