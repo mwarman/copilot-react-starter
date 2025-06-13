@@ -45,18 +45,20 @@ The infrastructure should be implemented in TypeScript using AWS CDK with the fo
 - Use environment variables for configurable values
 - Follow AWS best practices for security
 - Implement with cost-optimization in mind
+- AWS CDK implemented in a self-contained manner in the `/infrastructure` directory
+- Do not initialize the CDK; assume that CDK initialization and bootstrapping has already occurred
 - Follow the project guidelines and best practices
 
 ## Example CDK Stack Structure
 
 ```
-/infrastructure
+infrastructure
   /stacks
     frontend-stack.ts         # Stack for S3 + CloudFront
   app.ts                      # CDK app entry point
-
-cdk.json                      # CDK configuration
-package.json                  # Dependencies
+  tsconfig.json               # TypeScript configuration for AWS CDK infrastructure
+  cdk.json                    # AWS CDK configuration
+  package.json                # Dependencies and scripts for the AWS CDK infrastructure
 ```
 
 ## Deployment Instructions
@@ -81,6 +83,6 @@ npm run cdk
 ## Security Requirements
 
 - S3 bucket should not be directly accessible from the internet
-- CloudFront should use Origin Access Identity to access the S3 bucket
+- CloudFront should use Origin Access Controls to access the S3 bucket
 - HTTPS should be enforced for all web traffic
 - Implement least privilege permissions
