@@ -2,66 +2,53 @@
 
 ## Overview
 
-This document outlines the requirements for implementing an application-wide header for the "Task Hero" application.
+The application header is a critical UI element that provides branding and consistent navigation experience across the "Task Hero" application. This document outlines the requirements for implementing a responsive and accessible header component that will appear on all pages of the application.
 
 ## Requirements
 
-### Functional Requirements
-
-1. The header component must:
-
-- Display across all pages of the application
-- Render the application name "Task Hero" on the left side
-- Use a large, bold font for the application name
-- Be responsive and adapt to different screen sizes
-- Maintain consistent styling with the rest of the application
-
 ### Technical Requirements
 
-1. Create a reusable header component in the common components directory:
-
-- File location: `src/common/components/Header/Header.tsx`
-- Co-located test file: `src/common/components/Header/Header.test.tsx`
-
-2. Implementation details:
-
+- Create a reusable header component in the common components directory
+  - File location: `src/common/components/Header/Header.tsx`
+  - Co-located test file: `src/common/components/Header/Header.test.tsx`
+- Implement with TypeScript and React
 - Use Tailwind CSS for styling
 - Utilize shadcn/ui components where appropriate
-- Ensure accessibility standards are met (proper contrast, semantic HTML)
-- Implement responsive design (mobile, tablet, desktop)
+- Ensure the header is fully responsive across all device sizes
 
-3. Styling specifications:
+## User Experience / Design
 
-- Application name: Large bold font (text-2xl font-bold)
-- Background color: Consistent with application theme
-- Height: Appropriate for desktop and mobile views
-- Add padding and spacing according to design system
+### Layout & Appearance
 
-## Implementation Example
+- The header should span the full width of the viewport
+- The application name "Task Hero" should be positioned on the left side
+- Use a large, bold font for the application name (text-2xl font-bold)
+- When the application name is clicked it should navigate to the base route
+- Background color should be consistent with the application theme
+- Include a bottom border to visually separate the header from content
+- Apply appropriate padding and spacing according to design system
+- Height should be appropriate for both desktop and mobile views
 
-```tsx
-export const Header = (): JSX.Element => {
-  return (
-    <header className="w-full py-4 px-6 bg-background border-b">
-      <div className="container mx-auto">
-        <h1 className="text-2xl font-bold">Task Hero</h1>
-      </div>
-    </header>
-  );
-};
-```
+### Accessibility
 
-## Testing Requirements
+- Use semantic HTML (header tag)
+- Ensure proper color contrast for readability
+- Text should be readable at all screen sizes
 
-- Unit tests should verify that:
-  - The header renders correctly
-  - The application name "Task Hero" is displayed
-  - The component is accessible
+## Navigation
 
-## Future Enhancements (Out of Scope for Initial Implementation)
+_Not applicable for initial implementation. Future versions may include navigation elements._
 
-- Navigation menu
-- User profile/avatar
-- Theme toggle
-- Notifications
-- Mobile menu for smaller screens
+## API Integration
+
+_Not applicable - this component does not interact with any APIs._
+
+## Acceptance Criteria
+
+1. The header displays on all pages of the application
+2. The application name "Task Hero" is clearly visible in a large, bold font on the left side
+3. The application name links to the base route '/' of the application
+4. The header is responsive and displays correctly on mobile, tablet, and desktop viewports
+5. The header styling is consistent with the application's theme
+6. The component passes all accessibility tests
+7. All components have corresponding unit tests

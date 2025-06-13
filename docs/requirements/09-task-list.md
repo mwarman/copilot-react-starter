@@ -2,89 +2,27 @@
 
 ## Overview
 
-This document outlines the requirements for implementing a Task List page in our React application. The Task List page will serve as the default landing page and display a collection of tasks retrieved from the API.
+The Task List page is the primary landing page of the application, displaying all user tasks in a list format. This component allows users to quickly scan their tasks, see completion status, due dates, and identify overdue items at a glance. The page implements proper loading, empty, and error states to enhance user experience.
 
-## User Stories
+## Requirements
 
-- As a user, I want to see all my tasks in a list format so I can easily scan my responsibilities
-- As a user, I want tasks sorted by due date so I can prioritize my work
-- As a user, I want to see which tasks are completed and which are overdue at a glance
-- As a user, I want to see an appropriate message when I have no tasks or when an error occurs
+### Functional Requirements
 
-## Functional Requirements
+1. Display a list of all user tasks
+2. Sort tasks by:
 
-### Routing
+   1. incomplete tasks with a due date (earliest dates first)
+   2. incomplete tasks without due dates
+   3. complete tasks
 
-- The Task List page should be configured as the default route for the application
-- The application should redirect from "/" to "/tasks"
-- The task list route path should be "/tasks"
+3. Visually distinguish between completed and incomplete tasks
+4. Highlight overdue tasks
+5. Implement appropriate loading, empty, and error states
+6. Ensure responsive design across all device sizes
 
-### Data Fetching
+### Technical Requirements
 
-- The page should fetch task data from the `/tasks` API endpoint
-- Use React Query with Axios for data fetching and state management
-- Implement proper error handling for API request failures
-
-### UI States
-
-#### Loading State
-
-- Display a loading indicator while the tasks are being fetched
-- Consider using a **Skeleton** loader component for better UX
-
-#### Empty State
-
-- If the API returns an empty collection, display an **Alert** component with an appropriate message
-- Message should inform the user they have no tasks and prompt them to create one
-
-#### Error State
-
-- If the API request fails, display an **Alert** component with an error message
-- Provide a retry option if appropriate
-
-#### Populated State
-
-- If tasks are returned, display them in a list format
-- Each task item should show:
-  - Completion status indicator (e.g., checkbox or icon)
-  - Task title
-  - Due date (formatted appropriately)
-  - Overdue status indicator for tasks past their due date
-
-### Task Sorting and Display Logic
-
-- Sort tasks by due date in ascending order (earliest dates first)
-- Tasks without due dates should appear after tasks with due dates
-- Overdue tasks should have a visual indicator (icon or color)
-- Completed tasks should be visually distinguished (e.g., strikethrough text, different background color)
-
-### Responsive Design
-
-- The task list must be fully responsive and work on mobile, tablet, and desktop viewports
-- On smaller screens, consider a more compact layout
-- Ensure touch targets are appropriately sized for mobile interactions
-- Use Tailwind CSS breakpoints for responsive design
-
-## Technical Requirements
-
-### Component Structure
-
-```
-/pages
-  /TaskList
-    /components
-      TaskItem.tsx              # Component for individual task item
-      TaskItem.test.tsx         # Unit test for TaskItem
-      TaskList.tsx              # Component for the list container
-      TaskList.test.tsx         # Unit test for TaskList
-    /hooks
-      useGetTasks.ts            # Hook for fetching tasks
-      useGetTasks.test.ts       # Unit test for useGetTasks
-    TaskListPage.tsx            # Main page component
-    TaskListPage.test.tsx       # Unit test for TaskListPage
-```
-
-### Data Model
+#### Data Model
 
 ```typescript
 interface Task {
@@ -92,48 +30,100 @@ interface Task {
   title: string;
   detail?: string;
   isComplete: boolean;
-  dueAt?: string; // ISO 8601 format
+  dueAt?: string; // ISO 8601 format, e.g. YYYY-MM-DDTHH:mm:ssZ
 }
 ```
 
-### Environment Variables
+#### Environment Configuration
 
-- Store environment variables in a **.env** file
-- Environment variables should use appropriate naming convention
-- Use an environment variable for the API base URL (VITE_API_BASE_URL)
+- API base URL should be configurable via environment variable: `VITE_API_BASE_URL`
 
-### Tests
+#### Testing Requirements
 
 - Unit tests for all components and hooks
-- Test loading, empty, error, and populated states
-- Test sorting logic
-- Test responsive behavior
-- Use **Mock Service Worker (`msw`)** to mock API endpoint behavior for unit tests
+- Coverage for all UI states (loading, empty, error, populated)
 
-## Design Considerations
+## User Experience / Design
 
-- Use shadcn/ui components where appropriate
-- Consider accessibility for all UI states
-- Ensure keyboard navigation works properly
-- Implement proper focus management
+### UI States
+
+1. **Loading State**
+
+   - Display a skeleton loader while fetching task data
+   - Maintain consistent layout to minimize layout shifts
+
+2. **Empty State**
+
+   - Display an Alert component with a friendly message
+   - Suggest creating a new task
+   - Use appropriate iconography to reinforce the empty state
+
+3. **Error State**
+
+   - Display an Alert component with error details
+   - Provide a retry action
+   - Use appropriate error iconography
+
+4. **Populated State**
+   - Display tasks in a list format with the following information:
+     - Completion status indicator (checkbox or icon)
+     - Title
+     - Detail if available; truncate text as needed
+     - Due date (properly formatted)
+     - Visual indicator for overdue tasks
+
+### Task Display Logic
+
+- Sort tasks by due date in ascending order
+- Place incomplete tasks without due dates after tasks with due dates
+- Place complete tasks at the end of the list
+- Visually distinguish completed tasks (strikethrough, different background)
+- Highlight overdue tasks with warning colors or icons
+
+### Responsive Design
+
+- Implement full responsiveness for mobile, tablet, and desktop
+- Adjust layout density based on screen size
+- Ensure touch targets are appropriately sized on mobile
+- Use Tailwind CSS breakpoints for consistent responsive behavior
+
+## Navigation
+
+- The Task List page should be configured as the default route
+- Set up routing to redirect from "/" to "/tasks"
+- Use "/tasks" as the route path for the Task List page
+
+## API Integration
+
+The Task List page integrates with the `/tasks` GET endpoint from the API specification:
+
+- **Endpoint**: `/tasks`
+- **Method**: GET
+- **Response**: 200 OK with JSON array of task objects
+- **Implementation**: Use React Query with Axios for data fetching
+- **Error Handling**: Handle 4xx/5xx responses appropriately
+
+According to the API spec, the response contains an array of task objects with properties matching our data model.
+
+### Data Fetching Strategy
+
+1. Implement a custom `useGetTasks` hook using React Query
+2. Configure appropriate caching and refetching strategies
+3. Handle loading, error, and success states within the hook
+4. Return the necessary state variables to the component
 
 ## Acceptance Criteria
 
-1. Task List page is set as the default route
-2. Loading state is shown while fetching tasks
-3. Empty state alert is shown when no tasks exist
-4. Error state alert is shown when API request fails
-5. Tasks are displayed in a list when available
-6. Tasks are sorted by due date (ascending)
-7. Tasks without due dates appear after tasks with due dates
-8. Overdue tasks have a visual indicator
-9. Completed tasks are visually distinguished
-10. The list is responsive across all viewport sizes
-11. All unit tests pass
-
-## Future Enhancements (Not in current scope)
-
-- Filtering tasks by status (completed/incomplete)
-- Searching tasks by title or description
-- Pagination for large task lists
-- Task creation directly from the list page
+1. Task List page is accessible at both "/" and "/tasks" routes
+2. Tasks are fetched from the API using React Query
+3. Loading state shows skeleton loaders while data is being fetched
+4. Empty state displays an appropriate message when no tasks exist
+5. Error state shows an alert with error details when API request fails
+6. Tasks are displayed in a list format when available
+7. Tasks are sorted by due date (ascending)
+8. Tasks without due dates appear after tasks with due dates
+9. Overdue tasks have a clear visual indicator
+10. Completed tasks are visually distinguished from incomplete tasks
+11. The UI is responsive across all viewport sizes
+12. All components have corresponding unit tests
+13. All tests pass successfully
