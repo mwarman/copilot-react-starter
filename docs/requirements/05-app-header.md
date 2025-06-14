@@ -21,7 +21,8 @@ The application header is a critical UI element that provides branding and consi
 ### Layout & Appearance
 
 - The header should span the full width of the viewport
-- The application name "Task Hero" should be positioned on the left side
+- Use the Lucide "BadgeCheck" icon as the application logo on the left side of the header
+- The application name "Task Hero" should be positioned on the left side, next to the logo
 - Use a large, bold font for the application name (text-2xl font-bold)
 - When the application name is clicked it should navigate to the base route
 - Background color should be consistent with the application theme
