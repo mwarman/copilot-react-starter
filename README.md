@@ -1,121 +1,127 @@
-# React Starter Kit with GitHub Copilot
+# Task Hero
 
-A starter kit for creating a React user interface component with GitHub Copilot for AI assisted pair programming.
+Task Hero is a modern web application that helps users create and manage their personal to-do lists. Built with React, TypeScript, and Vite, it provides a fast and responsive user experience for task management.
 
-## Getting started
+## Features
 
-Begin by reviewing and updating the [Copilot Instructions](.github/copilot-instructions.md) to suit the needs and preferences for your project.
+- Create, read, update, and delete tasks
+- Search and filter tasks
+- Mark tasks as complete
+- Dark mode support
+- Responsive design for mobile and desktop+ TypeScript + Vite
 
-Interact with Copilot using your favorite editor to create your application. We strongly recommend [VS Code][vscode] with the following extensions:
+## Developer Setup
 
-- GitHub Copilot
-- GitHub Copilot Chat
-- Prettier - Code formatter
-- ESLint
-- Vitest
-- indent-rainbow
+### Prerequisites
 
-## Additional reading
+- Node.js (version 22.16.0 or later, check the .nvmrc file)
+- Git
 
-The [official guide for GitHub Copilot in VS Code][vscode-copilot-docs] provides a lot of information and is very useful for those who are just starting to use Copilot in VS Code. In this guide you can find information about all things Copilot in VS Code from initial setup to information about the available [language models](https://code.visualstudio.com/docs/copilot/language-models).
+### Getting Started
 
-The VS Code YouTube channel has a playlist with many interesting videos and tutorials for [GitHub Copilot in VS Code](https://youtube.com/playlist?list=PLj6YeMhvp2S7rQaCLRrMnzRdkNdKnMVwg&si=KIRHyFKYyMcUssQ3).
+1. Clone the repository:
 
-This official [tips and tricks guide](https://code.visualstudio.com/docs/copilot/copilot-tips-and-tricks) from VS Code provides an excellent summary of Copilot best practices.
+   ```bash
+   git clone https://github.com/your-username/task-hero.git
+   cd task-hero
+   ```
 
-## Project structure
+2. Install dependencies:
 
-The project structure follows the best practices for Copilot assistance. This project is ready to begin iterative development with a Copilot AI agent.
+   ```bash
+   npm install
+   ```
 
-Note that the application component does not exist, not yet anyway. This base project structure is primed for building an application component from the very beginning using Copilot agent mode with you in the driver's seat.
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   This will open the application in your default browser at `http://localhost:5173`.
 
-```
-/.github
-  copilot-instructions.md   # Copilot instructions
+### Available Scripts
 
-/docs
-  /requirements
-    01-create-task.md       # Requirements specification
+- `npm run dev` - Start the development server with auto-open
+- `npm run build` - Build the application for production
+- `npm run lint` - Run ESLint to check for code quality issues
+- `npm run preview` - Preview the production build locally
 
-.editorconfig               # Editor configuration
-.prettierrc                 # Prettier configuration
-.gitignore                  # Git ignore
-LICENSE                     # Software license
-README.md                   # This document
-```
-
-## How to use
-
-### Update the instructions
-
-Add a section to the [Copilot Instructions](./.github/copilot-instructions.md) document immediately following the **Role** section. Provide an overview of the project like this:
-
-```md
----
-
-## Project Overview
-
-- **Component:** Task UI (task-ui)
-- **Description:** This component provides a user interface for managing tasks, including creating, retrieving, updating, and deleting tasks. It uses React for the frontend, with state management handled by React Query and form validation managed by React Hook Form and Zod. The project follows best practices for TypeScript development, Vite for build tooling, and unit testing with Vitest.
-
----
-```
-
-Want to learn more about Copilot instructions files? Read more in the [official guide...](https://code.visualstudio.com/docs/copilot/copilot-tips-and-tricks#_personalize-copilot-with-instructions-files)
-
-### Work with the Copilot agent
-
-Begin working with Copilot to create the application. Copilot works best when it has a rich context to use as reference material when updating the project. When you first begin, there is no source code for Copilot to reference. Working with Copilot to implement the first story may seem tedious for this reason. However, I find it best to let Copilot implement the first story to the best of the agent's ability. Then, review all of the generated source members. Make changes to the source to match your coding preference. Don't like to use `class`? Change it. Prefer `default` exports? Use those.
-
-When you implement the second and subsequent stories, Copilot will use the existing code as a reference and pattern the code that the agent creates to match.
-
-> **NOTE:** The "Claude Sonnet 3.7" model has been used to develop this project. Language models evolve quickly and new versions published frequently. Review the official documentation and select the [language model that is most appropriate for your application or task](https://docs.github.com/en/copilot/using-github-copilot/ai-models/choosing-the-right-ai-model-for-your-task).
-
-#### Requirements
-
-The requirements are located in the [`docs/requirements`](docs/requirements/) directory. The contents of each file describe a small yet complete and testable unit of work.
-
-> **NOTE:** The requirements documents were created using Copilot. After creating a logical sequence for story implementation, create a new, empty requirements document in `docs/requirements`, e.g. `09-task-list.md`. Press `Ctrl+I` (or `Cmd+I`) to open the Copilot prompt. Write a prompt for Copilot to draft a requirements document. For example:
+### Project Structure
 
 ```
-begin drafting a requirements document to implement a Dark Mode theme in the application. reference the approach used in this document #fetch https://ui.shadcn.com/docs/dark-mode/vite. the implementation should follow the project guidelines and best practices.
+src
+  /common
+    /components
+      /ui                     # UI components (shadcn/ui)
+      /Header                 # App header
+      /Footer                 # App footer
+    /models                   # Type definitions
+    /providers                # Context providers
+    /hooks                    # Custom hooks
+    /utils                    # Utility functions
+  /pages
+    /TaskList                 # Task list page
+    /TaskDetail               # Task detail page
+    /CreateTask               # Create task page
+  App.tsx                     # Main application component
+  main.tsx                    # Entry point
+  index.css                   # Global styles
 
-OR
-
-begin drafting a requirements document to implement a page which lists all tasks fetched from the `/tasks` API endoint. the implementation should follow project guidelines and best practices.
+/infrastructure              # AWS CDK infrastructure code
 ```
 
-Copilot will write a draft of the requirements document directly into the file. When complete, you may choose to **keep** the changes or **close** to discard them. As with any Copilot generated material, review the generated content and refine it to suit your needs.
+### Technology Stack
 
-#### Ask Copilot
+- **React** - UI library
+- **TypeScript** - Type-safe JavaScript
+- **Vite** - Build tool and development server
+- **Vitest** - Unit testing
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - UI component library
+- **React Query** - Data fetching and state management
+- **React Hook Form** - Form handling
+- **Zod** - Schema validation
+- **AWS CDK** - Infrastructure as code
 
-Open Copilot chat in VS Code and place it into **Ask** mode if it is not already. Drag the [01-create-app.md](docs/requirements/01-create-app.md) requirements specification into the Copilot chat. Any files you explicitly drag onto the Copilot chat will be included in the context of the current session. Enter the following prompt:
+## Developer Workflow
 
-```
-let's update the project with the requirements in this document.
-```
+### Code Quality
 
-or you can use the `#file` command to explicitly reference the requirements like this:
+- **TypeScript** - Write all code in TypeScript with proper type definitions
+- **ESLint** - Follow the ESLint rules configured in `eslint.config.js`
+- **Testing** - Write unit tests for components and utilities using Vitest and React Testing Library
 
-```
-let's update the project with the requirements in #file:01-create-app.md
-```
+### Branching Strategy
 
-Since Copilot is in **Ask** mode, it will not make any changes to the project. Instead it will tell you what the agent _would_ do if it were in **Agent** mode. Ask mode allows you to ask Copilot questions or, in this instance, allows you to get a preview of a more complex set of changes.
+- `main` - Production-ready code
+- `develop` - Integration branch for feature development
+- `feature/*` - Feature branches for new development
+- `bugfix/*` - Bug fix branches
+- `release/*` - Release branches
 
-If you do not like the approach that Copilot proposes, update the requirements specification to be more specific. Remember that Copilot will improve as the code base grows.
+### Deployment
 
-#### Agent mode
+The application is deployed using AWS CDK. To deploy:
 
-Change Copilot from **Ask** to **Agent** mode. In **Agent** mode, Copilot is free to make changes to your project. Don't worry though, you may pause or cancel the Copilot session at any time. Any changes made by Copilot are not fully applied until you choose to **Keep** them, or you may revert the project by choosing to **Undo** the changes.
+1. Build the application:
 
-When you are ready, submit the prompt in **Agent** mode and the Copilot agent will update the VS Code project with the changes.
+   ```bash
+   npm run build
+   ```
 
-#### One story at a time
+2. Deploy to AWS:
+   ```bash
+   cd infrastructure
+   npm run cdk deploy
+   ```
 
-Copilot often works best when asked to implement small units of work. For that reason, work on 1 story at a time. When Copilot has finished, you play the role of the code reviewer (you are the expert after all). Review and update the code as needed (or ask Copilot to make a change). Run the unit tests. Run the linter. Run the app and test the changes. Finally, create a PR and commit the work.
+## Contributing
 
-Then, move to the next story and repeat.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-[vscode]: https://code.visualstudio.com/ 'Visual Studio Code'
-[vscode-copilot-docs]: https://code.visualstudio.com/docs/copilot/overview 'GitHub Copilot in VS Code'
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
