@@ -8,7 +8,8 @@ We will create a new Vite-powered React application with TypeScript support foll
 
 ## Requirements
 
-- Node.js 22.x - Use **.nvmrc** file to set node version manager if available
+- Use the latest available version of Node.js 22.x
+- Use **.nvmrc** file to set node version manager if available
 
 ```bash
 nvm use
