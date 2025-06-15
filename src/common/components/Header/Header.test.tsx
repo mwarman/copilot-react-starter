@@ -1,7 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from './Header';
+
+// Mock ThemeToggle component
+vi.mock('../ThemeToggle/ThemeToggle', () => ({
+  ThemeToggle: () => <div data-testid="theme-toggle-mock" />,
+}));
 
 // Create a wrapper component that provides the BrowserRouter context
 const HeaderWithRouter = () => (
@@ -40,5 +45,13 @@ describe('Header', () => {
     const header = screen.getByRole('banner');
     const svg = header.querySelector('svg');
     expect(svg).toBeInTheDocument();
+  });
+
+  it('includes the ThemeToggle component', () => {
+    // Arrange
+    render(<HeaderWithRouter />);
+
+    // Assert
+    expect(screen.getByTestId('theme-toggle-mock')).toBeInTheDocument();
   });
 });

@@ -6,7 +6,7 @@ export const LandingPage = () => {
   const [count, setCount] = useState(0);
 
   return (
-    <div className="max-w-[1280px] mx-auto p-8 text-center">
+    <div className="container mx-auto px-4 py-8 text-center">
       <div className="flex justify-center space-x-8">
         <a href="https://vite.dev" target="_blank">
           <img
