@@ -9,6 +9,11 @@ vi.mock('../Header/Header', () => ({
   Header: () => <div data-testid="mock-header">Mock Header</div>,
 }));
 
+// Mock the Footer component
+vi.mock('../Footer/Footer', () => ({
+  default: () => <div data-testid="mock-footer">Mock Footer</div>,
+}));
+
 // Mock React's lazy loading
 vi.mock('react', async () => {
   const actual = await vi.importActual('react');
@@ -59,6 +64,20 @@ describe('Router', () => {
 
     // Assert
     expect(screen.getByTestId('mock-header')).toBeInTheDocument();
+  });
+
+  it('renders the Footer component', () => {
+    // Arrange - No special setup needed
+
+    // Act
+    render(
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>,
+    );
+
+    // Assert
+    expect(screen.getByTestId('mock-footer')).toBeInTheDocument();
   });
 
   it('renders the LandingPage component on the root route', async () => {

@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { Header } from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 // Lazy load route components
 const LandingPage = lazy(() => import('../../../pages/LandingPage/LandingPage'));
@@ -18,18 +19,21 @@ export const LoadingFallback = () => (
  */
 export const Router = () => {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <Suspense fallback={<LoadingFallback />}>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          {/* Additional routes will be added here as the application grows */}
+      <main className="flex-grow">
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            {/* Additional routes will be added here as the application grows */}
 
-          {/* Fallback route - redirect to home if route not found */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Suspense>
-    </>
+            {/* Fallback route - redirect to home if route not found */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
+      </main>
+      <Footer />
+    </div>
   );
 };
 
