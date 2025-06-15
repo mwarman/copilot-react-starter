@@ -1,36 +1,24 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
+import { render } from '@testing-library/react';
 import App from './App';
 
+// Mock the Router component
+vi.mock('./common/components/Router/Router', () => ({
+  default: () => <div data-testid="router-component">Router Component</div>,
+}));
+
+// Mock BrowserRouter
+vi.mock('react-router-dom', () => ({
+  BrowserRouter: ({ children }: { children: React.ReactNode }) => <div data-testid="browser-router">{children}</div>,
+}));
+
 describe('App', () => {
-  it('renders the Vite and React logos', () => {
-    // Arrange
-    render(<App />);
-
-    // Act & Assert
-    expect(screen.getByRole('img', { name: 'Vite logo' })).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: 'React logo' })).toBeInTheDocument();
-  });
-
-  it('increments counter when button is clicked', async () => {
-    // Arrange
-    const user = userEvent.setup();
-    render(<App />);
-
-    // Act
-    const button = screen.getByRole('button', { name: /count is/i });
-    await user.click(button);
+  it('renders the Router component inside BrowserRouter', () => {
+    // Arrange & Act
+    const { getByTestId } = render(<App />);
 
     // Assert
-    expect(button).toHaveTextContent('count is 1');
-  });
-
-  it('displays the correct heading', () => {
-    // Arrange
-    render(<App />);
-
-    // Assert
-    expect(screen.getByText('Vite + React')).toBeInTheDocument();
+    expect(getByTestId('browser-router')).toBeInTheDocument();
+    expect(getByTestId('router-component')).toBeInTheDocument();
   });
 });
