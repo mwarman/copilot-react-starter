@@ -26,3 +26,14 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# CDK-specific
+infrastructure/cdk.out
+infrastructure/dist
+.cdk.staging
+cdk-outputs.json
+infrastructure/.env
+
+# Configuration files
+.env*
+!.env.example

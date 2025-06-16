@@ -93,26 +93,51 @@ src
 ### Branching Strategy
 
 - `main` - Production-ready code
-- `develop` - Integration branch for feature development
 - `feature/*` - Feature branches for new development
 - `bugfix/*` - Bug fix branches
 - `release/*` - Release branches
 
 ### Deployment
 
-The application is deployed using AWS CDK. To deploy:
+The application is deployed using AWS CDK, which provisions an S3 bucket for file storage and a CloudFront distribution for content delivery. To deploy:
 
-1. Build the application:
+1. Install infrastructure dependencies (first time only):
+
+   ```bash
+   npm run cdk:install
+   ```
+
+2. Build and deploy the application:
+
+   ```bash
+   npm run cdk:deploy
+   ```
+
+   Or with custom parameters using environment variables:
 
    ```bash
    npm run build
+   cd infrastructure
+   CDK_ENV=prod CDK_DOMAIN_NAMES=yourdomain.com CDK_CERTIFICATE_ARN=your-certificate-arn npm run deploy
    ```
 
-2. Deploy to AWS:
-   ```bash
-   cd infrastructure
-   npm run cdk deploy
-   ```
+### AWS Infrastructure
+
+The application is deployed to AWS using the following components:
+
+- **S3 Bucket**: Stores the static files for the React application
+- **CloudFront Distribution**: Global content delivery network for serving the application
+  - Redirects HTTP to HTTPS
+  - Handles SPA routing by redirecting 404/403 errors to index.html
+  - Uses Price Class 100 for cost optimization (North America and Europe)
+
+#### Infrastructure Management
+
+Additional infrastructure commands:
+
+- `npm run cdk:diff` - Show changes before deployment
+- `npm run cdk:synth` - Generate CloudFormation template
+- `npm run cdk:destroy` - Remove the infrastructure (use with caution)
 
 ## Contributing
 

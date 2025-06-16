@@ -1,0 +1,26 @@
+{
+  "name": "task-ui-infrastructure",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk",
+    "deploy": "cdk deploy",
+    "destroy": "cdk destroy",
+    "diff": "cdk diff",
+    "synth": "cdk synth"
+  },
+  "devDependencies": {
+    "@types/node": "24.0.2",
+    "aws-cdk": "2.1018.1",
+    "ts-node": "10.9.2",
+    "typescript": "5.8.3"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.201.0",
+    "constructs": "10.4.2",
+    "dotenv": "16.5.0",
+    "source-map-support": "0.5.21"
+  }
+}

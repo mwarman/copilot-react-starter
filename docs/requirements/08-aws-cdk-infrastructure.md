@@ -48,6 +48,22 @@ The infrastructure should be implemented in TypeScript using AWS CDK with the fo
 - AWS CDK implemented in a self-contained manner in the `/infrastructure` directory
 - Do not initialize the CDK; assume that CDK initialization and bootstrapping has already occurred
 - Follow the project guidelines and best practices
+- All stack resources should be tagged with:
+  - App = "task hero"
+  - Owner = "Leanstacks"
+  - Env = environmentCode
+  - OU = leanstacks
+
+## Configuration
+
+- Use **dotenv** to ingest configuration values from a `.env` file
+- Configuration variables should be obtained from `process.env`
+- Document the configuration approach and values in `infrastructure/README.md`
+
+```ts
+const domainName = process.env.CDK_DOMAIN_NAME;
+const environmentCode = process.env.CDK_ENV;
+```
 
 ## Example CDK Stack Structure
 
@@ -59,6 +75,8 @@ infrastructure
   tsconfig.json               # TypeScript configuration for AWS CDK infrastructure
   cdk.json                    # AWS CDK configuration
   package.json                # Dependencies and scripts for the AWS CDK infrastructure
+  .env                        # CDK app configuration variables and values
+  README.md                   # Infrastructure documentations and instructions
 ```
 
 ## Deployment Instructions

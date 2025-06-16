@@ -13,7 +13,14 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "cdk": "cd infrastructure && npm run cdk",
+    "cdk:deploy": "npm run build && cd infrastructure && npm run deploy",
+    "cdk:destroy": "cd infrastructure && npm run destroy",
+    "cdk:diff": "cd infrastructure && npm run diff",
+    "cdk:synth": "cd infrastructure && npm run synth",
+    "cdk:install": "./infrastructure/install.sh",
+    "cdk:env": "cp infrastructure/.env.example infrastructure/.env && echo 'Created .env file in infrastructure directory. Edit this file to set your deployment configuration.'"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "2.1.15",
