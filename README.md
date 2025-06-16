@@ -77,10 +77,18 @@ src
 - **Vitest** - Unit testing
 - **Tailwind CSS** - Utility-first CSS framework
 - **shadcn/ui** - UI component library
-- **React Query** - Data fetching and state management
+- **React Query** - Data fetching and state management ([documentation](./docs/react-query.md))
 - **React Hook Form** - Form handling
 - **Zod** - Schema validation
 - **AWS CDK** - Infrastructure as code
+
+## Documentation
+
+### React Query
+
+Task Hero uses TanStack Query (React Query) for server state management. React Query simplifies data fetching, caching, synchronization, and updating server state in your React applications.
+
+For detailed information on how React Query is implemented in this project, including examples and best practices, see the [React Query documentation](./docs/react-query.md).
 
 ## Developer Workflow
 

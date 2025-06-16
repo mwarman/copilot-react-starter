@@ -25,7 +25,7 @@ export default defineConfig({
         branches: 80,
         statements: 80,
       },
-      exclude: ['src/main.tsx', ...coverageConfigDefaults.exclude],
+      exclude: ['src/main.tsx', 'infrastructure', ...coverageConfigDefaults.exclude],
     },
   },
 });

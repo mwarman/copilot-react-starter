@@ -80,9 +80,9 @@ describe('Router', () => {
     expect(screen.getByTestId('mock-footer')).toBeInTheDocument();
   });
 
-  it('renders the LandingPage component on the root route', async () => {
+  it('renders the LandingPage component on the landing route', async () => {
     // Arrange
-    window.history.pushState({}, '', '/');
+    window.history.pushState({}, '', '/landing');
 
     // Act
     render(
@@ -95,7 +95,7 @@ describe('Router', () => {
     expect(screen.getByTestId('landing-page-component')).toBeInTheDocument();
   });
 
-  it('redirects to the home page for non-existent routes', () => {
+  it('redirects to the tasks page for non-existent routes', () => {
     // Arrange
     window.history.pushState({}, '', '/non-existent-route');
 
@@ -107,7 +107,7 @@ describe('Router', () => {
     );
 
     // Assert
-    expect(mockNavigate).toHaveBeenCalledWith('/');
+    expect(mockNavigate).toHaveBeenCalledWith('/tasks');
   });
 
   it('renders the LoadingFallback component during lazy loading', () => {
@@ -149,7 +149,7 @@ describe('Router', () => {
     );
 
     // Assert - Verify redirect happened
-    expect(mockNavigate).toHaveBeenCalledWith('/');
+    expect(mockNavigate).toHaveBeenCalledWith('/tasks');
 
     // Reset mock for the next test
     mockNavigate.mockClear();

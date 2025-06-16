@@ -4,7 +4,8 @@ import { Header } from '../Header/Header';
 import Footer from '../Footer/Footer';
 
 // Lazy load route components
-const LandingPage = lazy(() => import('../../../pages/LandingPage/LandingPage'));
+const LandingPage = lazy(() => import('@/pages/LandingPage/LandingPage'));
+const TaskListPage = lazy(() => import('@/pages/TaskList/TaskListPage'));
 
 // Loading fallback component
 export const LoadingFallback = () => (
@@ -24,11 +25,17 @@ export const Router = () => {
       <main className="flex-grow">
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
-            <Route path="/" element={<LandingPage />} />
-            {/* Additional routes will be added here as the application grows */}
+            {/* Redirect root to tasks */}
+            <Route path="/" element={<Navigate to="/tasks" replace />} />
 
-            {/* Fallback route - redirect to home if route not found */}
-            <Route path="*" element={<Navigate to="/" replace />} />
+            {/* Task routes */}
+            <Route path="/tasks" element={<TaskListPage />} />
+
+            {/* Legacy landing page kept for reference */}
+            <Route path="/landing" element={<LandingPage />} />
+
+            {/* Fallback route - redirect to tasks if route not found */}
+            <Route path="*" element={<Navigate to="/tasks" replace />} />
           </Routes>
         </Suspense>
       </main>

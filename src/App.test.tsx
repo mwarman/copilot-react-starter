@@ -17,12 +17,21 @@ vi.mock('./common/providers/ThemeProvider', () => ({
   ThemeProvider: ({ children }: { children: React.ReactNode }) => <div data-testid="theme-provider">{children}</div>,
 }));
 
+// Mock QueryClientProvider
+vi.mock('@tanstack/react-query', () => ({
+  QueryClientProvider: ({ children }: { children: React.ReactNode }) => (
+    <div data-testid="query-provider">{children}</div>
+  ),
+  QueryClient: vi.fn(() => ({})),
+}));
+
 describe('App', () => {
-  it('renders the Router component inside BrowserRouter and ThemeProvider', () => {
+  it('renders the Router component inside BrowserRouter, ThemeProvider, and QueryClientProvider', () => {
     // Arrange & Act
     const { getByTestId } = render(<App />);
 
     // Assert
+    expect(getByTestId('query-provider')).toBeInTheDocument();
     expect(getByTestId('theme-provider')).toBeInTheDocument();
     expect(getByTestId('browser-router')).toBeInTheDocument();
     expect(getByTestId('router-component')).toBeInTheDocument();

@@ -174,7 +174,7 @@ export const api = axios.create({
   baseURL: 'https://api.example.com',
 });
 
-export function useTask(id: string) {
+export function useGetTask(id: string) {
   return useQuery({
     queryKey: ['tasks', id],
     queryFn: async () => {
