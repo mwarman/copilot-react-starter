@@ -1,13 +1,24 @@
-import React from 'react';
+import { useState, type JSX } from 'react';
 import { useGetTasks } from './hooks/useGetTasks';
 import { TaskItem } from './components/TaskItem';
 import { sortTasks } from './utils/taskUtils';
 import { Alert, AlertDescription, AlertTitle } from '../../common/components/ui/alert';
 import { AlertTriangle, InfoIcon } from 'lucide-react';
 import { Button } from '@/common/components/ui/button';
+import { TaskFilterBar } from './components/TaskFilterBar/TaskFilterBar';
+import { useFilterTasks } from './hooks/useFilterTasks';
 
-const TaskListPage: React.FC = () => {
+const TaskListPage = (): JSX.Element => {
+  const [filterText, setFilterText] = useState('');
   const { data: tasks, isLoading, isError, error, refetch } = useGetTasks();
+
+  // Sort and filter tasks
+  const sortedTasks = tasks ? sortTasks(tasks) : [];
+  const { filteredTasks, filteredCount, totalCount } = useFilterTasks(sortedTasks, filterText);
+
+  const handleFilterChange = (value: string) => {
+    setFilterText(value);
+  };
 
   // Loading state
   if (isLoading) {
@@ -45,7 +56,7 @@ const TaskListPage: React.FC = () => {
   }
 
   // Empty state
-  if (!tasks || tasks.length === 0) {
+  if (totalCount === 0) {
     return (
       <div className="container mx-auto p-4 max-w-3xl">
         <h1 className="text-2xl font-bold mb-6">My Tasks</h1>
@@ -58,18 +69,31 @@ const TaskListPage: React.FC = () => {
     );
   }
 
-  // Sort tasks by the required order
-  const sortedTasks = sortTasks(tasks);
+  // No results state
+  const noResults = totalCount > 0 && filteredCount === 0;
 
   // Populated state
   return (
     <div className="container mx-auto p-4 max-w-3xl">
       <h1 className="text-2xl font-bold mb-6">My Tasks</h1>
-      <div className="space-y-1">
-        {sortedTasks.map((task) => (
-          <TaskItem key={task.id} task={task} />
-        ))}
+
+      <div className="mb-6">
+        <TaskFilterBar onFilterChange={handleFilterChange} filteredCount={filteredCount} totalCount={totalCount} />
       </div>
+
+      {noResults ? (
+        <Alert>
+          <InfoIcon className="h-4 w-4" />
+          <AlertTitle>No matches found</AlertTitle>
+          <AlertDescription>No tasks match your current filter. Try adjusting your search criteria.</AlertDescription>
+        </Alert>
+      ) : (
+        <div className="space-y-1">
+          {filteredTasks.map((task) => (
+            <TaskItem key={task.id} task={task} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
