@@ -5,19 +5,30 @@ import { sortTasks } from './utils/taskUtils';
 import { Alert, AlertDescription, AlertTitle } from '../../common/components/ui/alert';
 import { AlertTriangle, InfoIcon } from 'lucide-react';
 import { Button } from '@/common/components/ui/button';
-import { TaskFilterBar } from './components/TaskFilterBar/TaskFilterBar';
+import { TaskFilterBar, type FilterOptions } from './components/TaskFilterBar/TaskFilterBar';
 import { useFilterTasks } from './hooks/useFilterTasks';
+import { useLocalStorage } from '@/common/hooks/useLocalStorage';
 
 const TaskListPage = (): JSX.Element => {
   const [filterText, setFilterText] = useState('');
+  const [filterOptions, setFilterOptions] = useLocalStorage<FilterOptions>('taskFilterOptions', {
+    showComplete: false,
+    showIncomplete: false,
+    showOverdue: false,
+  });
+
   const { data: tasks, isLoading, isError, error, refetch } = useGetTasks();
 
   // Sort and filter tasks
   const sortedTasks = tasks ? sortTasks(tasks) : [];
-  const { filteredTasks, filteredCount, totalCount } = useFilterTasks(sortedTasks, filterText);
+  const { filteredTasks, filteredCount, totalCount } = useFilterTasks(sortedTasks, filterText, filterOptions);
 
   const handleFilterChange = (value: string) => {
     setFilterText(value);
+  };
+
+  const handleFilterOptionsChange = (options: FilterOptions) => {
+    setFilterOptions(options);
   };
 
   // Loading state
@@ -78,7 +89,13 @@ const TaskListPage = (): JSX.Element => {
       <h1 className="text-2xl font-bold mb-6">My Tasks</h1>
 
       <div className="mb-6">
-        <TaskFilterBar onFilterChange={handleFilterChange} filteredCount={filteredCount} totalCount={totalCount} />
+        <TaskFilterBar
+          onFilterChange={handleFilterChange}
+          onFilterOptionsChange={handleFilterOptionsChange}
+          filterOptions={filterOptions}
+          filteredCount={filteredCount}
+          totalCount={totalCount}
+        />
       </div>
 
       {noResults ? (

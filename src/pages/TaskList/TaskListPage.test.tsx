@@ -16,6 +16,11 @@ vi.mock('@/common/hooks/useDebounce', () => ({
   useDebounce: vi.fn().mockImplementation((value) => value),
 }));
 
+// Mock the useLocalStorage hook
+vi.mock('@/common/hooks/useLocalStorage', () => ({
+  useLocalStorage: vi.fn().mockImplementation((key, initialValue) => [initialValue, vi.fn()]),
+}));
+
 describe('TaskListPage', () => {
   // Create a new QueryClient for each test
   const createWrapper = () => {

@@ -1,16 +1,30 @@
 import { useState, useEffect, type JSX } from 'react';
 import { Input } from '@/common/components/ui/input';
 import { Button } from '@/common/components/ui/button';
-import { Search, X } from 'lucide-react';
+import { Search, X, CheckCircle, Circle, Clock } from 'lucide-react';
 import { useDebounce } from '@/common/hooks/useDebounce';
+
+export interface FilterOptions {
+  showComplete: boolean;
+  showIncomplete: boolean;
+  showOverdue: boolean;
+}
 
 interface TaskFilterBarProps {
   onFilterChange: (filter: string) => void;
+  onFilterOptionsChange: (options: FilterOptions) => void;
+  filterOptions: FilterOptions;
   filteredCount: number;
   totalCount: number;
 }
 
-export const TaskFilterBar = ({ onFilterChange, filteredCount, totalCount }: TaskFilterBarProps): JSX.Element => {
+export const TaskFilterBar = ({
+  onFilterChange,
+  onFilterOptionsChange,
+  filterOptions,
+  filteredCount,
+  totalCount,
+}: TaskFilterBarProps): JSX.Element => {
   const [inputValue, setInputValue] = useState('');
   const debouncedValue = useDebounce(inputValue, 300);
 
@@ -25,6 +39,13 @@ export const TaskFilterBar = ({ onFilterChange, filteredCount, totalCount }: Tas
 
   const handleClearClick = () => {
     setInputValue('');
+  };
+
+  const toggleFilter = (filterName: keyof FilterOptions) => {
+    onFilterOptionsChange({
+      ...filterOptions,
+      [filterName]: !filterOptions[filterName],
+    });
   };
 
   return (
@@ -51,6 +72,39 @@ export const TaskFilterBar = ({ onFilterChange, filteredCount, totalCount }: Tas
           </Button>
         )}
       </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Button
+          size="sm"
+          variant={filterOptions.showComplete ? 'default' : 'outline'}
+          onClick={() => toggleFilter('showComplete')}
+          className="flex items-center gap-1"
+        >
+          <CheckCircle className="h-4 w-4" />
+          <span>Complete</span>
+        </Button>
+
+        <Button
+          size="sm"
+          variant={filterOptions.showIncomplete ? 'default' : 'outline'}
+          onClick={() => toggleFilter('showIncomplete')}
+          className="flex items-center gap-1"
+        >
+          <Circle className="h-4 w-4" />
+          <span>Incomplete</span>
+        </Button>
+
+        <Button
+          size="sm"
+          variant={filterOptions.showOverdue ? 'default' : 'outline'}
+          onClick={() => toggleFilter('showOverdue')}
+          className="flex items-center gap-1"
+        >
+          <Clock className="h-4 w-4" />
+          <span>Overdue</span>
+        </Button>
+      </div>
+
       <div className="text-xs font-medium text-gray-500 dark:text-gray-400">
         SHOWING {filteredCount} OF {totalCount}
       </div>
