@@ -18,7 +18,7 @@ vi.mock('@/common/hooks/useDebounce', () => ({
 
 // Mock the useLocalStorage hook
 vi.mock('@/common/hooks/useLocalStorage', () => ({
-  useLocalStorage: vi.fn().mockImplementation((key, initialValue) => [initialValue, vi.fn()]),
+  useLocalStorage: vi.fn().mockImplementation((_key, initialValue) => [initialValue, vi.fn()]),
 }));
 
 describe('TaskListPage', () => {
