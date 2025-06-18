@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Checkbox } from '../../../common/components/ui/checkbox';
 import { formatDate, isTaskOverdue } from '../utils/taskUtils';
 import type { Task } from '../../../common/models/Task';
@@ -11,16 +12,42 @@ interface TaskItemProps {
 export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const { id, title, detail, isComplete, dueAt } = task;
   const isOverdue = isTaskOverdue(task);
+  const navigate = useNavigate();
+
+  const handleTaskClick = (event: React.MouseEvent) => {
+    // Don't navigate if clicking on the checkbox
+    if ((event.target as HTMLElement).closest('[role="checkbox"]')) {
+      return;
+    }
+    navigate(`/tasks/${id}`);
+  };
+
+  const handleCheckboxChange = (event: React.MouseEvent) => {
+    // Prevent event bubbling to avoid navigation
+    event.stopPropagation();
+    // TODO: Implement checkbox toggle functionality
+  };
 
   return (
     <div
       className={cn(
-        'p-4 mb-4 rounded-md border transition-colors',
+        'p-4 mb-4 rounded-md border transition-colors cursor-pointer hover:bg-muted/50',
         isComplete ? 'bg-muted border-muted' : isOverdue ? 'border-amber-500 dark:border-amber-600' : 'border-border',
       )}
+      onClick={handleTaskClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          navigate(`/tasks/${id}`);
+        }
+      }}
     >
       <div className="flex items-start gap-3">
-        <Checkbox id={`task-${id}`} checked={isComplete} onCheckedChange={() => {}} className="mt-1" />
+        <div onClick={handleCheckboxChange}>
+          <Checkbox id={`task-${id}`} checked={isComplete} onCheckedChange={() => {}} className="mt-1" />
+        </div>
 
         <div className="flex-1">
           {/* Mobile: Due date appears at the top on small screens */}

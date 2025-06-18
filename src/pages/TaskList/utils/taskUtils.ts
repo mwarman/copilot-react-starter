@@ -1,5 +1,5 @@
 import type { Task } from '../../../common/models/Task';
-import { format, isBefore, parseISO, startOfDay } from 'date-fns';
+import { format, formatDistanceToNow, isBefore, parseISO, startOfDay, type FormatDistanceToNowOptions } from 'date-fns';
 
 /**
  * Sorts tasks according to the application requirements:
@@ -44,6 +44,12 @@ export const formatDate = (dateString?: string): string => {
   if (!dateString) return 'No due date';
 
   return format(parseISO(dateString), 'MMM dd, yyyy');
+};
+
+export const formatDateRelative = (dateString?: string, options?: FormatDistanceToNowOptions): string | null => {
+  if (!dateString) return null;
+
+  return formatDistanceToNow(parseISO(dateString), { ...options, addSuffix: true });
 };
 
 /**

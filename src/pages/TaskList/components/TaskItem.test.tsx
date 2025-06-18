@@ -1,9 +1,30 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { TaskItem } from './TaskItem';
 import type { Task } from '../../../common/models/Task';
 
+// Mock react-router-dom navigate
+const mockNavigate = vi.fn();
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
+  return {
+    ...actual,
+    useNavigate: () => mockNavigate,
+  };
+});
+
+// Test wrapper with Router
+const renderWithRouter = (component: React.ReactElement) => {
+  return render(<MemoryRouter>{component}</MemoryRouter>);
+};
+
 describe('TaskItem', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   // Arrange - Mock data setup for all tests
   const mockTask: Task = {
     id: '1',
@@ -34,7 +55,7 @@ describe('TaskItem', () => {
     const task = mockTask;
 
     // Act
-    render(<TaskItem task={task} />);
+    renderWithRouter(<TaskItem task={task} />);
 
     // Assert
     expect(screen.getByText('Test Task')).toBeInTheDocument();
@@ -50,7 +71,7 @@ describe('TaskItem', () => {
     const task = mockCompletedTask;
 
     // Act
-    render(<TaskItem task={task} />);
+    renderWithRouter(<TaskItem task={task} />);
 
     // Assert
     const title = screen.getByText('Completed Task');
@@ -65,7 +86,7 @@ describe('TaskItem', () => {
     const task = mockOverdueTask;
 
     // Act
-    render(<TaskItem task={task} />);
+    renderWithRouter(<TaskItem task={task} />);
 
     // Assert
     const container = screen.getByText('Overdue Task').closest('div[class*="border"]');
@@ -76,5 +97,67 @@ describe('TaskItem', () => {
     dateElements.forEach((element) => {
       expect(element.closest('[class*="text-amber"]')).not.toBeNull();
     });
+  });
+
+  it('navigates to task detail when clicked', async () => {
+    // Arrange
+    const task = mockTask;
+    const user = userEvent.setup();
+
+    // Act
+    renderWithRouter(<TaskItem task={task} />);
+
+    const taskContainer = screen.getByRole('button');
+    await user.click(taskContainer);
+
+    // Assert
+    expect(mockNavigate).toHaveBeenCalledWith('/tasks/1');
+  });
+
+  it('navigates to task detail when Enter key is pressed', async () => {
+    // Arrange
+    const task = mockTask;
+    const user = userEvent.setup();
+
+    // Act
+    renderWithRouter(<TaskItem task={task} />);
+
+    const taskContainer = screen.getByRole('button');
+    taskContainer.focus();
+    await user.keyboard('{Enter}');
+
+    // Assert
+    expect(mockNavigate).toHaveBeenCalledWith('/tasks/1');
+  });
+
+  it('navigates to task detail when Space key is pressed', async () => {
+    // Arrange
+    const task = mockTask;
+    const user = userEvent.setup();
+
+    // Act
+    renderWithRouter(<TaskItem task={task} />);
+
+    const taskContainer = screen.getByRole('button');
+    taskContainer.focus();
+    await user.keyboard(' ');
+
+    // Assert
+    expect(mockNavigate).toHaveBeenCalledWith('/tasks/1');
+  });
+
+  it('does not navigate when checkbox is clicked', async () => {
+    // Arrange
+    const task = mockTask;
+    const user = userEvent.setup();
+
+    // Act
+    renderWithRouter(<TaskItem task={task} />);
+
+    const checkbox = screen.getByRole('checkbox');
+    await user.click(checkbox);
+
+    // Assert
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });
