@@ -6,6 +6,7 @@ import Footer from '../Footer/Footer';
 // Lazy load route components
 const LandingPage = lazy(() => import('@/pages/LandingPage/LandingPage'));
 const TaskListPage = lazy(() => import('@/pages/TaskList/TaskListPage'));
+const CreateTaskPage = lazy(() => import('@/pages/CreateTask/CreateTaskPage'));
 
 // Loading fallback component
 export const LoadingFallback = () => (
@@ -30,6 +31,7 @@ export const Router = () => {
 
             {/* Task routes */}
             <Route path="/tasks" element={<TaskListPage />} />
+            <Route path="/tasks/create" element={<CreateTaskPage />} />
 
             {/* Legacy landing page kept for reference */}
             <Route path="/landing" element={<LandingPage />} />

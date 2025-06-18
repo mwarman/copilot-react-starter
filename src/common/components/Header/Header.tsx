@@ -1,6 +1,7 @@
-import { BadgeCheck } from 'lucide-react';
+import { BadgeCheck, PlusIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ThemeToggle } from '../ThemeToggle/ThemeToggle';
+import { Button } from '../ui/button';
 
 export const Header = () => {
   return (
@@ -11,6 +12,12 @@ export const Header = () => {
           <span className="text-2xl font-bold">Task Hero</span>
         </Link>
         <div className="flex items-center gap-4">
+          <Button asChild size="sm">
+            <Link to="/tasks/create">
+              <PlusIcon className="h-4 w-4" />
+              <span className="hidden sm:inline">Create</span>
+            </Link>
+          </Button>
           <ThemeToggle />
         </div>
       </div>

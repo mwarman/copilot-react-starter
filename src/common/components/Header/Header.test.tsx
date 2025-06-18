@@ -54,4 +54,16 @@ describe('Header', () => {
     // Assert
     expect(screen.getByTestId('theme-toggle-mock')).toBeInTheDocument();
   });
+
+  it('includes a Create button with link to create task page', () => {
+    // Arrange
+    render(<HeaderWithRouter />);
+
+    // Act
+    const createTaskButton = screen.getByRole('link', { name: /create/i });
+
+    // Assert
+    expect(createTaskButton).toBeInTheDocument();
+    expect(createTaskButton.getAttribute('href')).toBe('/tasks/create');
+  });
 });
