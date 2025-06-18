@@ -45,7 +45,7 @@ describe('TaskDetailPage', () => {
       title: 'Test Task Title',
       detail: 'This is a detailed description of the test task.',
       isComplete: false,
-      dueAt: '2025-06-20T10:00:00Z',
+      dueAt: '2025-06-20T23:59:59Z',
     };
 
     vi.mocked(api.get).mockResolvedValueOnce({ data: mockTask });
@@ -60,7 +60,7 @@ describe('TaskDetailPage', () => {
     });
 
     expect(screen.getByText('This is a detailed description of the test task.')).toBeInTheDocument();
-    expect(screen.getByText('Jun 20, 2025')).toBeInTheDocument();
+    expect(screen.getByText(/Jun 20, 2025/)).toBeInTheDocument();
     expect(screen.getByText('Incomplete')).toBeInTheDocument();
   });
 

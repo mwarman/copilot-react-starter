@@ -138,8 +138,15 @@ const CreateTaskPage = () => {
                       <Calendar
                         mode="single"
                         selected={date}
-                        onSelect={(date) => {
-                          setDate(date);
+                        onSelect={(selectedDate) => {
+                          if (selectedDate) {
+                            // Set time to end of day (23:59:59.999)
+                            const endOfDay = new Date(selectedDate);
+                            endOfDay.setHours(23, 59, 59, 999);
+                            setDate(endOfDay);
+                          } else {
+                            setDate(selectedDate);
+                          }
                           setIsDatePickerOpen(false);
                         }}
                       />
