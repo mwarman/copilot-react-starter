@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 import { TaskItem } from './TaskItem';
 import type { Task } from '../../../common/models/Task';
@@ -15,6 +16,13 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
+// Mock TaskItemMenu component
+vi.mock('./TaskItemMenu', () => ({
+  TaskItemMenu: ({ taskTitle }: { taskId: string; taskTitle: string }) => (
+    <button aria-label={`Menu for ${taskTitle}`}>•••</button>
+  ),
+}));
+
 // Mock TaskCompleteToggle component
 vi.mock('./TaskCompleteToggle', () => ({
   TaskCompleteToggle: ({ task, className }: { task: Task; className?: string }) => (
@@ -22,9 +30,24 @@ vi.mock('./TaskCompleteToggle', () => ({
   ),
 }));
 
-// Test wrapper with Router
-const renderWithRouter = (component: React.ReactElement) => {
-  return render(<MemoryRouter>{component}</MemoryRouter>);
+// Test wrapper with Router and QueryClient
+const createWrapper = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: { retry: false },
+      mutations: { retry: false },
+    },
+  });
+
+  return ({ children }: { children: React.ReactNode }) => (
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>{children}</MemoryRouter>
+    </QueryClientProvider>
+  );
+};
+
+const renderWithProviders = (component: React.ReactElement) => {
+  return render(component, { wrapper: createWrapper() });
 };
 
 describe('TaskItem', () => {
@@ -62,7 +85,7 @@ describe('TaskItem', () => {
     const task = mockTask;
 
     // Act
-    renderWithRouter(<TaskItem task={task} />);
+    renderWithProviders(<TaskItem task={task} />);
 
     // Assert
     expect(screen.getByText('Test Task')).toBeInTheDocument();
@@ -78,7 +101,7 @@ describe('TaskItem', () => {
     const task = mockCompletedTask;
 
     // Act
-    renderWithRouter(<TaskItem task={task} />);
+    renderWithProviders(<TaskItem task={task} />);
 
     // Assert
     const title = screen.getByText('Completed Task');
@@ -93,7 +116,7 @@ describe('TaskItem', () => {
     const task = mockOverdueTask;
 
     // Act
-    renderWithRouter(<TaskItem task={task} />);
+    renderWithProviders(<TaskItem task={task} />);
 
     // Assert
     const container = screen.getByText('Overdue Task').closest('div[class*="border"]');
@@ -112,9 +135,10 @@ describe('TaskItem', () => {
     const user = userEvent.setup();
 
     // Act
-    renderWithRouter(<TaskItem task={task} />);
+    renderWithProviders(<TaskItem task={task} />);
 
-    const taskContainer = screen.getByRole('button');
+    // Get the main task container (not the menu button)
+    const taskContainer = screen.getByText('Test Task').closest('[role="button"]') as HTMLElement;
     await user.click(taskContainer);
 
     // Assert
@@ -127,9 +151,10 @@ describe('TaskItem', () => {
     const user = userEvent.setup();
 
     // Act
-    renderWithRouter(<TaskItem task={task} />);
+    renderWithProviders(<TaskItem task={task} />);
 
-    const taskContainer = screen.getByRole('button');
+    // Get the main task container (not the menu button)
+    const taskContainer = screen.getByText('Test Task').closest('[role="button"]') as HTMLElement;
     taskContainer.focus();
     await user.keyboard('{Enter}');
 
@@ -143,9 +168,10 @@ describe('TaskItem', () => {
     const user = userEvent.setup();
 
     // Act
-    renderWithRouter(<TaskItem task={task} />);
+    renderWithProviders(<TaskItem task={task} />);
 
-    const taskContainer = screen.getByRole('button');
+    // Get the main task container (not the menu button)
+    const taskContainer = screen.getByText('Test Task').closest('[role="button"]') as HTMLElement;
     taskContainer.focus();
     await user.keyboard(' ');
 
@@ -159,7 +185,7 @@ describe('TaskItem', () => {
     const user = userEvent.setup();
 
     // Act
-    renderWithRouter(<TaskItem task={task} />);
+    renderWithProviders(<TaskItem task={task} />);
 
     const checkbox = screen.getByRole('checkbox');
     await user.click(checkbox);

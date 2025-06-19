@@ -25,6 +25,11 @@ vi.mock('@tanstack/react-query', () => ({
   QueryClient: vi.fn(() => ({})),
 }));
 
+// Mock Toaster component to avoid matchMedia issues
+vi.mock('./common/components/ui/sonner', () => ({
+  Toaster: () => <div data-testid="toaster" />,
+}));
+
 describe('App', () => {
   it('renders the Router component inside BrowserRouter, ThemeProvider, and QueryClientProvider', () => {
     // Arrange & Act

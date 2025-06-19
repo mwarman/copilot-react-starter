@@ -29,11 +29,17 @@ This document outlines the requirements for implementing task deletion functiona
 
 ## User Experience / Design
 
-### Delete Buttons
+### Buttons
 
-- In list view: Include a delete icon button on each task item
-- In detail view: Add a delete button in the actions bar area
-- Use Lucide React for delete icons
+- In list view: Add a dropdown menu (ellipsis icon) to each task list item with a single menu item to delete the task
+- In detail view: Add a delete button in the actions bar area at the top of the page located on the right side of the page
+- Use Lucide React for icons
+
+### Item Menu
+
+- Add a dropdown menu with task-specific actions to each item in the list
+- Located in the upper-right corner of the item.
+- Triggered by an elipsis icon
 
 ### States
 

@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useGetTask } from './hooks/useGetTask';
 import { formatDate, formatDateRelative, isTaskOverdue } from '../TaskList/utils/taskUtils';
 import { TaskCompleteToggle } from '../TaskList/components/TaskCompleteToggle';
+import { DeleteTaskButton } from './components/DeleteTaskButton';
 import { Alert, AlertDescription, AlertTitle } from '../../common/components/ui/alert';
 import { Button } from '../../common/components/ui/button';
 import { Badge } from '../../common/components/ui/badge';
@@ -99,10 +100,17 @@ const TaskDetailPage = (): JSX.Element => {
     <div className="container mx-auto p-4 max-w-3xl">
       {/* Header with back navigation */}
       <div className="mb-8">
-        <Button variant="ghost" onClick={handleBackToTasks} className="p-0 mb-4">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Tasks
-        </Button>
+        <div className="flex items-center justify-between mb-4">
+          <Button variant="ghost" onClick={handleBackToTasks} className="p-0">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Tasks
+          </Button>
+
+          {/* Actions area */}
+          <div className="flex items-center gap-2">
+            <DeleteTaskButton taskId={task.id} taskTitle={task.title} />
+          </div>
+        </div>
 
         <div className="flex items-center gap-3">
           {/* Completion status icon */}

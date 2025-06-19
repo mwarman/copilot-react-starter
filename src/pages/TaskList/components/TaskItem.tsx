@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { formatDate, isTaskOverdue } from '../utils/taskUtils';
 import { TaskCompleteToggle } from './TaskCompleteToggle';
+import { TaskItemMenu } from './TaskItemMenu';
 import type { Task } from '../../../common/models/Task';
 import { cn } from '../../../common/utils/css';
 
@@ -15,8 +16,9 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const navigate = useNavigate();
 
   const handleTaskClick = (event: React.MouseEvent) => {
-    // Don't navigate if clicking on the checkbox
-    if ((event.target as HTMLElement).closest('[role="checkbox"]')) {
+    // Don't navigate if clicking on the checkbox or menu button
+    const target = event.target as HTMLElement;
+    if (target.closest('[role="checkbox"]') || target.closest('button') || target.closest('[role="menuitem"]')) {
       return;
     }
     navigate(`/tasks/${id}`);
@@ -61,7 +63,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
             {/* Desktop: Due date appears to the right on medium screens and up */}
             <div
               className={cn(
-                'text-sm whitespace-nowrap ml-2 hidden md:block',
+                'text-sm whitespace-nowrap ml-2 hidden md:block mt-1.5',
                 isOverdue && !isComplete ? 'text-amber-600 dark:text-amber-500' : 'text-muted-foreground',
               )}
             >
@@ -79,6 +81,11 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
               {detail}
             </p>
           )}
+        </div>
+
+        {/* Task actions menu */}
+        <div className="flex items-center">
+          <TaskItemMenu taskId={id} taskTitle={title} />
         </div>
       </div>
     </div>

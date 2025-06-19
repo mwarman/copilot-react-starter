@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Router from './common/components/Router/Router';
 import { ThemeProvider } from './common/providers/ThemeProvider';
+import { Toaster } from './common/components/ui/sonner';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -24,6 +25,7 @@ function App() {
         <BrowserRouter>
           <Router />
         </BrowserRouter>
+        <Toaster />
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
