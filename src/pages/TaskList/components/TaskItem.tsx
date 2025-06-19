@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Checkbox } from '../../../common/components/ui/checkbox';
 import { formatDate, isTaskOverdue } from '../utils/taskUtils';
+import { TaskCompleteToggle } from './TaskCompleteToggle';
 import type { Task } from '../../../common/models/Task';
 import { cn } from '../../../common/utils/css';
 
@@ -22,12 +22,6 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
     navigate(`/tasks/${id}`);
   };
 
-  const handleCheckboxChange = (event: React.MouseEvent) => {
-    // Prevent event bubbling to avoid navigation
-    event.stopPropagation();
-    // TODO: Implement checkbox toggle functionality
-  };
-
   return (
     <div
       className={cn(
@@ -45,9 +39,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
       }}
     >
       <div className="flex items-start gap-3">
-        <div onClick={handleCheckboxChange}>
-          <Checkbox id={`task-${id}`} checked={isComplete} onCheckedChange={() => {}} className="mt-1" />
-        </div>
+        <TaskCompleteToggle task={task} className="mt-1" />
 
         <div className="flex-1">
           {/* Mobile: Due date appears at the top on small screens */}

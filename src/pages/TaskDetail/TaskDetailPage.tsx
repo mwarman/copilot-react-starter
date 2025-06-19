@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGetTask } from './hooks/useGetTask';
 import { formatDate, formatDateRelative, isTaskOverdue } from '../TaskList/utils/taskUtils';
+import { TaskCompleteToggle } from '../TaskList/components/TaskCompleteToggle';
 import { Alert, AlertDescription, AlertTitle } from '../../common/components/ui/alert';
 import { Button } from '../../common/components/ui/button';
 import { Badge } from '../../common/components/ui/badge';
@@ -118,8 +119,8 @@ const TaskDetailPage = (): JSX.Element => {
         </div>
       </div>
 
-      {/* Task metadata */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      {/* Task attributes */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         {/* Status section */}
         <div className="space-y-2">
           <h2 className="text-lg font-semibold">Status</h2>
@@ -150,9 +151,12 @@ const TaskDetailPage = (): JSX.Element => {
             {formatDate(task.dueAt)} {task.dueAt && `(${formatDateRelative(task.dueAt)})`}
           </p>
         </div>
+
+        {/* Task completion toggle */}
+        <TaskCompleteToggle task={task} showLabel />
       </div>
 
-      {/* Task details */}
+      {/* Task detail */}
       {task.detail && (
         <div className="space-y-3">
           <h2 className="text-lg font-semibold">Details</h2>

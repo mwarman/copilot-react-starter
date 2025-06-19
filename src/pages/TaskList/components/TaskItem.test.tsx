@@ -15,6 +15,13 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
+// Mock TaskCompleteToggle component
+vi.mock('./TaskCompleteToggle', () => ({
+  TaskCompleteToggle: ({ task, className }: { task: Task; className?: string }) => (
+    <input type="checkbox" role="checkbox" checked={task.isComplete} className={className} readOnly />
+  ),
+}));
+
 // Test wrapper with Router
 const renderWithRouter = (component: React.ReactElement) => {
   return render(<MemoryRouter>{component}</MemoryRouter>);
