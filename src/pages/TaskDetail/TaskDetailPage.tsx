@@ -6,7 +6,7 @@ import { DeleteTaskButton } from './components/DeleteTaskButton';
 import { Alert, AlertDescription, AlertTitle } from '../../common/components/ui/alert';
 import { Button } from '../../common/components/ui/button';
 import { Badge } from '../../common/components/ui/badge';
-import { AlertTriangle, ArrowLeft, CheckCircle, Circle, InfoIcon } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CheckCircle, Circle, InfoIcon, Edit } from 'lucide-react';
 import { cn } from '../../common/utils/css';
 import type { JSX } from 'react';
 
@@ -20,6 +20,12 @@ const TaskDetailPage = (): JSX.Element => {
 
   const handleBackToTasks = () => {
     navigate('/tasks');
+  };
+
+  const handleEdit = () => {
+    navigate(`/tasks/${taskId}/edit`, {
+      state: { from: `/tasks/${taskId}` },
+    });
   };
 
   // Loading state
@@ -108,6 +114,10 @@ const TaskDetailPage = (): JSX.Element => {
 
           {/* Actions area */}
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={handleEdit}>
+              <Edit className="mr-2 h-4 w-4" />
+              Edit
+            </Button>
             <DeleteTaskButton taskId={task.id} taskTitle={task.title} />
           </div>
         </div>

@@ -18,6 +18,7 @@ The Task Update feature allows users to modify existing tasks through a dedicate
 
 ### Form Components
 
+- UX similar to the create task page and form
 - **Title** - Text input field (required)
 - **Detail** - Text area for longer descriptions
 - **Due Date** - Date picker for selecting deadline
@@ -34,7 +35,7 @@ The Task Update feature allows users to modify existing tasks through a dedicate
 ## Navigation
 
 - **Access Points**:
-  - Edit button on Task List page
+  - Edit menu item in the task item menu for each item on the Task List page.
   - Edit button on Task Detail page in the actions bar area
 - **Route**: `/tasks/:taskId/edit`
 - **Post-Update Navigation**:

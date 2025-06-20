@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { MoreHorizontal, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { MoreHorizontal, Trash2, Edit } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/common/components/ui/button';
 import {
@@ -17,11 +18,18 @@ interface TaskItemMenuProps {
 }
 
 /**
- * Dropdown menu for task list items with delete functionality
+ * Dropdown menu for task list items with edit and delete functionality
  */
 export const TaskItemMenu = ({ taskId, taskTitle }: TaskItemMenuProps) => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const navigate = useNavigate();
   const deleteTask = useDeleteTask();
+
+  const handleEdit = () => {
+    navigate(`/tasks/${taskId}/edit`, {
+      state: { from: '/tasks' },
+    });
+  };
 
   const handleDelete = async () => {
     try {
@@ -46,6 +54,10 @@ export const TaskItemMenu = ({ taskId, taskTitle }: TaskItemMenuProps) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={handleEdit}>
+            <Edit className="mr-2 h-4 w-4" />
+            Edit task
+          </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => setShowDeleteDialog(true)}
             className="text-destructive focus:text-destructive"
