@@ -25,6 +25,14 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
+// Mock toast
+vi.mock('sonner', () => ({
+  toast: {
+    success: vi.fn(),
+    error: vi.fn(),
+  },
+}));
+
 // Type the mocked API - cast to access mock methods
 const mockApi = api as unknown as {
   post: ReturnType<typeof vi.fn>;

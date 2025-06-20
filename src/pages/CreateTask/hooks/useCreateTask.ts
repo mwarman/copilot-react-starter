@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { api } from '@/common/utils/api';
+import { toast } from 'sonner';
 import type { Task } from '@/common/models/Task';
 
 /**
@@ -16,11 +17,22 @@ export const useCreateTask = () => {
       const { data } = await api.post<Task>('/tasks', taskData);
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Show success toast
+      toast.success('Task created', {
+        description: `"${data.title}" has been successfully created.`,
+      });
+
       // Invalidate the tasks list to trigger a refetch
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       // Redirect back to task list
       navigate('/tasks');
+    },
+    onError: () => {
+      // Show error toast
+      toast.error('Error', {
+        description: 'Failed to create task. Please try again.',
+      });
     },
   });
 };
