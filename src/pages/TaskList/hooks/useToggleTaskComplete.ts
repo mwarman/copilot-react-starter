@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { api } from '../../../common/utils/api';
 import type { Task } from '../../../common/models/Task';
 
@@ -66,7 +67,14 @@ export const useToggleTaskComplete = () => {
       // Return context with previous values for potential rollback
       return { previousTask, previousTasks };
     },
+    onSuccess: (_data, variables) => {
+      // Show success toast notification
+      toast.success(variables.isComplete ? 'Task marked as complete!' : 'Task marked as incomplete!');
+    },
     onError: (_err, variables, context) => {
+      // Show error toast notification
+      toast.error('Failed to update task. Please try again.');
+
       // Rollback optimistic updates on error
       if (context?.previousTask) {
         queryClient.setQueryData(['tasks', variables.taskId], context.previousTask);

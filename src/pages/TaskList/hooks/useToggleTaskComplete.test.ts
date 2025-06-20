@@ -13,6 +13,17 @@ vi.mock('../../../common/utils/api', () => ({
   },
 }));
 
+// Mock Sonner toast
+vi.mock('sonner', () => ({
+  toast: {
+    success: vi.fn(),
+    error: vi.fn(),
+  },
+}));
+
+import { toast } from 'sonner';
+const mockToast = vi.mocked(toast);
+
 const mockApi = {
   put: api.put as MockedFunction<typeof api.put>,
 };
@@ -79,6 +90,39 @@ describe('useToggleTaskComplete', () => {
       ...mockTask,
       isComplete: true,
     });
+    expect(mockToast.success).toHaveBeenCalledWith('Task marked as complete!');
+  });
+
+  it('should show correct toast message when marking task as incomplete', async () => {
+    // Arrange
+    const completedTask = { ...mockTask, isComplete: true };
+    const updatedTask = { ...completedTask, isComplete: false };
+    mockApi.put.mockResolvedValueOnce({ data: updatedTask });
+
+    // Set initial data in the query client with a completed task
+    queryClient.setQueryData(['tasks', '1'], completedTask);
+    queryClient.setQueryData(['tasks'], [completedTask]);
+
+    const { result } = renderHook(() => useToggleTaskComplete(), {
+      wrapper: createWrapper(queryClient),
+    });
+
+    // Act
+    result.current.mutate({
+      taskId: '1',
+      isComplete: false,
+    });
+
+    // Assert
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+
+    expect(mockApi.put).toHaveBeenCalledWith('/tasks/1', {
+      ...completedTask,
+      isComplete: false,
+    });
+    expect(mockToast.success).toHaveBeenCalledWith('Task marked as incomplete!');
   });
 
   it('should optimistically update task completion status', async () => {
@@ -140,6 +184,7 @@ describe('useToggleTaskComplete', () => {
 
     expect(individualTask?.isComplete).toBe(false);
     expect(taskList?.[0]?.isComplete).toBe(false);
+    expect(mockToast.error).toHaveBeenCalledWith('Failed to update task. Please try again.');
   });
 
   it('should handle error when task data is not in cache', async () => {
@@ -190,5 +235,37 @@ describe('useToggleTaskComplete', () => {
       ...mockTask,
       isComplete: true,
     });
+  });
+
+  it('should show correct toast message when marking task as incomplete', async () => {
+    // Arrange
+    const completedTask = { ...mockTask, isComplete: true };
+    const updatedTask = { ...completedTask, isComplete: false };
+    mockApi.put.mockResolvedValueOnce({ data: updatedTask });
+
+    // Set initial data in the query client with a completed task
+    queryClient.setQueryData(['tasks', '1'], completedTask);
+    queryClient.setQueryData(['tasks'], [completedTask]);
+
+    const { result } = renderHook(() => useToggleTaskComplete(), {
+      wrapper: createWrapper(queryClient),
+    });
+
+    // Act
+    result.current.mutate({
+      taskId: '1',
+      isComplete: false,
+    });
+
+    // Assert
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+
+    expect(mockApi.put).toHaveBeenCalledWith('/tasks/1', {
+      ...completedTask,
+      isComplete: false,
+    });
+    expect(mockToast.success).toHaveBeenCalledWith('Task marked as incomplete!');
   });
 });
