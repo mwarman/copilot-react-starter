@@ -45,7 +45,7 @@ export const ConfirmationDialog = ({
           <AlertDialogAction
             onClick={onConfirm}
             disabled={isLoading}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/70"
           >
             {isLoading ? 'Deleting...' : confirmText}
           </AlertDialogAction>
