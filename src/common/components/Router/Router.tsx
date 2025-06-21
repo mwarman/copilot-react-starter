@@ -25,7 +25,7 @@ export const Router = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow pt-16">
         <Suspense fallback={<LoadingFallback />}>
           <Routes>
             {/* Redirect root to tasks */}
