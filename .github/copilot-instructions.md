@@ -17,222 +17,233 @@ You are a **Senior TypeScript developer** working on a React front end project. 
 
 ---
 
-## Language & Stack
+## Technology Stack
+
+### Primary Technologies
 
 - **Language:** TypeScript
-- **Vite** for fast dev/build tooling
-- **Tanstack Query (React Query)** for remote data management
-- **Axios** for HTTP requests
+- **React** for building user interfaces
+- **React Router** for routing
+- **Vite** as the build tool and development server
+
+### Forms and Validation
+
 - **React Hook Form** for form state
 - **Zod** for schema validation and type inference
 - **@hookform/resolvers** for integrating Zod with React Hook Form
+
+### State Management and Data Fetching
+
+- **Tanstack Query (React Query)** for remote data management
+- **Axios** for HTTP requests
+
+### UI and Styling
+
 - **Tailwind CSS** for utility-first styling
-- **shadcn/ui** for prebuilt UI components
+- **shadcn/ui** for reusable UI components
+- **Radix UI** for accessible UI primitives
 - **clsx** and **class-variance-authority** for conditional class names
 - **Lucide React** for icons
-- **Radix UI** for accessible UI primitives
+
+### Utilities
+
 - **Lodash** for utility functions
+- **date-fns** for date manipulation
+
+### Testing
+
 - **Vitest** for unit testing
+- **Vitest V8** for code coverage
 - **@testing-library/react** for testing React components
-- **jsdom** for simulating a browser environment in tests
-- **IaC Deployment** using **AWS CDK** for infrastructure as code (`cdk deploy`)
-- **Package Manager:** npm
 
----
+### Development Tools
 
-## Coding Guidelines
+- **ESLint** for linting TypeScript code
+- **Prettier** for code formatting
+- **npm** for package management
+- **nvm** for Node.js version management
 
-- Use **TypeScript** for all source and infrastructure code.
-- Prefer arrow functions for components and hooks.
-- Split code via route-level `lazy()` and `Suspense` for code splitting.
-- Extract Axios instance config to `src/common/utils/axios.ts`
-- Apply base styles in `src/index.css`
-- Use **.env** for environment variables prefixed with `VITE_` for Vite compatibility.
-- Use JSDoc comments for public APIs and complex logic.
+### Infrastructure
+
+- **AWS CDK** for defining cloud infrastructure as code
+- **GitHub Actions** for CI/CD workflows
 
 ---
 
 ## Project Structure
 
-This project follows a structure that separates application-wide **common** components, hooks, and utils from page-level components, hooks, and utils with co-located tests. This promotes modularity and maintainability.
+This project follows a structure that separates application-wide **common** components, hooks, and utils from **feature-level** components, hooks, and utils with co-located tests. This promotes modularity and maintainability.
 
 ```
 src
   /common
     /components
-      /ui                         # shadcn/ui components
-        Button.tsx                # Reusable button component
-        Input.tsx                 # Reusable input component
-        Label.tsx                 # Reusable label component
+      /ui                               # shadcn/ui components
+        button.tsx                      # Reusable button component from shadcn/ui
+        input.tsx                       # Reusable input component from shadcn/ui
+        label.tsx                       # Reusable label component from shadcn/ui
       /Header
-        Header.tsx                # Application header component
-        Header.test.tsx           # Unit test for Header
+        Header.tsx                      # Application header component
+        Header.test.tsx                 # Unit test for Header
       /Router
-        Router.tsx                # Application router component
-        Router.test.tsx           # Unit test for Router
+        Router.tsx                      # Application router component
+        Router.test.tsx                 # Unit test for Router
     /models
-      Task.ts                     # Type definitions for Task model
+      Team.ts                           # Type definitions Team
     /providers
-      ThemeProvider.tsx           # Theme provider for styling
-      ThemeProvider.test.tsx      # Unit test for ThemeProvider
+      ThemeProvider.tsx                 # Theme provider for styling
+      ThemeProvider.test.tsx            # Unit test for ThemeProvider
     /hooks
-      useDebounce.ts              # Custom hook for debouncing values
-      useDebounce.test.ts         # Unit test for useDebounce
+      useDebounce.ts                    # Custom hook for debouncing values
+      useDebounce.test.ts               # Unit test for useDebounce
     /utils
-      api.ts                      # Axios instance and API utilities
-      constants.ts                # Shared constants
-  /pages
-    /TaskList
-      /components
-        TaskItem.tsx              # Component for individual task item
-        TaskItem.test.tsx         # Unit test for TaskItem
+      api.ts                            # Axios instance and API utilities
+      config.ts                         # Application configuration
+      constants.ts                      # Shared constants
+  /features                             # Feature-specific components, hooks, and utils
+    /task                               # Task feature
+      /components                       # Shared components related to tasks
+        TaskListItem.tsx                # Component for individual task item
+        TaskListItem.test.tsx           # Unit test for TaskListItem
+      /create                           # Components and hooks for creating tasks
+        CreateTask.tsx                  # Component for creating a new task
+        CreateTask.test.tsx             # Unit test for CreateTask
+      /delete
+        DeleteTask.tsx                  # Component for deleting a task
+        DeleteTask.test.tsx             # Unit test for DeleteTask
       /hooks
-        useGetTasks.ts            # Hook for fetching tasks specific to TaskList
-        useGetTasks.test.ts       # Unit test for useGetTasks in TaskList
-      TaskListPage.tsx            # Page component for listing tasks
-      TaskListPage.test.tsx       # Unit test for TaskListPage
-  App.tsx                         # Main application component
-  App.test.tsx                    # Unit test for App
-  main.tsx                        # Application entry point
-  index.css                       # Global styles (Tailwind CSS)
+        useGetTasks.ts                  # Hook for fetching tasks
+        useGetTasks.test.ts             # Unit test for useGetTasks
+      /update
+        UpdateTask.tsx                  # Component for updating a task
+        UpdateTask.test.tsx             # Unit test for UpdateTask
+      /utils
+        taskUtils.ts                    # Utility functions for task logic
+        taskUtils.test.ts               # Unit test for taskUtils
+      TaskListPage.tsx                  # Page component for displaying tasks
+      TaskListPage.test.tsx             # Unit test for TaskListPage
+  /test
+    /test-utils.tsx                     # Common test utilities and setup
+    /setup.ts                           # Test setup file for Vitest
+  App.tsx                               # Main application component
+  App.test.tsx                          # Unit test for App
+  main.tsx                              # Application entry point
+  index.css                             # Global styles (Tailwind CSS)
 
 /infrastructure
   /stacks
-    frontend-stack.ts             # AWS CDK stack for frontend resources
-  app.ts                          # AWS CDK app entry point
-  cdk.json                        # AWS CDK configuration
-  tsconfig.json                   # TypeScript configuration for AWS CDK
-  package.json                    # Dependencies and scripts for AWS CDK infrastructure
+    cdnStack.ts                         # AWS CDK stack for CDN resources
+  app.ts                                # AWS CDK app entry point
+  cdk.json                              # AWS CDK configuration
+  tsconfig.json                         # TypeScript configuration for AWS CDK
+  package.json                          # Dependencies and scripts for AWS CDK infrastructure
 
-tsconfig.json                     # Main project TypeScript config
-vite.config.ts                    # Vite config
-eslint.config.js                  # ESLint config
-components.json                   # shadcn/ui components config
-.nvmrc                            # npm config for package management
-package.json                      # Project dependencies and scripts
-.env                              # Environment variables
+.editorconfig                           # Editor configuration for consistent coding style
+.env                                    # Environment variables
+.nvmrc                                  # npm config for package management
+.prettierrc                             # Prettier configuration
+tsconfig.json                           # Main project TypeScript config
+vite.config.ts                          # Vite config
+eslint.config.js                        # ESLint config
+components.json                         # shadcn/ui components config
+package.json                            # Project dependencies and scripts
 ```
 
 ---
 
-## React Component Guidelines
+## Development Guidelines
 
-### File: `MyComponent.tsx`
+### TypeScript Development
+
+- Use **TypeScript** for all source code.
+- Use **strict mode** in `tsconfig.json` for type safety.
+- Use **interfaces** for defining types, especially for props and state.
+- Use **type aliases** for utility types and complex types.
+- Use **enums** for fixed sets of values.
+- Use **destructuring** for props and state in components.
+- Use **async/await** for asynchronous operations.
+- Use **optional chaining** and **nullish coalescing** for safer property access.
+- Use **type guards** for narrowing types.
+- Use **generics** for reusable components and functions.
+- Use **type assertions** sparingly and only when necessary.
+- Use **type inference** where possible to reduce redundancy.
+- Use **type-safe imports** to ensure correct types are used.
+- Use **ESLint** with TypeScript rules for linting.
+- Use **Prettier** for code formatting.
+- Do not use barrel files (index.ts).
+
+### React Component Development
+
+- Use **functional components** with hooks.
+- Return **JSX.Element** or **false** from components.
+- Use arrow functions for components.
+- Use default exports for components.
+- Use the `data-testid` attribute to assist with testing.
+- Use a **testId** prop for components that need to be tested, defaulting to the component name in kebab-case.
+
+#### Example Component
 
 ```tsx
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Input } from '@/common/components/ui/input';
+import React from 'react';
 import { Button } from '@/common/components/ui/button';
-import { Label } from '@/common/components/ui/label';
 
-const myComponentSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters long'),
-});
+interface ExampleComponentProps {
+  testId?: string; // Optional prop for testing
+}
 
-type FormData = z.infer<typeof myComponentSchema>;
-
-export const MyComponent = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(myComponentSchema),
-  });
-
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-  };
-
+const ExampleComponent = ({ testId = 'example-component' }: ExampleComponentProps): JSX.Element => {
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="p-4 space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
-        <Input id="name" {...register('name')} placeholder="Enter your name" />
-        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
-      </div>
-
-      <Button type="submit">Submit</Button>
-    </form>
+    <div data-testid={testId}>
+      <h1>Hello World</h1>
+      <Button>Click Me</Button>
+    </div>
   );
 };
+
+export default ExampleComponent;
 ```
+
+### Performance and Optimization
+
+- Split code via route-level `lazy()` and `Suspense` for code splitting.
+
+### Styling Guidelines
+
+- Use **Tailwind CSS** for styling.
+- Apply base styles in `src/index.css`
+- Use CSS variables for theming (index.css).
+
+### Configuration
+
+- Use **.env** for environment variables prefixed with `VITE_` for Vite compatibility.
+- Do not commit `.env` files; use `.env.example` to document required variables.
+
+### Maintainability
+
+- Keep components small and focused on a single responsibility.
+- Use comments to explain complex logic, but avoid obvious comments.
+- Organize imports logically: external libraries first, then internal components, hooks, and utils.
 
 ---
 
-## API Integration with Axios and React Query
-
-### File: `useGetTask.ts`
-
-```ts
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
-
-export const api = axios.create({
-  baseURL: 'https://api.example.com',
-});
-
-export function useTask(id: string) {
-  return useQuery({
-    queryKey: ['tasks', id],
-    queryFn: async () => {
-      const { data } = await api.get(`/tasks/${id}`);
-      return data;
-    },
-  });
-}
-```
-
----
-
-## Testing with Vitest
+## Testing Guidelines
 
 - Use **Vitest**.
-- Place test files next to the source file, with `.test.ts` suffix.
-- Use `describe` and `it` blocks for organization.
-- Mock dependencies using `vi.mock` or similar.
-- Use `beforeEach` for setup and `afterEach` for cleanup.
-- Use `expect` assertions for results.
+- Place test files next to the source file, with `.test.ts{x}` suffix.
 - Use Arrange - Act - Assert (AAA) pattern for test structure:
   - **Arrange:** Set up the test environment and inputs.
   - **Act:** Call the function being tested.
   - **Assert:** Verify the output and side effects.
+- Use `src/test/test-utils.tsx` for common test functions and helpers.
+- Use `describe` and `it` blocks for organization.
+- Mock dependencies using `vi.mock` or similar.
+- Use `beforeEach` for setup and `afterEach` for cleanup as needed.
+- Use `expect` assertions for results.
+- Use the `data-testid` attribute for selecting elements in tests.
+- Use `screen` from `@testing-library/react` for querying elements.
+- Use `userEvent` from `@testing-library/user-event` for simulating user interactions.
 - Prefer unit tests over integration tests in this repo.
-
-### File: `MyComponent.test.tsx`
-
-```tsx
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import { MyComponent } from './MyComponent';
-
-describe('MyComponent', () => {
-  it('renders input field and button', async () => {
-    // Arrange
-    const user = userEvent.setup();
-    const screen = render(<MyComponent />);
-
-    // Act
-    const button = screen.getByRole('button', { name: /submit/i });
-    user.click(button);
-
-    // Assert
-    expect(screen.getByPlaceholderText('Enter your name')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /submit/i })).toBeInTheDocument();
-  });
-});
-```
-
-Add to `vite.config.ts`:
-
-```ts
-test: {
-  globals: true,
-  environment: "jsdom"
-}
-```
+- 80% code coverage is the minimum requirement for all components and features.
 
 ---
 
@@ -245,16 +256,21 @@ After installing shadcn/ui:
 - Recommended: use the CLI to scaffold new components:
 
   ```bash
-  npx shadcn-ui@latest add button input label
+  npx shadcn@latest add button input label
   ```
 
 ---
 
 ## AWS CDK Guidelines
 
-- Define one CDK stack per major grouping of resources (e.g., S3 bucket, CloudFront Distribution).
+- Self-contained infrastructure code in the `infrastructure` directory.
+- Define one CDK stack per major grouping of resources (e.g., CDN).
+- Use `/infrastructure/.env` for environment variables prefixed with `CDK_`, but avoid committing this file.
+- Use Zod for schema validation of configuration values.
+- Tag all CDK resources appropriately (`App`, `Env`, `OU`, `Owner`).
+- Deploy separate environments (dev/qa/prd) using configuration values.
 
-### Example: S3 Bucket and CloudFront Distribution
+### Example AWS CDK Stack
 
 ```ts
 // S3 bucket for the application

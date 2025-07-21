@@ -15,8 +15,8 @@ The Task Detail Page displays comprehensive information about a single task. Use
 
 ### Technical Requirements
 
-- Create a new page component in `/src/pages/TaskDetail`
-- Implement a custom hook `useGetTask` in `/src/pages/TaskDetail/hooks` for data fetching
+- Create a new sub-feature in `/src/features/task/detail`
+- Implement a custom hook `useGetTask` for data fetching
 - Use React Query for efficient data fetching and state management
 - Add proper type definitions using the Task model
 - Write unit tests for the component and hook

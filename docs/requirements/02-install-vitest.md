@@ -26,3 +26,9 @@ import '@testing-library/jest-dom/vitest';
 
 // Add any global test setup here
 ```
+
+### Test Utilities
+
+- Create a test utility module which adds wrappers for the `render` and `renderHook` functions.
+- The utilities should re-export the other functions from React Testing Library.
+- Unit tests should import this utility and use these wrappers rather than creating bespoke wrappers in each unit test suite.
