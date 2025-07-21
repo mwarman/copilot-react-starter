@@ -175,12 +175,33 @@ package.json                            # Project dependencies and scripts
 ### React Component Development
 
 - Use **functional components** with hooks.
-- Use **TypeScript** for type safety.
 - Return **JSX.Element** or **false** from components.
 - Use arrow functions for components.
-- Use the `data-testid` attribute to assist with testing.
 - Use default exports for components.
+- Use the `data-testid` attribute to assist with testing.
 - Use a **testId** prop for components that need to be tested, defaulting to the component name in kebab-case.
+
+#### Example Component
+
+```tsx
+import React from 'react';
+import { Button } from '@/common/components/ui/button';
+
+interface ExampleComponentProps {
+  testId?: string; // Optional prop for testing
+}
+
+const ExampleComponent = ({ testId = 'example-component' }: ExampleComponentProps): JSX.Element => {
+  return (
+    <div data-testid={testId}>
+      <h1>Hello World</h1>
+      <Button>Click Me</Button>
+    </div>
+  );
+};
+
+export default ExampleComponent;
+```
 
 ### Performance and Optimization
 
@@ -195,6 +216,7 @@ package.json                            # Project dependencies and scripts
 ### Configuration
 
 - Use **.env** for environment variables prefixed with `VITE_` for Vite compatibility.
+- Do not commit `.env` files; use `.env.example` to document required variables.
 
 ### Maintainability
 
@@ -207,12 +229,12 @@ package.json                            # Project dependencies and scripts
 ## Testing Guidelines
 
 - Use **Vitest**.
-- Place test files next to the source file, with `.test.ts` suffix.
+- Place test files next to the source file, with `.test.ts{x}` suffix.
 - Use Arrange - Act - Assert (AAA) pattern for test structure:
   - **Arrange:** Set up the test environment and inputs.
   - **Act:** Call the function being tested.
   - **Assert:** Verify the output and side effects.
-- Use `test-utils` for common test functions and helpers.
+- Use `src/test/test-utils.tsx` for common test functions and helpers.
 - Use `describe` and `it` blocks for organization.
 - Mock dependencies using `vi.mock` or similar.
 - Use `beforeEach` for setup and `afterEach` for cleanup as needed.
@@ -243,12 +265,12 @@ After installing shadcn/ui:
 
 - Self-contained infrastructure code in the `infrastructure` directory.
 - Define one CDK stack per major grouping of resources (e.g., CDN).
-- Use **.env** for environment variables prefixed with `CDK_`, but avoid committing this file.
+- Use `/infrastructure/.env` for environment variables prefixed with `CDK_`, but avoid committing this file.
 - Use Zod for schema validation of configuration values.
 - Tag all CDK resources appropriately (`App`, `Env`, `OU`, `Owner`).
 - Deploy separate environments (dev/qa/prd) using configuration values.
 
-### Example: S3 Bucket and CloudFront Distribution
+### Example AWS CDK Stack
 
 ```ts
 // S3 bucket for the application
