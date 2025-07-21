@@ -2,7 +2,7 @@
 
 ## Overview
 
-We need to implement a dark mode feature for our React Vite application using shadcn/ui components. This will enhance user experience by allowing users to switch between light, dark, and system themes.
+We need to implement a dark mode feature for our React Vite application using shadcn/ui components. This will enhance user experience by allowing users to switch between light, dark, and system themes. Reference the [shadcn Dark Mode guide](https://ui.shadcn.com/docs/dark-mode/vite) for implementation approach.
 
 ---
 
