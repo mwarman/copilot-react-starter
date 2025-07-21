@@ -46,6 +46,12 @@ README.md                   # This document
 
 ## How to use
 
+### Fork the Repository
+
+To get started, you should [fork this repository](https://github.com/mwarman/copilot-react-starter/fork) on GitHub or copy it to your local machine. This allows you to make changes, track your progress, and customize the project to fit your needs. If you are new to GitHub, you can use the 'Fork' button at the top right of the repository page to create your own copy.
+
+> 📢 Please do not push commits to this repository. This repository is for teaching purposes only.
+
 ### Update the instructions
 
 Add a section to the [Copilot Instructions](./.github/copilot-instructions.md) document immediately following the **Role** section. Provide an overview of the project like this:
@@ -69,13 +75,13 @@ Begin working with Copilot to create the application. Copilot works best when it
 
 When you implement the second and subsequent stories, Copilot will use the existing code as a reference and pattern the code that the agent creates to match.
 
-> **NOTE:** The "Claude Sonnet 3.7" model has been used to develop this project. Language models evolve quickly and new versions published frequently. Review the official documentation and select the [language model that is most appropriate for your application or task](https://docs.github.com/en/copilot/using-github-copilot/ai-models/choosing-the-right-ai-model-for-your-task).
+> 💡 The "Claude Sonnet 3.7" model has been used to develop this project. Language models evolve quickly and new versions published frequently. Review the official documentation and select the [language model that is most appropriate for your application or task](https://docs.github.com/en/copilot/using-github-copilot/ai-models/choosing-the-right-ai-model-for-your-task).
 
 #### Requirements
 
 The requirements are located in the [`docs/requirements`](docs/requirements/) directory. The contents of each file describe a small yet complete and testable unit of work.
 
-> **NOTE:** The requirements documents were created using Copilot. After creating a logical sequence for story implementation, create a new, empty requirements document in `docs/requirements`, e.g. `09-task-list.md`. Press `Ctrl+I` (or `Cmd+I`) to open the Copilot prompt. Write a prompt for Copilot to draft a requirements document. For example:
+> 💡 The requirements documents were created using Copilot. After creating a logical sequence for story implementation, create a new, empty requirements document in `docs/requirements`, e.g. `09-task-list.md`. Press `Ctrl+I` (or `Cmd+I`) to open the Copilot prompt. Write a prompt for Copilot to draft a requirements document. For example:
 
 ```
 begin drafting a requirements document to implement a Dark Mode theme in the application. reference the approach used in this document #fetch https://ui.shadcn.com/docs/dark-mode/vite. the implementation should follow the project guidelines and best practices.
