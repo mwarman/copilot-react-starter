@@ -81,7 +81,7 @@ When you implement the second and subsequent stories, Copilot will use the exist
 
 The requirements are located in the [`docs/requirements`](docs/requirements/) directory. The contents of each file describe a small yet complete and testable unit of work.
 
-> 💡 The requirements documents were created using Copilot. After creating a logical sequence for story implementation, create a new, empty requirements document in `docs/requirements`, e.g. `09-task-list.md`. Press `Ctrl+I` (or `Cmd+I`) to open the Copilot prompt. Write a prompt for Copilot to draft a requirements document. For example:
+> 💡 The requirements documents were created using Copilot. After creating a logical sequence for story implementation, create a new, empty requirements document in `docs/requirements`, e.g. `09-task-list.md`. Press `Ctrl+Alt+I` (or `Ctrl+Cmd+I`) to open the Copilot prompt. Write a prompt for Copilot to draft a requirements document. For example:
 
 ```
 begin drafting a requirements document to implement a Dark Mode theme in the application. reference the approach used in this document #fetch https://ui.shadcn.com/docs/dark-mode/vite. the implementation should follow the project guidelines and best practices.
